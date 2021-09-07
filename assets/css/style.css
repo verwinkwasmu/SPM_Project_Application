@@ -665,6 +665,10 @@ section {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
+
+}
+.test {
+  background-image: url('~/assets/img/why-us.png')
 }
 
 .why-us .accordion-list {
