@@ -1,4 +1,4 @@
-# NuxtApp
+# NuxtApp SPM-GRP2
 
 ## Build Setup
 
