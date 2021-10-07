@@ -30,6 +30,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Jost", sans-serif;
 }
 
+#home {
+color: #999;
+}
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
@@ -124,13 +127,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header .logo {
-  font-size: 30px;
+  font-size: 20px;
   margin: 0;
   padding: 0;
   line-height: 1;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
 }
 
 #header .logo a {
@@ -139,6 +144,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #header .logo img {
   max-height: 40px;
+  max-width: 40px;
 }
 
 /*--------------------------------------------------------------
@@ -1266,6 +1272,11 @@ section {
 }
 
 .pricing .buy-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.pricing .course-btn:hover {
   background: #47b2e4;
   color: #fff;
 }
