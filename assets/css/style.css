@@ -1,3 +1,4 @@
+
 /**
 * Template Name: Arsha - v4.3.0
 * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
@@ -120,6 +121,7 @@ color: #999;
   transition: all 0.5s;
   z-index: 997;
   padding: 15px 0;
+  background: rgba(40, 58, 90, 0.9);
 }
 
 #header.header-scrolled, #header.header-inner-pages {
@@ -257,7 +259,7 @@ color: #999;
 .navbar .dropdown .dropdown:hover > ul {
   opacity: 1;
   top: 0;
-  left: 100%;
+  right: 100%;
   visibility: visible;
 }
 
@@ -509,7 +511,7 @@ color: #999;
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  padding: 100px 0;
   overflow: hidden;
 }
 
@@ -1090,6 +1092,7 @@ section {
 /*--------------------------------------------------------------
 # Team
 --------------------------------------------------------------*/
+
 .team .member {
   position: relative;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
@@ -1258,6 +1261,128 @@ section {
   text-decoration: line-through;
 }
 
+.course .course-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left:100px;
+  bottom:15px;
+}
+
+.viewClass .viewClass-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 30px;
+  /* bottom:15px; */
+}
+
+.viewClass .viewClass-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+
+.createClass {
+  padding-bottom:45px;
+}
+.createClass .createClass-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 470px;
+}
+
+.createClass .createClass-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+#createCourse {
+  margin: auto;
+  width: 70%;
+  padding: 0px;  
+}
+
+.cancel .cancel-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color:#CA1B10;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #CA1B10;
+  position: absolute;
+  margin-left: 750px;
+
+}
+
+.cancel .cancel-btn:hover {
+  background: #CA1B10;
+  color: #fff;
+}
+
+.classCreate{
+  display: inline-block;
+  margin-bottom: 55px;
+  
+}
+
+.cancel{
+  display: inline-block;
+  margin-bottom: 55px;
+}
+
+
+.classCreate .classCreate-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 525px;
+}
+
+.classCreate .classCreate-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+
+
 .pricing .buy-btn {
   display: inline-block;
   padding: 12px 35px;
@@ -1276,7 +1401,7 @@ section {
   color: #fff;
 }
 
-.pricing .course-btn:hover {
+.course .course-btn:hover {
   background: #47b2e4;
   color: #fff;
 }
@@ -1574,6 +1699,9 @@ section {
   background: #209dd8;
 }
 
+.date {
+  margin-top: 30px;
+}
 @-webkit-keyframes animate-loading {
   0% {
     transform: rotate(0deg);
