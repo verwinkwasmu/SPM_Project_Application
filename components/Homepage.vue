@@ -16,18 +16,19 @@
             data-aos="fade-up"
             data-aos-delay="200"
           >
-            <h1>Better Solutions For Your Business</h1>
-            <h2>
-              We are team of talented designers making websites with Bootstrap
-            </h2>
-            <div class="d-flex justify-content-center justify-content-lg-start">
+            <h1>All-In-One Printing Solution</h1>
+            <h4 id="home">
+              We are a leading Printing Solution Equipment Servicing company. 
+              We take pride in operating in the sale, lease, repair and maintenance of copying and printing solutions for businesses.               
+            </h4>
+            <!-- <div class="d-flex justify-content-center justify-content-lg-start">
               <a href="#about" class="btn-get-started scrollto">Get Started</a>
               <a
                 href="https://www.youtube.com/watch?v=jDDaplaOz7Q"
                 class="glightbox btn-watch-video"
                 ><i class="bi bi-play-circle"></i><span>Watch Video</span></a
               >
-            </div>
+            </div> -->
           </div>
           <div
             class="col-lg-6 order-1 order-lg-2 hero-img"
@@ -45,149 +46,10 @@
     </section>
     <!-- End Hero -->
     <main id="main">
-      <!-- ======= Cliens Section ======= -->
-      <section id="cliens" class="cliens section-bg">
-        <div class="container">
-          <div class="row" data-aos="zoom-in">
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="~/assets/img/clients/client-1.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
 
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="~/assets/img/clients/client-2.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="~/assets/img/clients/client-3.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="~/assets/img/clients/client-4.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="~/assets/img/clients/client-5.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-
-            <div
-              class="
-                col-lg-2 col-md-4 col-6
-                d-flex
-                align-items-center
-                justify-content-center
-              "
-            >
-              <img
-                src="~/assets/img/clients/client-6.png"
-                class="img-fluid"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- End Cliens Section -->
-
-      <!-- ======= About Us Section ======= -->
-      <section id="about" class="about">
-        <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <h2>About Us</h2>
-          </div>
-
-          <div class="row content">
-            <div class="col-lg-6">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-              <ul>
-                <li>
-                  <i class="ri-check-double-line"></i> Ullamco laboris nisi ut
-                  aliquip ex ea commodo consequat
-                </li>
-                <li>
-                  <i class="ri-check-double-line"></i> Duis aute irure dolor in
-                  reprehenderit in voluptate velit
-                </li>
-                <li>
-                  <i class="ri-check-double-line"></i> Ullamco laboris nisi ut
-                  aliquip ex ea commodo consequat
-                </li>
-              </ul>
-            </div>
-            <div class="col-lg-6 pt-4 pt-lg-0">
-              <p>
-                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                aute irure dolor in reprehenderit in voluptate velit esse cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
-              </p>
-              <a href="#" class="btn-learn-more">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- End About Us Section -->
-
+      
       <!-- ======= Why Us Section ======= -->
-      <section id="why-us" class="why-us section-bg">
+      <!-- <section id="why-us" class="why-us section-bg">
         <div class="container-fluid" data-aos="fade-up">
           <div class="row">
             <div
@@ -299,11 +161,11 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> -->
       <!-- End Why Us Section -->
 
       <!-- ======= Skills Section ======= -->
-      <section id="skills" class="skills">
+      <!-- <section id="skills" class="skills">
         <div class="container" data-aos="fade-up">
           <div class="row">
             <div
@@ -382,19 +244,15 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> -->
       <!-- End Skills Section -->
 
       <!-- ======= Services Section ======= -->
       <section id="services" class="services section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>Services</h2>
+            <h2>Courses</h2>
             <p>
-              Magnam dolores commodi suscipit. Necessitatibus eius consequatur
-              ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam
-              quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea.
-              Quia fugiat sit in iste officiis commodi quidem hic quas.
             </p>
           </div>
 
@@ -406,11 +264,10 @@
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                <h4><a href="">Lorem Ipsum</a></h4>
-                <p>
-                  Voluptatum deleniti atque corrupti quos dolores et quas
-                  molestias excepturi
-                </p>
+                <h4><a href="">Fundamentals of Xerox WorkCentre 7845</a></h4>
+                <div class="course">
+                  <a href="ViewClasses" class="course-btn">View Classes</a>
+                </div>
               </div>
             </div>
 
@@ -421,12 +278,11 @@
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-file"></i></div>
-                <h4><a href="">Sed ut perspici</a></h4>
-                <p>
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore
-                </p>
-              </div>
+                <h4><a href="">Programming for Xerox WorkCentre with Card Access and Integration</a></h4>
+                <div class="course">  
+                  <a href="#" class="course-btn">View Classes</a>
+                </div>             
+               </div>
             </div>
 
             <div
@@ -436,11 +292,10 @@
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-tachometer"></i></div>
-                <h4><a href="">Magni Dolores</a></h4>
-                <p>
-                  Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                  qui officia
-                </p>
+                <h4><a href="">Advanced Xerox WorkCentre 7900</a></h4>
+                <div class="course">
+                  <a href="#" class="course-btn">View Classes</a>
+                </div>
               </div>
             </div>
 
@@ -451,316 +306,18 @@
             >
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-layer"></i></div>
-                <h4><a href="">Nemo Enim</a></h4>
-                <p>
-                  At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                  blanditiis
-                </p>
+                <h4><a href="">Final Xerox WorkCentre 7900</a></h4>
+                <div class="course">
+                  <a href="#" class="course-btn">View Classes</a>
+                </div>
               </div>
+              
             </div>
           </div>
         </div>
       </section>
       <!-- End Services Section -->
-
-      <!-- ======= Cta Section ======= -->
-      <section id="cta" class="cta">
-        <div class="container" data-aos="zoom-in">
-          <div class="row">
-            <div class="col-lg-9 text-center text-lg-start">
-              <h3>Call To Action</h3>
-              <p>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
-              </p>
-            </div>
-            <div class="col-lg-3 cta-btn-container text-center">
-              <a class="cta-btn align-middle" href="#">Call To Action</a>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- End Cta Section -->
-
-      <!-- ======= Portfolio Section ======= -->
-      <section id="portfolio" class="portfolio">
-        <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <h2>Portfolio</h2>
-            <p>
-              Magnam dolores commodi suscipit. Necessitatibus eius consequatur
-              ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam
-              quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea.
-              Quia fugiat sit in iste officiis commodi quidem hic quas.
-            </p>
-          </div>
-
-          <ul
-            id="portfolio-flters"
-            class="d-flex justify-content-center"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">App</li>
-            <li data-filter=".filter-card">Card</li>
-            <li data-filter=".filter-web">Web</li>
-          </ul>
-
-          <div
-            class="row portfolio-container"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-1.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>App 1</h4>
-                <p>App</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-1.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="App 1"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-2.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>Web 3</h4>
-                <p>Web</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-2.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="Web 3"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-3.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>App 2</h4>
-                <p>App</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-3.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="App 2"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-4.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>Card 2</h4>
-                <p>Card</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-4.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="Card 2"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-5.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>Web 2</h4>
-                <p>Web</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-5.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="Web 2"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-6.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>App 3</h4>
-                <p>App</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-6.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="App 3"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-7.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>Card 1</h4>
-                <p>Card</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-7.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="Card 1"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-8.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>Card 3</h4>
-                <p>Card</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-8.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="Card 3"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-              <div class="portfolio-img">
-                <img
-                  src="~/assets/img/portfolio/portfolio-9.jpg"
-                  class="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div class="portfolio-info">
-                <h4>Web 3</h4>
-                <p>Web</p>
-                <a
-                  href="~/assets/img/portfolio/portfolio-9.jpg"
-                  data-gallery="portfolioGallery"
-                  class="portfolio-lightbox preview-link"
-                  title="Web 3"
-                  ><i class="bx bx-plus"></i
-                ></a>
-                <a
-                  href="portfolio-details.html"
-                  class="details-link"
-                  title="More Details"
-                  ><i class="bx bx-link"></i
-                ></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- End Portfolio Section -->
-
+     
       <!-- ======= Team Section ======= -->
       <section id="team" class="team section-bg">
         <div class="container" data-aos="fade-up">
@@ -988,7 +545,7 @@
                     hendrerit
                   </li>
                 </ul>
-                <a href="#" class="buy-btn">Get Started</a>
+                <a href="#" class="course-btn">Get Started</a>
               </div>
             </div>
           </div>
@@ -996,7 +553,7 @@
       </section>
       <!-- End Pricing Section -->
 
-      <!-- ======= Frequently Asked Questions Section ======= -->
+      <!-- ======= We can use this for Sections ======= -->
       <section id="faq" class="faq section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">

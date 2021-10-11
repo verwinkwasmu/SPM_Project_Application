@@ -1,28 +1,29 @@
 <template>
     <header id="header" class="fixed-top">
       <div class="container d-flex align-items-center">
-        <h1 class="logo me-auto"><a to="/">Arsha</a></h1>
+        <a href="" class="logo me-auto"><img src="~/assets/img/LMS.png" alt="" class="img-fluid"> AIO Learning Management System </a>
+        <!-- <h3 class="logo me-auto"><a to="/">AIO Learning Management System</a></h3> -->
         <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html" class="logo me-auto"><img src="~/assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        
 
         <nav id="navbar" class="navbar">
           <ul>
             <li>
                 <a class="nav-link scrollto active" href="/">Home</a>
             </li>
-            <li><a class="nav-link scrollto" href="#about">About</a></li>
-            <li><a class="nav-link scrollto" href="#services">Services</a></li>
-            <li>
+            <!--<li><a class="nav-link scrollto" href="#about">About</a></li>-->
+            <!--<li><a class="nav-link scrollto" href="#services">Services</a></li>-->
+            <!--<li>
               <a class="nav-link scrollto" href="#portfolio">Portfolio</a>
-            </li>
-            <li><a class="nav-link scrollto" href="#team">Team</a></li>
+            </li>-->
+            <!--<li><a class="nav-link scrollto" href="#team">Team</a></li>-->
             <li class="dropdown">
-              <a href="#"
-                ><span>Drop Down</span> <i class="bi bi-chevron-down"></i
+              <a href="ViewCourses"
+                ><span>Courses</span> <i class="bi bi-chevron-down"></i
               ></a>
               <ul>
-                <li><a href="#">Drop Down 1</a></li>
-                <li class="dropdown">
+                <li><a href="#">Course 1</a></li>
+                <!-- <li class="dropdown">
                   <a href="#"
                     ><span>Deep Drop Down</span>
                     <i class="bi bi-chevron-right"></i
@@ -34,17 +35,26 @@
                     <li><a href="#">Deep Drop Down 4</a></li>
                     <li><a href="#">Deep Drop Down 5</a></li>
                   </ul>
-                </li>
-                <li><a href="#">Drop Down 2</a></li>
-                <li><a href="#">Drop Down 3</a></li>
-                <li><a href="#">Drop Down 4</a></li>
+                </li> -->
+                <li><a href="#">Course 2</a></li>
+                <li><a href="#">Course 3</a></li>
+                <li><a href="#">Course 4</a></li>
               </ul>
             </li>
-            <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-            <li>
-              <a class="getstarted scrollto" href="/login">Login</a>
-              <a class="getstarted scrollto" href="/register">Register</a>
+            <li class="dropdown">
+              <a href="#"
+                ><span>User</span> <i class="bi bi-chevron-down"></i
+              ></a>
+              <ul>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Logout</a></li>
+              </ul>
             </li>
+            <!--<li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
+            <!--<li>
+              <a class="getstarted scrollto" href="/login">HR1</a>
+              <a class="getstarted scrollto" href="/register">Register</a> 
+            </li> -->
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
