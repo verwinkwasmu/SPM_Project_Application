@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/course'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # what does this do?
@@ -17,10 +17,10 @@ CORS(app)
 class Course(db.Model):
     __tablename__ = 'course'
 
-    courseId = db.Column(db.String, primary_key=True)
+    courseId = db.Column(db.String(50), primary_key=True)
     courseName = db.Column(db.String(50))
     courseDescription = db.Column(db.String(50))
-    prerequisites = db.Column(db.ARRAY(db.String), default="[]")
+    prerequisites = db.Column(db.String(50))
     
     __mapper_args__ = {
         'polymorphic_identity': 'person'
@@ -48,7 +48,7 @@ def createUser():
 
     # check if proper data is sent
     if not all(key in data.keys() for
-               key in ('email', 'password')):
+               key in ('courseName', 'courseDescription', 'prerequisites')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -79,16 +79,16 @@ def createUser():
 def getCourses():
     
     courses = Course.query.all()
-
+    
     # check if user exists and validate password
     if not courses:
         return jsonify({
             "message": "No courses found."
         }), 404
-
+    
     return jsonify(
         {
-            "data": courses.to_dict()
+            "data": [course.to_dict() for course in courses]
         }
     ), 200
 
