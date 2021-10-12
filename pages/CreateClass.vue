@@ -45,7 +45,18 @@
                     />
                   </div>
                   
-                  <div class="form-group">
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br> 
+                  <br>
+
+                  <br><br>
+
+                  <br><br>
+
+                  <!-- <div class="form-group">
                     <label for="name">Trainer Assigned</label>
                     <input
                       type="dropdown"
@@ -71,7 +82,7 @@
                     
                   
                     
-                  </div>
+                  </div> -->
                     
                 </div>
 
