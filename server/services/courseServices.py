@@ -16,7 +16,7 @@ CORS(app)
 
 class Course(db.Model):
     __tablename__ = 'course'
-
+    
     courseId = db.Column(db.String(50), primary_key=True)
     courseName = db.Column(db.String(50))
     courseDescription = db.Column(db.String(50))
@@ -25,7 +25,7 @@ class Course(db.Model):
     __mapper_args__ = {
         'polymorphic_identity': 'person'
     }
-
+    
     def to_dict(self):
         """
         'to_dict' converts the object into a dictionary,

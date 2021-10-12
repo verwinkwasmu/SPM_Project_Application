@@ -5,8 +5,8 @@ import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root' + \
-                                        '@localhost:3306/is212_example'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
                                            'pool_recycle': 280}
@@ -18,7 +18,7 @@ CORS(app)
 class User(db.Model):
     __tablename__ = 'user'
 
-    id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, primary_key=True)
     userName = db.Column(db.String(50))
     email = db.Column(db.String(50))
     password = db.Column(db.String(50))
@@ -43,9 +43,8 @@ class User(db.Model):
 class Learner(User):
     __tablename__ = 'learner'
 
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    userName = db.Column(db.String, db.ForeignKey('user.userName'))
-    email = db.Column(db.String, db.ForeignKey('user.email'))
+    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
+
 
     __mapper_args__ = {
         'polymorphic_identity': 'learner',
@@ -54,9 +53,8 @@ class Learner(User):
 class Trainer(User):
     __tablename__ = 'trainer'
 
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    userName = db.Column(db.String, db.ForeignKey('user.userName'))
-    email = db.Column(db.String, db.ForeignKey('user.email'))
+    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
+
 
     __mapper_args__ = {
         'polymorphic_identity': 'trainer',
@@ -65,9 +63,8 @@ class Trainer(User):
 class Hr(User):
     __tablename__ = 'hr'
 
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    userName = db.Column(db.String, db.ForeignKey('user.userName'))
-    email = db.Column(db.String, db.ForeignKey('user.email'))
+    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
+
 
     __mapper_args__ = {
         'polymorphic_identity': 'hr',
@@ -108,10 +105,10 @@ def create_trainer():
 
 # get trainer based on id or get all trainers
 @app.route("/getTrainers")
-def doctors():
-    search_id = request.args.get('id')
+def trainers():
+    search_id = request.args.get('userId')
     if search_id:
-        trainer_list = Trainer.query.filter(Trainer.id.contains(search_id))
+        trainer_list = Trainer.query.filter(Trainer.userId.contains(search_id))
     else:
         trainer_list = Trainer.query.all()
     return jsonify(
@@ -153,9 +150,9 @@ def create_learner():
 # get learner based on id or get all learners
 @app.route("/getLearners")
 def learners():
-    search_id = request.args.get('id')
+    search_id = request.args.get('userId')
     if search_id:
-        learner_list = Learner.query.filter(Learner.id.contains(search_id))
+        learner_list = Learner.query.filter(Learner.userId.contains(search_id))
     else:
         learner_list = Learner.query.all()
     return jsonify(
@@ -197,9 +194,9 @@ def create_hr():
 # get hr based on id or get all hrs
 @app.route("/getHrs")
 def hrs():
-    search_id = request.args.get('id')
+    search_id = request.args.get('userId')
     if search_id:
-        hr_list = Hr.query.filter(Hr.id.contains(search_id))
+        hr_list = Hr.query.filter(Hr.userId.contains(search_id))
     else:
         hr_list = Hr.query.all()
     return jsonify(
