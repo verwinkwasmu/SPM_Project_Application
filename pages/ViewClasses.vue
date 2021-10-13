@@ -34,7 +34,7 @@
                   
                 </div>
                 <div class="viewClass">  
-                    <a href="#" class="viewClass-btn">Edit Class</a>
+                    <a href="EditClass" class="viewClass-btn">Edit Class</a>
                 </div>
               </div>
             </div>
@@ -53,7 +53,7 @@
                   </p>
                 </div> 
                 <div class="viewClass">  
-                    <a href="#" class="viewClass-btn">Edit Class</a>
+                    <a href="EditClass" class="viewClass-btn">Edit Class</a>
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@
                   </p>
                 </div>
                 <div class="viewClass">  
-                    <a href="#" class="viewClass-btn">Edit Class</a>
+                    <a href="EditClass" class="viewClass-btn">Edit Class</a>
                 </div>
               </div>
             </div>
@@ -92,7 +92,7 @@
                   </p>
                 </div>
                 <div class="viewClass">  
-                    <a href="#" class="viewClass-btn">Edit Class</a>
+                    <a href="EditClass" class="viewClass-btn">Edit Class</a>
                 </div>
               </div>
             </div>
