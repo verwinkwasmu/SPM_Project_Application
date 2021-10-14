@@ -58,7 +58,7 @@
 
                             
                             <div class="addEngineer">
-                                <h5> Currently Enrolled: </h5>
+                                <h5>Edit Engineer List:</h5>
                                 <a href="AddEngineer" class="addEngineer-btn">Add New Engineers</a>
                             </div>
 

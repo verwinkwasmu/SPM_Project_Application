@@ -23,7 +23,18 @@
                 <div class="row">
                   
                   <div class="form-group">
-                    <label for="name">Course Name</label>
+                    <label for="name">Course ID:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="subject"
+                      id="subject"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="name">Course Name:</label>
                     <input
                       type="text"
                       class="form-control"
@@ -39,7 +50,7 @@
 
                 
                 <div class="form-group">
-                  <label for="name">Course Description</label>
+                  <label for="name">Course Description:</label>
                   <textarea
                     class="form-control"
                     name="message"
@@ -49,7 +60,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="name">Prerequisite</label>
+                  <label for="name">Prerequisite:</label>
                   <textarea
                     class="form-control"
                     name="message"
