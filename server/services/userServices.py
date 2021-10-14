@@ -100,7 +100,7 @@ def create_trainer():
         new_user = Learner(email=data['email'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'])
     elif data['userType'] == 'HR':
         new_user = Hr(email=data['email'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'])
-    
+    print(new_user.to_dict())
     try:
         db.session.add(new_user)
         db.session.commit()

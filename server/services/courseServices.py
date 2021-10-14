@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -21,9 +22,38 @@ class Course(db.Model):
     courseName = db.Column(db.String(50))
     courseDescription = db.Column(db.String(50))
     prerequisites = db.Column(db.String(50))
-    
+    courseClass = db.relationship('Class', backref='course')
+
     __mapper_args__ = {
-        'polymorphic_identity': 'person'
+        'polymorphic_identity': 'course'
+    }
+    
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
+
+class Class(db.Model):
+    __tablename__ = 'class'
+
+    classId = db.Column(db.String(50), primary_key=True) #course id + course Title //XRX-101 Class 1
+    courseId = db.Column(db.String(50), db.ForeignKey('course.courseId'))
+    classSize = db.Column(db.Integer)
+    classTitle = db.Column(db.String(50))
+    classTiming = db.Column(db.String(120))
+    classTimeline = db.Column(db.String(120))
+    enrolmentPeriod = db.Column(db.String(120))
+    trainerAssigned = db.Column(db.Integer) # userId
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'class'
     }
     
     def to_dict(self):
@@ -92,6 +122,56 @@ def getCourses():
         }
     ), 200
 
+# create Class
+@app.route("/createClass", methods=['POST'])
+def createClass():
+    # retrieved data
+    data = request.get_json()
+
+    # check if proper data is sent
+    if not all(key in data.keys() for
+               key in ('classId', 'courseId', 'classSize', 'classTitle', 'classTiming', 'classTimeline', 'enrolmentPeriod', 'trainerAssigned')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+    
+    _class = Class.query.filter_by(classId=data['classId']).first()
+    
+
+    if _class: 
+        return jsonify({
+            "message": "Class exists."
+        }), 404
+    
+    new_class = Class(**data)
+    print(new_class.to_dict())
+    
+    try:
+        db.session.add(new_class)
+        db.session.commit()
+        return jsonify(new_class.to_dict()), 201
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 500
+
+# get all courses
+@app.route("/getClass/<string:courseId>", methods=['GET'])
+def getClasses(courseId):
+    
+    classes = Class.query.filter_by(courseId=courseId).all()
+    
+    # check if user exists and validate password
+    if not classes:
+        return jsonify({
+            "message": "No classes found."
+        }), 404
+    
+    return jsonify(
+        {
+            "data": [_class.to_dict() for _class in classes]
+        }
+    ), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
