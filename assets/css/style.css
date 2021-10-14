@@ -1514,6 +1514,107 @@ section {
   }
 }
 
+
+/*--------------------------------------------------------------
+# TRAINER
+--------------------------------------------------------------*/
+.TrainerViewClass .TrainerViewClass-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 200px;
+  /* bottom:15px; */
+}
+
+.TrainerViewClass .TrainerViewClass-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+#TrainerViewCourseDetails{
+  margin: auto;
+  width: 70%;
+  padding: 0px;  
+}
+
+.TrainerCreateSection {
+  padding-bottom:45px;
+}
+.TrainerCreateSection .TrainerCreateSection-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 470px;
+}
+
+.TrainerCreateSection .TrainerCreateSection-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+.editSection .editSection-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: -130px;
+  /* bottom:15px; */
+}
+
+.editSection .editSection-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.createQuiz .createQuiz-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 30px;
+  /* bottom:15px; */
+}
+
+.createQuiz .createQuiz-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+
+
+
+
+
 /*--------------------------------------------------------------
 # Frequently Asked Questions
 --------------------------------------------------------------*/
