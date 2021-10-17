@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-# from userServices import Learner
+from userServices import Learner
 
 
 app = Flask(__name__)
@@ -15,63 +15,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 CORS(app)
-
-class User(db.Model):
-    __tablename__ = 'user'
-
-    userId = db.Column(db.Integer, primary_key=True)
-    userName = db.Column(db.String(50))
-    email = db.Column(db.String(50))
-    password = db.Column(db.String(120))
-    userType = db.Column(db.String(50))
-    
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'user'
-    }
-
-    def to_dict(self):
-        """
-        'to_dict' converts the object into a dictionary,
-        in which the keys correspond to database columns
-        """
-        columns = self.__mapper__.column_attrs.keys()
-        result = {}
-        for column in columns:
-            result[column] = getattr(self, column)
-        return result
-    
-    def verify_password(self, password):
-        if check_password_hash(self.password, password):
-            return True
-        return False
-
-class Learner(User):
-    __tablename__ = 'learner'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'learner',
-    }
-
-class Trainer(User):
-    __tablename__ = 'trainer'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'trainer',
-    }
-
-class Hr(User):
-    __tablename__ = 'hr'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'hr',
-    }
 
 class Course(db.Model):
     __tablename__ = 'course'
@@ -234,7 +177,7 @@ def createClass():
             "message": "Unable to commit to database."
         }), 500
 
-# get specific class
+# get all courses
 @app.route("/getClass/<string:courseId>", methods=['GET'])
 def getClasses(courseId):
     
