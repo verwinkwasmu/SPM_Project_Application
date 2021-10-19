@@ -127,7 +127,7 @@ def create_enrolment():
 
     # (1): Validate class
     classCheck = Class.query.filter_by(classId=data['classId']).first()
-    print(classCheck.to_dict())
+
     if not classCheck:
         return jsonify({
             "message": "Class not valid."
@@ -135,7 +135,7 @@ def create_enrolment():
 
     # (2): Validate learner
     learner = Learner.query.filter_by(userId=data['learnerId']).first()
-    print(learner.to_dict())
+
     if not learner:
         return jsonify({
             "message": "Learner not valid."
@@ -161,8 +161,6 @@ def create_enrolment():
     # (4): Commit to DB
     try:
         db.session.add(enrolment)
-        print(enrolment.to_dict())
-
         db.session.commit()
         return jsonify(enrolment.to_dict()), 201
 
@@ -217,7 +215,7 @@ def assignTrainerClass():
 
 
 # Remove learner from course
-@app.route("/removeLearner", methods=['POST'])
+@app.route("/removeLearner", methods=['DELETE'])
 def removeTrainer():
     # retrieve data
     data = request.get_json()
