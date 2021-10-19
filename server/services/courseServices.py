@@ -1,152 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-# from userServices import Learner
-
+from allClasses import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# what does this do?
-# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-#                                            'pool_recycle': 280}
-
 db = SQLAlchemy(app)
 
 CORS(app)
-
-class User(db.Model):
-    __tablename__ = 'user'
-
-    userId = db.Column(db.Integer, primary_key=True)
-    userName = db.Column(db.String(50))
-    email = db.Column(db.String(50))
-    password = db.Column(db.String(120))
-    userType = db.Column(db.String(50))
-    
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'user'
-    }
-
-    def to_dict(self):
-        """
-        'to_dict' converts the object into a dictionary,
-        in which the keys correspond to database columns
-        """
-        columns = self.__mapper__.column_attrs.keys()
-        result = {}
-        for column in columns:
-            result[column] = getattr(self, column)
-        return result
-    
-    def verify_password(self, password):
-        if check_password_hash(self.password, password):
-            return True
-        return False
-
-class Learner(User):
-    __tablename__ = 'learner'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'learner',
-    }
-
-class Trainer(User):
-    __tablename__ = 'trainer'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'trainer',
-    }
-
-class Hr(User):
-    __tablename__ = 'hr'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'hr',
-    }
-
-class Course(db.Model):
-    __tablename__ = 'course'
-    
-    courseId = db.Column(db.String(50), primary_key=True)
-    courseName = db.Column(db.String(50))
-    courseDescription = db.Column(db.String(50))
-    prerequisites = db.Column(db.String(50))
-    courseClass = db.relationship('Class', backref='course')
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'course'
-    }
-    
-    def to_dict(self):
-        """
-        'to_dict' converts the object into a dictionary,
-        in which the keys correspond to database columns
-        """
-        columns = self.__mapper__.column_attrs.keys()
-        result = {}
-        for column in columns:
-            result[column] = getattr(self, column)
-        return result
-
-
-class Class(db.Model):
-    __tablename__ = 'class'
-
-    classId = db.Column(db.String(50), primary_key=True) #course id + course Title //XRX-101 Class 1
-    courseId = db.Column(db.String(50), db.ForeignKey('course.courseId'))
-    classSize = db.Column(db.Integer)
-    classTitle = db.Column(db.String(50))
-    classTiming = db.Column(db.String(120))
-    classTimeline = db.Column(db.String(120))
-    enrolmentPeriod = db.Column(db.String(120))
-    trainerAssigned = db.Column(db.Integer) # userId
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'class'
-    }
-    
-    def to_dict(self):
-        """
-        'to_dict' converts the object into a dictionary,
-        in which the keys correspond to database columns
-        """
-        columns = self.__mapper__.column_attrs.keys()
-        result = {}
-        for column in columns:
-            result[column] = getattr(self, column)
-        return result
-
-class Enrolment(db.Model):
-    __tablename__ = 'enrolment'
-
-    classId = db.Column(db.String(50), db.ForeignKey('class.classId'), primary_key=True)
-    learnerId = db.Column(db.Integer, db.ForeignKey('learner.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'enrolment'
-    }
-    
-    def to_dict(self):
-        """
-        'to_dict' converts the object into a dictionary,
-        in which the keys correspond to database columns
-        """
-        columns = self.__mapper__.column_attrs.keys()
-        result = {}
-        for column in columns:
-            result[column] = getattr(self, column)
-        return result
-
-db.create_all()
 
 # create Course
 @app.route("/createCourse", methods=['POST'])
@@ -264,6 +127,7 @@ def create_enrolment():
 
     # (1): Validate class
     classCheck = Class.query.filter_by(classId=data['classId']).first()
+    print(classCheck.to_dict())
     if not classCheck:
         return jsonify({
             "message": "Class not valid."
@@ -271,26 +135,42 @@ def create_enrolment():
 
     # (2): Validate learner
     learner = Learner.query.filter_by(userId=data['learnerId']).first()
+    print(learner.to_dict())
     if not learner:
         return jsonify({
             "message": "Learner not valid."
         }), 502
 
+                                    # classId=data["classId"], learnerId=data['learnerId']
     # (3): Create enrolment record
+    enrolments = Enrolment.query.filter(
+                                    Enrolment.classId == data["classId"], 
+                                    Enrolment.learnerId == data['learnerId']
+                                ).first()
+    print(enrolments.to_dict())
+    if enrolments:
+        return jsonify({
+            "message": "Enrolment already added."
+        }), 503
+    
     enrolment = Enrolment(
-        classId = data['classId'], learnerId = data['learnerId']
+        classId = data['classId'], 
+        learnerId = data['learnerId']
     )
-    print(enrolment)
 
     # (4): Commit to DB
     try:
         db.session.add(enrolment)
+        print(enrolment.to_dict())
+
         db.session.commit()
         return jsonify(enrolment.to_dict()), 201
+
     except Exception:
         return jsonify({
-            "message": "Unable to commit to database."
-        }), 503
+            "message": "Unable to commit to database.",
+            "data": str(request.get_data())
+        }), 504
 
 # Updating Class Record with Trainer ID
 @app.route("/assignTrainerClass", methods=['PUT'])
@@ -324,7 +204,6 @@ def assignTrainerClass():
 
     # (4): Commit to DB
     try:
-        # db.session.add(enrolment)
         db.session.commit()
         return jsonify({
             "trainer": data['trainerAssigned'],

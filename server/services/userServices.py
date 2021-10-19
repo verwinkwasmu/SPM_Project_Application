@@ -1,80 +1,17 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, current_app as app
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-
-
+from allClasses import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-                                           'pool_recycle': 280}
 
 db = SQLAlchemy(app)
 
 CORS(app)
-
-class User(db.Model):
-    __tablename__ = 'user'
-
-    userId = db.Column(db.Integer, primary_key=True)
-    userName = db.Column(db.String(50))
-    email = db.Column(db.String(50))
-    password = db.Column(db.String(120))
-    userType = db.Column(db.String(50))
-    
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'user'
-    }
-
-    def to_dict(self):
-        """
-        'to_dict' converts the object into a dictionary,
-        in which the keys correspond to database columns
-        """
-        columns = self.__mapper__.column_attrs.keys()
-        result = {}
-        for column in columns:
-            result[column] = getattr(self, column)
-        return result
-    
-    def verify_password(self, password):
-        if check_password_hash(self.password, password):
-            return True
-        return False
-
-class Learner(User):
-    __tablename__ = 'learner'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'learner',
-    }
-
-class Trainer(User):
-    __tablename__ = 'trainer'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'trainer',
-    }
-
-class Hr(User):
-    __tablename__ = 'hr'
-
-    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'hr',
-    }
-
-
-db.create_all()
 
 # create user
 @app.route("/createUser", methods=['POST'])
@@ -183,7 +120,6 @@ def login():
                 "data": user.to_dict()
             }
         ), 200
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)

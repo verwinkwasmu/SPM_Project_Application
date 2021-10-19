@@ -12,4 +12,3 @@ CREATE TABLE `enrolment` (
 
 INSERT INTO `enrolment` (`classId`, `learnerId`) VALUES
 ('XRX-101 Class 1', '12');
-
