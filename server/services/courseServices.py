@@ -127,7 +127,7 @@ def create_enrolment():
 
     # (1): Validate class
     classCheck = Class.query.filter_by(classId=data['classId']).first()
-    print(classCheck.to_dict())
+
     if not classCheck:
         return jsonify({
             "message": "Class not valid."
@@ -135,7 +135,7 @@ def create_enrolment():
 
     # (2): Validate learner
     learner = Learner.query.filter_by(userId=data['learnerId']).first()
-    print(learner.to_dict())
+
     if not learner:
         return jsonify({
             "message": "Learner not valid."
@@ -147,7 +147,7 @@ def create_enrolment():
                                     Enrolment.classId == data["classId"], 
                                     Enrolment.learnerId == data['learnerId']
                                 ).first()
-    print(enrolments.to_dict())
+
     if enrolments:
         return jsonify({
             "message": "Enrolment already added."
@@ -161,8 +161,6 @@ def create_enrolment():
     # (4): Commit to DB
     try:
         db.session.add(enrolment)
-        print(enrolment.to_dict())
-
         db.session.commit()
         return jsonify(enrolment.to_dict()), 201
 
@@ -214,6 +212,60 @@ def assignTrainerClass():
         return jsonify({
             "message": "Unable to commit to database."
         }), 503
+
+
+# Remove learner from course
+@app.route("/removeLearner", methods=['DELETE'])
+def removeTrainer():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('classId', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    # (1): Validate class
+    classCheck = Class.query.filter_by(classId=data['classId']).first()
+
+    if not classCheck:
+        return jsonify({
+            "message": "Class not valid."
+        }), 501
+
+    # (2): Validate learner
+    learner = Learner.query.filter_by(userId=data['learnerId']).first()
+
+    if not learner:
+        return jsonify({
+            "message": "Learner not valid."
+        }), 502
+
+    # (3): Create enrolment record
+    enrolment = Enrolment.query.filter(
+                                    Enrolment.classId == data["classId"], 
+                                    Enrolment.learnerId == data['learnerId']
+                                ).first()
+
+    if not enrolment:
+        return jsonify({
+            "message": "Enrolment does not exist."
+        }), 503
+    
+    # (4): Commit to DB
+    try:
+        db.session.query(Enrolment).filter(Enrolment.classId==data['classId'], Enrolment.learnerId==data['learnerId']).delete()
+        db.session.commit()
+        return jsonify({
+            "message" : "Learner Withdrawn"
+        }), 200
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database.",
+            "data": str(request.get_data())
+        }), 504
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
