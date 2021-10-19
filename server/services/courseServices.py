@@ -302,7 +302,7 @@ def assignTrainerClass():
                key in ('classId', 'trainerAssigned')):
         return jsonify({
             "message": "Incorrect JSON object provided."
-        }), 508
+        }), 500
     
     classObj = Class.query.filter_by(classId=data['classId']).first()
 
