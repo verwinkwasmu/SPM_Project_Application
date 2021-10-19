@@ -292,6 +292,49 @@ def create_enrolment():
             "message": "Unable to commit to database."
         }), 503
 
+# Updating Class Record with Trainer ID
+@app.route("/assignTrainerClass", methods=['PUT'])
+def assignTrainerClass():
+    # retrieved data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('classId', 'trainerAssigned')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 508
+    
+    classObj = Class.query.filter_by(classId=data['classId']).first()
+
+    # (1): Validate class
+    if not classObj:
+        return jsonify({
+            "message": "Class not valid."
+        }), 501
+
+    # (2): Validate Trainer
+    trainer = Trainer.query.filter_by(userId=data['trainerAssigned']).first()
+    if not trainer:
+        return jsonify({
+            "message": "Trainer not valid."
+        }), 502
+
+    # (3): Update Class DB record
+    classObj.trainerAssigned = data['trainerAssigned']
+
+    # (4): Commit to DB
+    try:
+        # db.session.add(enrolment)
+        db.session.commit()
+        return jsonify({
+            "trainer": data['trainerAssigned'],
+            "class": data["classId"],
+            "message": "Trainer added"
+        }), 200
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 503
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
