@@ -88,3 +88,8 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Python Cache files
+*.pyc
+*tempCodeRunnerFile.py
+*__pycache__
