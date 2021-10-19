@@ -92,4 +92,4 @@ sw.*
 # Python Cache files
 *.pyc
 *tempCodeRunnerFile.py
-*__pycache__
+*/__pycache__
