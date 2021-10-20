@@ -7,7 +7,7 @@
               <!--<div class="createClass">
                   <a href="createClass" class="createClass-btn">Create Class</a>
               </div>-->
-            <h2>Fundamentals of Xerox WorkCentre 7845</h2>
+            <h2>{{this.$route.query.courseName}}</h2>
             <div class="createClass">
                 <a href="CreateClass" class="createClass-btn">Create Class</a>
             </div>
@@ -102,3 +102,10 @@
       </section>
     </div>
 </template>
+
+<script>
+export default {
+
+}
+
+</script>
