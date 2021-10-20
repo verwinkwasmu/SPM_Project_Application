@@ -39,8 +39,8 @@
 
                
 
-                <div class="createQuiz">  
-                    <a href="TrainerCreateQuiz" class="createQuiz-btn">Create Quiz</a>
+                <div class="quizList">  
+                    <a href="TrainerQuizList" class="quizList-btn">Quiz List</a>
                 </div>
 
               </div>

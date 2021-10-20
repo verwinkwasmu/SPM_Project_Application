@@ -51,17 +51,21 @@
                 </b-field> -->
 
                   <label for="name">Uploaded: </label>
-                <b-field class="file is-primary" :class="{'has-name': !!file}">
-                    <b-upload v-model="file" class="file-label">
-                        <span class="file-cta">
+                <!-- <b-field class="file is-primary" :class="{'has-name': !!file}"> -->
+                    <!-- <b-upload v-model="file" class="file-label"> -->
+                        <!-- <span class="file-cta"> -->
                             <!-- <b-icon class="file-icon" icon="upload"></b-icon>
                             <span class="file-label">Click to upload: </span> -->
-                        </span>
-                        <span class="file-name" v-if="file">
-                            {{ file.name }}
-                        </span>
-                    </b-upload>
-                </b-field>
+                        <!-- </span> -->
+                        <!-- <span class="file-name" v-if="file"> -->
+                            <!-- {{ file.name }} -->
+                        <!-- </span> -->
+                    <!-- </b-upload> -->
+                <!-- </b-field> -->
+                <form action="/action_page.php">
+                  <input type="file" id="myFile" name="filename">
+                </form>
+
                 </div>
 
                 <div class="form-group">
