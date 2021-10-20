@@ -30,7 +30,7 @@ def createCourse():
     if course: # if a course is found, we want to redirect to restart create course process
         return jsonify({
             "message": "Course exists."
-        }), 404
+        }), 200
     
     # create a new course with the form data. 
     new_course = Course(courseId=data['courseId'], courseName=data['courseName'], courseDescription=data['courseDescription'], prerequisites=data['prerequisites'])

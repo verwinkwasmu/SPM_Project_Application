@@ -67,6 +67,33 @@
                 ></textarea>
               </div>
             </form>
+            <br />
+            <div
+              v-if="error == true"
+              class="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              {{ message }}
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              v-else-if="error == false"
+              class="alert alert-success alert-dismissible fade show"
+              role="alert"
+            >
+              {{ message }}
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
           </div>
         </div>
       </div>
@@ -93,36 +120,42 @@ export default {
     courseDescription: "",
     prerequisites: "",
     courseId: "",
-    failed: false,
-    errorMessage: "",
+    error: null,
+    message: "",
+    data: null,
   }),
   methods: {
-    createCourse(event) {
+    async createCourse(event) {
       event.preventDefault();
-
+	  if (!this.courseName || !this.courseDescription || !this.courseId){
+		  this.error = true;
+		  this.message = "Please make sure Course Name, Course Description and Course ID are not empty!"
+		  return
+	  }
+      const apiUrl = "http://localhost:5002/createCourse";
       const course_details = {
         courseId: this.courseId,
         courseName: this.courseName,
         courseDescription: this.courseDescription,
         prerequisites: this.prerequisites,
       };
-      console.log(course_details)
-      axios
-        .post("http://localhost:5002/createCourse", course_details)
-        .then((response) => {
-          this.data = response;
-          console.log(this.data)
-          if (this.data.status != 201) {
-            this.failed = true
-            this.errorMessage = "unable to create course"
-            console.log(this.errorMessage)
+	  try{
+		  let response = await axios.post(apiUrl, course_details)
+		  console.log(response)
+		  if (response.status == 201) {
+            this.data = response.data;
+            this.error = false;
+            this.message = "Course Successfully Created! 😃";
+          } else {
+            this.error = true;
+            this.message = "Course already exists!";
           }
-          else {
-            alert("its g")
-          }
-        }).catch((error) =>  {
-          this.errorMessage = error.message;
-        });
+	  }catch(err){
+		  console.log(err)
+		  this.error = true;
+		  this.message = err
+	  }
+      
     },
   },
 };

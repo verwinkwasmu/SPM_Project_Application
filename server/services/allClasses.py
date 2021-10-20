@@ -97,12 +97,12 @@ class Course(db.Model):
         'polymorphic_identity': 'course'
     }
     
-    def __init__(self, courseId, courseName, courseDescription, prerequisites, courseClass):
+    def __init__(self, courseId, courseName, courseDescription, prerequisites):
         self.courseId = courseId
         self.courseName = courseName
         self.courseDescription = courseDescription
         self.prerequisites = prerequisites
-        self.courseClass = courseClass
+
 
     def to_dict(self):
         """
@@ -132,7 +132,7 @@ class Class(db.Model):
         'polymorphic_identity': 'class'
     }
 
-    def __init__(self, classId, courseId, classSize, classTitle, classTiming, enrolmentPeriod, trainerAssigned):
+    def __init__(self, classId, courseId, classSize, classTitle, classTiming, classTimeline, enrolmentPeriod, trainerAssigned):
         self.classId = classId
         self.courseId = courseId
         self.classSize = classSize
