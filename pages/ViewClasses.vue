@@ -28,7 +28,7 @@
                 </p>
               </div>
               <div class="viewClass">
-                <a href="EditClass" class="viewClass-btn">Edit Class</a>
+                <router-link :to="{path: '/EditClass', query: {classId: _class.classId, courseId: _class.courseId}}" class="viewClass-btn">Edit Class</router-link>
               </div>
             </div>
           </div>
@@ -45,12 +45,13 @@ export default {
   data: () => ({
     classes: [],
     error: false,
-    message: "",
+    message: ""
   }),
   async mounted() {
-    const apiUrl = `http://localhost:5002/getClass/${this.$route.query.courseId}`;
+    const apiUrl = `http://localhost:5002/getClasses/${this.$route.query.courseId}`;
     try {
       let response = await axios.get(apiUrl);
+      console.log(response)
       this.classes = response.data.data;
       console.log(this.classes);
       this.error = false;
