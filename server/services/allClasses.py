@@ -180,4 +180,29 @@ class Enrolment(db.Model):
             result[column] = getattr(self, column)
         return result
 
+class Section(db.Model):
+    __tablename__ = 'section'
+
+    sectionId = db.Column(db.String(50), primary_key=True)
+    classId = db.Column(db.String(50), db.ForeignKey('class.classId'), primary_key=True)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'section'
+    }
+
+    def __init__(self, sectionId, classId, courseId):
+        self.sectionId = sectionId
+        self.classId = classId
+    
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
 db.create_all()
