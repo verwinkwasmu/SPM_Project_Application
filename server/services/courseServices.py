@@ -84,7 +84,7 @@ def createClass():
     if _class: 
         return jsonify({
             "message": "Class exists."
-        }), 404
+        }), 200
     
     new_class = Class(**data)
     print(new_class.to_dict())
