@@ -1694,6 +1694,16 @@ section {
   padding-top: 15px;
 }
 
+#div1 {
+  padding-right: 500px;
+}
+
+#answer {
+  padding-right: 700px;
+  padding-top: 20px;
+}
+
+
 
 /*--------------------------------------------------------------
 # Frequently Asked Questions
