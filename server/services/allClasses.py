@@ -127,12 +127,13 @@ class Class(db.Model):
     classTimeline = db.Column(db.String(120))
     enrolmentPeriod = db.Column(db.String(120))
     trainerAssigned = db.Column(db.Integer, db.ForeignKey('trainer.userId')) # userId
+    trainerName = db.Column(db.String(50))
 
     __mapper_args__ = {
         'polymorphic_identity': 'class'
     }
 
-    def __init__(self, classId, courseId, classSize, classTitle, classTiming, classTimeline, enrolmentPeriod, trainerAssigned):
+    def __init__(self, classId, courseId, classSize, classTitle, classTiming, classTimeline, enrolmentPeriod, trainerAssigned, trainerName):
         self.classId = classId
         self.courseId = courseId
         self.classSize = classSize
@@ -141,6 +142,7 @@ class Class(db.Model):
         self.classTimeline = classTimeline
         self.enrolmentPeriod = enrolmentPeriod
         self.trainerAssigned = trainerAssigned
+        self.trainerName = trainerName
     
     def to_dict(self):
         """
