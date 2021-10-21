@@ -294,5 +294,44 @@ def removeTrainer():
             "data": str(request.get_data())
         }), 504
 
+
+# Remove learner from course
+@app.route("/createSection", methods=['POST'])
+def createSection():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('sectionId', 'classId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    # (1): Validate Section
+    checkSection = Section.query.filter_by(sectionId=data['sectionId'],classId=data['classId']).first()
+
+    if not checkSection:
+        return jsonify({
+            "message": "Class not valid."
+        }), 501
+
+
+    section = Section(
+            sectionId = data['sectionId'],
+            classId = data['classId']
+        )
+
+    # (4): Commit to DB
+    try:
+        db.session.add(section)
+        db.session.commit()
+        return jsonify(section.to_dict()), 201
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database.",
+            "data": str(request.get_data())
+        }), 504
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
