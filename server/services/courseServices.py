@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from allClasses import *
+from sqlalchemy.sql import select
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
@@ -98,7 +99,7 @@ def createClass():
             "message": "Unable to commit to database."
         }), 500
 
-# get specific class
+# get specific classes of a course
 @app.route("/getClass/<string:courseId>", methods=['GET'])
 def getClasses(courseId):
     
@@ -113,6 +114,30 @@ def getClasses(courseId):
     return jsonify(
         {
             "data": [_class.to_dict() for _class in classes]
+        }
+    ), 200
+
+# get learners enrolled in a class 
+@app.route("/enrolment/<string:classId>", methods=['GET'])
+def getLearnersInClass(classId):
+
+    class_existence = Enrolment.query.filter(Enrolment.classId==classId).all()
+    
+    # check if class exists 
+    if not class_existence:
+        return jsonify({
+            "message": "No class found."    
+        }), 404
+    
+    enrolments = Enrolment.query.join(User, Enrolment.learnerId == User.userId).filter((Enrolment.classId==classId) & (Enrolment.completed==False)).all()
+
+    if not enrolments:
+        return jsonify({
+            "message": "No learners found."
+        }), 404
+    return jsonify(
+        {
+            "data": [enrolment.to_dict() for enrolment in enrolments]
         }
     ), 200
 
