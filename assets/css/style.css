@@ -1663,7 +1663,7 @@ section {
 .float-container {
   border: 3px solid #fff;
   padding-top: 50px;
-  padding-bottom: 200px;
+  padding-bottom: 20px;
   background-color: #fff;
 }
 
@@ -1698,9 +1698,30 @@ section {
   padding-right: 500px;
 }
 
+#div2 {
+  padding-top: 20px;
+  padding-right: 0px;
+}
+
+#div3 {
+  padding-right: 495px;
+}
+
+#div4{
+  padding-right: 570px;
+}
+
 #answer {
   padding-right: 700px;
   padding-top: 20px;
+}
+
+
+.success {
+  border: 1px solid green;
+}
+.danger {
+  border: 1px solid red;
 }
 
 

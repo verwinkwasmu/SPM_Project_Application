@@ -121,6 +121,17 @@
                       format="MM/dd/yyyy"
                       v-model="date_today" />
                   </client-only>
+                  <br>
+                  <div class="form-group">
+                    <label for="name">Class Start Time: </label>
+                    <input
+                      type="time"
+                      name="name"
+                      class="form-control"
+                      id="name"
+                      required
+                    />
+                  </div>
                   <div class="date">
                   <h5>Class End Date: </h5>
                   <client-only>
@@ -129,6 +140,17 @@
                       format="MM/dd/yyyy"
                       v-model="date_today" />
                   </client-only>
+                   <br>
+                  <div class="form-group">
+                    <label for="name">Class End Time: </label>
+                    <input
+                      type="time"
+                      name="name"
+                      class="form-control"
+                      id="name"
+                      required
+                    />
+                  </div>
                   </div>
                 </div>
               </div>

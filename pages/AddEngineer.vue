@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-lg-8" id="createCourse" style="padding-bottom: 50px">
                     <div class="addEngineer">
-                        <h5> Currently Enrolled: </h5>
+                        <h5> Total List of Engineers: </h5>
                     </div>
 
                 <b-tabs>

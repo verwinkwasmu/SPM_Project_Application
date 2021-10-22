@@ -71,8 +71,7 @@ export default {
   plugins: [
     { src: '~/plugins/vue-datepicker', ssr: false },
     { src: '~/plugins/vue-table', ssr: false },
-    { src: '~/plugins/vue-basebutton', ssr: false },
-    
+    { src: '~/plugins/vue-basebutton', ssr: false },    
   ],
   
 
