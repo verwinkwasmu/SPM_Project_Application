@@ -5,7 +5,7 @@ import Buefy from 'buefy'
 
 Vue.use(Table)
 Vue.use(Input)
-//Vue.use(Buefy)
+// Vue.use(Buefy)
 
 // import Vue from 'vue'
 // import Buefy from 'buefy'

@@ -113,7 +113,6 @@
                 </div> -->
             </form>
           </div>
-
           <div class="col-lg-6 d-flex align-items-stretch">
             <div class="info">
               <div>
@@ -127,6 +126,7 @@
                 </client-only>
                 <div class="date">
                   <h5>Class End Date:</h5>
+
                   <client-only>
                     <date-picker
                       placeholder="MM/DD/YYYY"

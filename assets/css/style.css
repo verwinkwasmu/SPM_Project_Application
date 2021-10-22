@@ -1514,6 +1514,218 @@ section {
   }
 }
 
+
+/*--------------------------------------------------------------
+# TRAINER
+--------------------------------------------------------------*/
+.TrainerViewClass .TrainerViewClass-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 200px;
+  /* bottom:15px; */
+}
+
+.TrainerViewClass .TrainerViewClass-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+#TrainerViewCourseDetails{
+  margin: auto;
+  width: 70%;
+  padding: 0px;  
+}
+
+.TrainerCreateSection {
+  padding-bottom:45px;
+}
+.TrainerCreateSection .TrainerCreateSection-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 470px;
+}
+
+.TrainerCreateSection .TrainerCreateSection-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+.editSection .editSection-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: -130px;
+  /* bottom:15px; */
+}
+
+.editSection .editSection-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.quizList .quizList-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 30px;
+  /* bottom:15px; */
+}
+
+.quizList .quizList-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.TrainerCreateQuiz {
+  display: inline-block;
+  padding-bottom:45px;
+}
+.TrainerCreateQuiz .TrainerCreateQuiz-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 500px;
+}
+
+.TrainerCreateQuiz .TrainerCreateQuiz-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+.TrainerCancelQuiz {
+  display: inline-block;
+  padding-bottom:45px;
+}
+
+
+.TrainerCancelQuiz .TrainerCancelQuiz-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #CA1B10;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #CA1B10;
+  position: absolute;
+  margin-left: 800px;
+}
+
+.TrainerCancelQuiz .TrainerCancelQuiz-btn:hover {
+  background: #CA1B10;
+  color: #fff;
+}
+
+.float-container {
+  border: 3px solid #fff;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  background-color: #fff;
+}
+
+.float-container-mcq {
+  border: 3px solid #fff;
+  padding-top: 50px;
+  padding-bottom: 300px;
+  background-color: #fff;
+}
+
+.float-child-left {
+  width: 20%;
+  float: left;
+  padding-top: 8px;
+  /* border: 2px solid red; */
+}  
+
+.float-child-right {
+  width: 80%;
+  float: right;
+  padding-right: 25px;
+  /* padding: 20px; */
+  /* border: 2px solid red; */
+}  
+
+.radio-btn {
+  float: left;
+  padding-top: 15px;
+}
+
+#div1 {
+  padding-right: 500px;
+}
+
+#div2 {
+  padding-top: 20px;
+  padding-right: 0px;
+}
+
+#div3 {
+  padding-right: 495px;
+}
+
+#div4{
+  padding-right: 570px;
+}
+
+#answer {
+  padding-right: 700px;
+  padding-top: 20px;
+}
+
+
+.success {
+  border: 1px solid green;
+}
+.danger {
+  border: 1px solid red;
+}
+
+
+
 /*--------------------------------------------------------------
 # Frequently Asked Questions
 --------------------------------------------------------------*/
