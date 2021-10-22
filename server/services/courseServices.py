@@ -6,7 +6,8 @@ from allClasses import *
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+                                           'pool_recycle': 280}
 db = SQLAlchemy(app)
 
 CORS(app)
@@ -83,7 +84,7 @@ def createClass():
     if _class: 
         return jsonify({
             "message": "Class exists."
-        }), 404
+        }), 200
     
     new_class = Class(**data)
     print(new_class.to_dict())
@@ -97,8 +98,8 @@ def createClass():
             "message": "Unable to commit to database."
         }), 500
 
-# get specific class
-@app.route("/getClass/<string:courseId>", methods=['GET'])
+# get classes based on specific courseId
+@app.route("/getClasses/<string:courseId>", methods=['GET'])
 def getClasses(courseId):
     
     classes = Class.query.filter_by(courseId=courseId).all()
@@ -114,6 +115,32 @@ def getClasses(courseId):
             "data": [_class.to_dict() for _class in classes]
         }
     ), 200
+# get specific course
+@app.route("/getCourse/<string:courseId>", methods=['GET'])
+def getCourse(courseId):
+    
+    course = Course.query.filter_by(courseId=courseId).first()
+    
+    # check if user exists and validate password
+    if not course:
+        return jsonify({
+            "message": "No course found."
+        }), 404
+    
+    return jsonify(course.to_dict()), 200
+# get specific course
+@app.route("/getClass/<string:classId>", methods=['GET'])
+def getClass(classId):
+    
+    _class = Class.query.filter_by(classId=classId).first()
+    
+    # check if user exists and validate password
+    if not _class:
+        return jsonify({
+            "message": "No class found."
+        }), 404
+    
+    return jsonify(_class.to_dict()), 200
 
 #enrol learners into class
 @app.route("/enrolment", methods=['POST'])
@@ -176,14 +203,13 @@ def assignTrainerClass():
     # retrieved data
     data = request.get_json()
 
-    if not all(key in data.keys() for
-               key in ('classId', 'trainerAssigned')):
-        return jsonify({
-            "message": "Incorrect JSON object provided."
-        }), 500
+    # if not all(key in data.keys() for
+    #            key in ('classId', 'trainerAssigned, trainerName')):
+    #     return jsonify({
+    #         "message": "Incorrect JSON object provided."
+    #     }), 500
     
     classObj = Class.query.filter_by(classId=data['classId']).first()
-
     # (1): Validate class
     if not classObj:
         return jsonify({
@@ -199,13 +225,14 @@ def assignTrainerClass():
 
     # (3): Update Class DB record
     classObj.trainerAssigned = data['trainerAssigned']
+    classObj.trainerName = data['trainerName']
 
     # (4): Commit to DB
     try:
+        db.session.merge(classObj)
         db.session.commit()
         return jsonify({
-            "trainer": data['trainerAssigned'],
-            "class": data["classId"],
+            "data": classObj.to_dict(),
             "message": "Trainer added"
         }), 200
     except Exception:
@@ -260,6 +287,45 @@ def removeTrainer():
         return jsonify({
             "message" : "Learner Withdrawn"
         }), 200
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database.",
+            "data": str(request.get_data())
+        }), 504
+
+
+# Remove learner from course
+@app.route("/createSection", methods=['POST'])
+def createSection():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('sectionId', 'classId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    # (1): Validate Section
+    checkSection = Section.query.filter_by(sectionId=data['sectionId'],classId=data['classId']).first()
+
+    if not checkSection:
+        return jsonify({
+            "message": "Class not valid."
+        }), 501
+
+
+    section = Section(
+            sectionId = data['sectionId'],
+            classId = data['classId']
+        )
+
+    # (4): Commit to DB
+    try:
+        db.session.add(section)
+        db.session.commit()
+        return jsonify(section.to_dict()), 201
 
     except Exception:
         return jsonify({
