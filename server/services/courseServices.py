@@ -99,7 +99,7 @@ def createClass():
             "message": "Unable to commit to database."
         }), 500
 
-# get specific classes of a course
+# get classes based on specific courseId
 @app.route("/getClasses/<string:courseId>", methods=['GET'])
 def getClasses(courseId):
     
