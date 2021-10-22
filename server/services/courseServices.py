@@ -74,7 +74,7 @@ def createClass():
 
     # check if proper data is sent
     if not all(key in data.keys() for
-               key in ('classId', 'courseId', 'classSize', 'classTitle', 'classTiming', 'classTimeline', 'enrolmentPeriod', 'trainerAssigned')):
+               key in ('classId', 'courseId', 'classSize', 'classTitle', 'startTime', 'endTime', 'startDate', 'endDate','enrolmentPeriod')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -87,8 +87,8 @@ def createClass():
             "message": "Class exists."
         }), 200
     
-    new_class = Class(**data)
-    print(new_class.to_dict())
+    new_class = Class(classId=data['classId'], courseId=data['courseId'], classSize=data['classSize'], classTitle=data['classTitle'], startTime=data['startTime'], endTime=data['endTime'], startDate=data['startDate'], endDate=data['endDate'], enrolmentPeriod=data['enrolmentPeriod'], trainerAssigned=None, trainerName=None)
+
     
     try:
         db.session.add(new_class)

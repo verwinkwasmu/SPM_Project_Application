@@ -37,6 +37,9 @@
                 <h4>Period of Enrollment:</h4>
                 <p>{{ myClass.enrolmentPeriod }}</p>
                 <br />
+                <h4>Period of Class:</h4>
+                <p>{{ myClass.startTime}}, {{myClass.startDate}} to {{myClass.endTime}}, {{myClass.endDate}}</p>
+                <br />
                 <h4>Course Description:</h4>
                 <p>
                   {{ course.courseDescription }}

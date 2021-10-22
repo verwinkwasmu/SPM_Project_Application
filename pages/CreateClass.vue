@@ -235,11 +235,11 @@ export default {
         courseId: this.$route.query.courseId,
         classSize: this.classSize,
         classTitle: this.classTitle,
-        classTiming: this.startTime + ' to ' + this.endTime,
-        classTimeline: (this.startDate).toISOString().substring(0, 10) + ' to ' + (this.endDate).toISOString().substring(0, 10),
+        startTime: this.startTime,
+        endTime: this.endTime,
+        startDate: (this.startDate).toISOString().substring(0, 10),
+        endDate: (this.endDate).toISOString().substring(0, 10),
         enrolmentPeriod: (this.enrolmentStart).toISOString().substring(0, 10) + " to " + (this.enrolmentEnd).toISOString().substring(0, 10),
-        trainerAssigned: null,
-        trainerName: null
       };
       
       try {
