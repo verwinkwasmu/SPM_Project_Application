@@ -100,7 +100,7 @@ def createClass():
         }), 500
 
 # get specific classes of a course
-@app.route("/getClass/<string:courseId>", methods=['GET'])
+@app.route("/getClasses/<string:courseId>", methods=['GET'])
 def getClasses(courseId):
     
     classes = Class.query.filter_by(courseId=courseId).all()
