@@ -1,3 +1,4 @@
+from typing import ClassVar
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -160,14 +161,16 @@ class Enrolment(db.Model):
 
     classId = db.Column(db.String(50), db.ForeignKey('class.classId'), primary_key=True)
     learnerId = db.Column(db.Integer, db.ForeignKey('learner.userId'), primary_key=True)
+    completed = db.Column(db.Boolean)
 
     __mapper_args__ = {
         'polymorphic_identity': 'enrolment'
     }
 
-    def __init__(self, learnerId, classId):
+    def __init__(self, learnerId, classId, completed = False):
         self.learnerId = learnerId
         self.classId = classId
+        self.completed = completed
     
     def to_dict(self):
         """
