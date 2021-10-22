@@ -124,8 +124,10 @@ class Class(db.Model):
     courseId = db.Column(db.String(50), db.ForeignKey('course.courseId'))
     classSize = db.Column(db.Integer)
     classTitle = db.Column(db.String(50))
-    classTiming = db.Column(db.String(120))
-    classTimeline = db.Column(db.String(120))
+    startTime = db.Column(db.String(50))
+    endTime = db.Column(db.String(50))
+    startDate = db.Column(db.String(50))
+    endDate = db.Column(db.String(50))
     enrolmentPeriod = db.Column(db.String(120))
     trainerAssigned = db.Column(db.Integer, db.ForeignKey('trainer.userId')) # userId
     trainerName = db.Column(db.String(50))
@@ -134,13 +136,15 @@ class Class(db.Model):
         'polymorphic_identity': 'class'
     }
 
-    def __init__(self, classId, courseId, classSize, classTitle, classTiming, classTimeline, enrolmentPeriod, trainerAssigned, trainerName):
+    def __init__(self, classId, courseId, classSize, classTitle, startTime, endTime, startDate, endDate, enrolmentPeriod, trainerAssigned, trainerName):
         self.classId = classId
         self.courseId = courseId
         self.classSize = classSize
         self.classTitle = classTitle
-        self.classTiming = classTiming
-        self.classTimeline = classTimeline
+        self.startTime = startTime
+        self.endTime = endTime
+        self.startDate = startDate
+        self.endDate = endDate
         self.enrolmentPeriod = enrolmentPeriod
         self.trainerAssigned = trainerAssigned
         self.trainerName = trainerName
