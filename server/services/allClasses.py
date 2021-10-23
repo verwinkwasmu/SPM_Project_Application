@@ -165,16 +165,20 @@ class Enrolment(db.Model):
 
     classId = db.Column(db.String(50), db.ForeignKey('class.classId'), primary_key=True)
     learnerId = db.Column(db.Integer, db.ForeignKey('learner.userId'), primary_key=True)
-    completed = db.Column(db.Boolean)
+    totalNumSections = db.Column(db.Integer)
+    sectionsCompleted = db.Column(db.Integer)
+    completedClass = db.Column(db.Boolean)
 
     __mapper_args__ = {
         'polymorphic_identity': 'enrolment'
     }
 
-    def __init__(self, learnerId, classId, completed = False):
+    def __init__(self, learnerId, classId, totalNumSections, sectionsCompleted = 0, completedClass = False):
         self.learnerId = learnerId
         self.classId = classId
-        self.completed = completed
+        self.sectionsCompleted = sectionsCompleted
+        self.totalNumSections = totalNumSections
+        self.completedClass = completedClass
     
     def to_dict(self):
         """
@@ -197,7 +201,7 @@ class Section(db.Model):
         'polymorphic_identity': 'section'
     }
 
-    def __init__(self, sectionId, classId, courseId):
+    def __init__(self, sectionId, classId):
         self.sectionId = sectionId
         self.classId = classId
     

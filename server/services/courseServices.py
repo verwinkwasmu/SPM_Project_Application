@@ -155,7 +155,7 @@ def getLearnersInClass(classId):
             "message": "No class found."    
         }), 404
     
-    enrolments = Enrolment.query.join(User, Enrolment.learnerId == User.userId).filter((Enrolment.classId==classId) & (Enrolment.completed==False)).all()
+    enrolments = Enrolment.query.join(User, Enrolment.learnerId == User.userId).filter((Enrolment.classId==classId) & (Enrolment.completedClass==False)).all()
 
     if not enrolments:
         return jsonify({
@@ -193,7 +193,6 @@ def create_enrolment():
             "message": "Learner not valid."
         }), 502
 
-                                    # classId=data["classId"], learnerId=data['learnerId']
     # (3): Create enrolment record
     enrolments = Enrolment.query.filter(
                                     Enrolment.classId == data["classId"], 
@@ -205,9 +204,12 @@ def create_enrolment():
             "message": "Enrolment already added."
         }), 503
     
+    # Compute total number of Sections in the class
+    numSections = Section.query.filter(Section.classId == data["classId"]).count()
     enrolment = Enrolment(
         classId = data['classId'], 
-        learnerId = data['learnerId']
+        learnerId = data['learnerId'],
+        totalNumSections = numSections
     )
 
     # (4): Commit to DB
