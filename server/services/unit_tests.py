@@ -107,10 +107,13 @@ class TestClass(unittest.TestCase):
                     courseId="XRX-101", 
                     classSize=40,
                     classTitle="Class 1",
-                    classTiming="10:00 to 13:00",
-                    classTimeline="2021-11-30 to 2021-12-30",
+                    startTime = "10:00",
+                    endTime = "13:00",
+                    startDate = "2021-11-30",
+                    endDate = "2021-12-30",
                     enrolmentPeriod="2021-10-30 to 2021-11-29",
-                    trainerAssigned=13
+                    trainerAssigned=13,
+                    trainerName="Sir Verwin"
                     )
 
         self.assertEqual(c1.to_dict(), {
@@ -118,10 +121,13 @@ class TestClass(unittest.TestCase):
                 "courseId":"XRX-101", 
                 "classSize":40,
                 "classTitle":"Class 1",
-                "classTiming":"10:00 to 13:00",
-                "classTimeline":"2021-11-30 to 2021-12-30",
+                "startTime" : "10:00",
+                "endTime" : "13:00",
+                "startDate" : "2021-11-30",
+                "endDate" : "2021-12-30",
                 "enrolmentPeriod":"2021-10-30 to 2021-11-29",
-                "trainerAssigned":13
+                "trainerAssigned":13,
+                "trainerName":"Sir Verwin"
             }
         )
 
@@ -150,7 +156,7 @@ class TestSection(unittest.TestCase):
                     fileName = "Introduction_Lesson_1"
                     )
 
-        self.assertEqual(e1.to_dict(), {
+        self.assertEqual(s1.to_dict(), {
                 "classId":"XRX-101 Class 1",
                 "sectionId":"Section 1",
                 "fileName" : "Introduction_Lesson_1"
@@ -164,7 +170,7 @@ class TestQuiz(unittest.TestCase):
                     quizId = "Quiz 1"
                     )
 
-        self.assertEqual(e1.to_dict(), {
+        self.assertEqual(q1.to_dict(), {
                 "classId":"XRX-101 Class 1",
                 "sectionId":"Section 1",
                 "quizId" : "Quiz 1"
