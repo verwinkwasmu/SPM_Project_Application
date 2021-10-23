@@ -163,6 +163,7 @@ class Class(db.Model):
 class Enrolment(db.Model):
     __tablename__ = 'enrolment'
 
+    courseId = db.Column(db.String(50), db.ForeignKey('class.courseId'))
     classId = db.Column(db.String(50), db.ForeignKey('class.classId'), primary_key=True)
     learnerId = db.Column(db.Integer, db.ForeignKey('learner.userId'), primary_key=True)
     totalNumSections = db.Column(db.Integer)
@@ -173,9 +174,10 @@ class Enrolment(db.Model):
         'polymorphic_identity': 'enrolment'
     }
 
-    def __init__(self, learnerId, classId, totalNumSections, sectionsCompleted = 0, completedClass = False):
-        self.learnerId = learnerId
+    def __init__(self, cousreId, classId, learnerId, totalNumSections, sectionsCompleted = 0, completedClass = False):
+        self.courseId = cousreId
         self.classId = classId
+        self.learnerId = learnerId
         self.sectionsCompleted = sectionsCompleted
         self.totalNumSections = totalNumSections
         self.completedClass = completedClass
