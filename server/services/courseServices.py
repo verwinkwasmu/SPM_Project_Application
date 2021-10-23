@@ -99,6 +99,34 @@ def createClass():
             "message": "Unable to commit to database."
         }), 500
 
+# get specific course
+@app.route("/getCourse/<string:courseId>", methods=['GET'])
+def getCourse(courseId):
+    
+    course = Course.query.filter_by(courseId=courseId).first()
+    
+    # check if user exists and validate password
+    if not course:
+        return jsonify({
+            "message": "No course found."
+        }), 404
+    
+    return jsonify(course.to_dict()), 200
+
+# get specific class
+@app.route("/getClass/<string:classId>", methods=['GET'])
+def getClass(classId):
+    
+    _class = Class.query.filter_by(classId=classId).first()
+    
+    # check if user exists and validate password
+    if not _class:
+        return jsonify({
+            "message": "No class found."
+        }), 404
+    
+    return jsonify(_class.to_dict()), 200
+
 # get classes based on specific courseId
 @app.route("/getClasses/<string:courseId>", methods=['GET'])
 def getClasses(courseId):
@@ -115,35 +143,9 @@ def getClasses(courseId):
         {
             "data": [_class.to_dict() for _class in classes]
         }
-    ), 200
-# get specific course
-@app.route("/getCourse/<string:courseId>", methods=['GET'])
-def getCourse(courseId):
-    
-    course = Course.query.filter_by(courseId=courseId).first()
-    
-    # check if user exists and validate password
-    if not course:
-        return jsonify({
-            "message": "No course found."
-        }), 404
-    
-    return jsonify(course.to_dict()), 200
-# get specific course
-@app.route("/getClass/<string:classId>", methods=['GET'])
-def getClass(classId):
-    
-    _class = Class.query.filter_by(classId=classId).first()
-    
-    # check if user exists and validate password
-    if not _class:
-        return jsonify({
-            "message": "No class found."
-        }), 404
-    
-    return jsonify(_class.to_dict()), 200
+    ), 200 
 
-# get learners enrolled in a class 
+# get learnerId enrolled in a class 
 @app.route("/enrolment/<string:classId>", methods=['GET'])
 def getLearnersInClass(classId):
 
@@ -155,7 +157,7 @@ def getLearnersInClass(classId):
             "message": "No class found."    
         }), 404
     
-    enrolments = Enrolment.query.join(User, Enrolment.learnerId == User.userId).filter((Enrolment.classId==classId) & (Enrolment.completedClass==False)).all()
+    enrolments = Enrolment.query.filter((Enrolment.classId==classId) & (Enrolment.completedClass==False)).all()
 
     if not enrolments:
         return jsonify({
@@ -163,7 +165,27 @@ def getLearnersInClass(classId):
         }), 404
     return jsonify(
         {
-            "data": [enrolment.to_dict() for enrolment in enrolments]
+            "data": [enrolment.to_dict()['learnerId'] for enrolment in enrolments]
+        }
+    ), 200
+
+# get number of learners enrolled in a class 
+@app.route("/enrolment/number/<string:classId>", methods=['GET'])
+def getNumberOfLearnersInClass(classId):
+
+    class_existence = Enrolment.query.filter(Enrolment.classId==classId).all()
+    
+    # check if class exists 
+    if not class_existence:
+        return jsonify({
+            "message": "No class found."    
+        }), 404
+    
+    num_enrolments = Enrolment.query.filter((Enrolment.classId==classId) & (Enrolment.completedClass==False)).count()
+
+    return jsonify(
+        {
+            "data": num_enrolments
         }
     ), 200
 
