@@ -10,10 +10,12 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+DROP TABLE IF EXISTS `section`;
 
 CREATE TABLE `section` (
   `sectionId` varchar(10) NOT NULL,
   `classId` varchar(50) NOT NULL,
+  `fileName` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`sectionId`,`classId`),
   FOREIGN KEY (`classId`) REFERENCES class(`classId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

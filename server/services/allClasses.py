@@ -165,16 +165,20 @@ class Enrolment(db.Model):
 
     classId = db.Column(db.String(50), db.ForeignKey('class.classId'), primary_key=True)
     learnerId = db.Column(db.Integer, db.ForeignKey('learner.userId'), primary_key=True)
-    completed = db.Column(db.Boolean)
+    totalNumSections = db.Column(db.Integer)
+    sectionsCompleted = db.Column(db.Integer)
+    completedClass = db.Column(db.Boolean)
 
     __mapper_args__ = {
         'polymorphic_identity': 'enrolment'
     }
 
-    def __init__(self, learnerId, classId, completed = False):
+    def __init__(self, learnerId, classId, totalNumSections, sectionsCompleted = 0, completedClass = False):
         self.learnerId = learnerId
         self.classId = classId
-        self.completed = completed
+        self.sectionsCompleted = sectionsCompleted
+        self.totalNumSections = totalNumSections
+        self.completedClass = completedClass
     
     def to_dict(self):
         """
@@ -192,14 +196,42 @@ class Section(db.Model):
 
     sectionId = db.Column(db.String(50), primary_key=True)
     classId = db.Column(db.String(50), db.ForeignKey('class.classId'), primary_key=True)
+    fileName = db.Column(db.String(50))
 
     __mapper_args__ = {
         'polymorphic_identity': 'section'
     }
 
-    def __init__(self, sectionId, classId, courseId):
-        self.sectionId = sectionId
+    def __init__(self, classId, sectionId, fileName):
         self.classId = classId
+        self.sectionId = sectionId
+        self.fileName = fileName
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+class Quiz(db.Model):
+    __tablename__ = 'quiz'
+
+    quizId = db.Column(db.String(50), primary_key=True)
+    sectionId = db.Column(db.String(50), db.ForeignKey('section.sectionId'), primary_key=True)
+    classId = db.Column(db.String(50), db.ForeignKey('section.classId'), primary_key=True)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'quiz'
+    }
+
+    def __init__(self, classId, sectionId, quizId):
+        self.classId = classId
+        self.sectionId = sectionId
+        self.quizId = quizId
     
     def to_dict(self):
         """
@@ -210,6 +242,50 @@ class Section(db.Model):
         result = {}
         for column in columns:
             result[column] = getattr(self, column)
+        return result
+
+
+class Question(db.Model):
+    __tablename__ = 'question'
+
+    sectionId = db.Column(db.String(50), db.ForeignKey('quiz.sectionId'), primary_key=True)
+    classId = db.Column(db.String(50), db.ForeignKey('quiz.classId'), primary_key=True)
+    quizId = db.Column(db.String(50), db.ForeignKey('quiz.quizId'), primary_key=True)
+    questionId = db.Column(db.String(50), primary_key=True)
+    question = db.Column(db.String(500))
+    option = db.Column(db.String(500))
+    answer = db.Column(db.String(500))
+
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'question'
+    }
+
+    def __init__(self, sectionId, classId, quizId, questionId, question, option, answer):
+        self.sectionId = sectionId
+        self.classId = classId
+        self.quizId = quizId
+        self.questionId = questionId
+        self.question = question
+        self.option = option
+        self.answer = answer
+
+    
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+
+            # convert string to list for option
+            if column == "option":
+                option_str = result["option"]
+                result["option"] = list(option_str.split(";"))
+                
         return result
 
 db.create_all()
