@@ -128,12 +128,73 @@ class TestClass(unittest.TestCase):
 class TestEnrolment(unittest.TestCase):
     def test_to_dict(self):
         e1 = Enrolment(classId="XRX-101 Class 1",
-                        learnerId=13
+                        learnerId=13,
+                        totalNumSections = 10,
+                        sectionsCompleted = 2,
+                        completedClass = False
                     )
 
         self.assertEqual(e1.to_dict(), {
                 "classId":"XRX-101 Class 1",
-                "learnerId":13
+                "learnerId":13,
+                "totalNumSections" : 10,
+                "sectionsCompleted" : 2,
+                "completedClass" : False
+            }
+        )
+
+class TestSection(unittest.TestCase):
+    def test_to_dict(self):
+        s1 = Section(classId="XRX-101 Class 1",
+                    sectionId="Section 1",
+                    fileName = "Introduction_Lesson_1"
+                    )
+
+        self.assertEqual(e1.to_dict(), {
+                "classId":"XRX-101 Class 1",
+                "sectionId":"Section 1",
+                "fileName" : "Introduction_Lesson_1"
+            }
+        )
+
+class TestQuiz(unittest.TestCase):
+    def test_to_dict(self):
+        q1 = Quiz(classId="XRX-101 Class 1",
+                    sectionId="Section 1",
+                    quizId = "Quiz 1"
+                    )
+
+        self.assertEqual(e1.to_dict(), {
+                "classId":"XRX-101 Class 1",
+                "sectionId":"Section 1",
+                "quizId" : "Quiz 1"
+            }
+        )
+
+class TestQuestion(unittest.TestCase):
+    def test_to_dict(self):
+        q1 = Question(classId="XRX-101 Class 1",
+                        sectionId="Section 1",
+                        quizId = "Quiz 1",
+                        questionId = "Question 1",
+                        question = "What's is your mother's name?",
+                        option = "Mary;Laobu;Karen;Ni Mama",
+                        answer = "Ni Mama"
+                    )
+
+        self.assertEqual(q1.to_dict(), {
+                "classId": "XRX-101 Class 1",
+                "sectionId": "Section 1",
+                "quizId": "Quiz 1",
+                "questionId": "Question 1",
+                "question": "What's is your mother's name?",
+                "option": [
+                    "Mary",
+                    "Laobu",
+                    "Karen",
+                    "Ni Mama"
+                ],
+                "answer": "Ni Mama"
             }
         )
 
