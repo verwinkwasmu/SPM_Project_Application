@@ -180,8 +180,8 @@ class Enrolment(db.Model):
         'polymorphic_identity': 'enrolment'
     }
 
-    def __init__(self, cousreId, classId, learnerId, totalNumSections, sectionsCompleted = 0, completedClass = False):
-        self.courseId = cousreId
+    def __init__(self, courseId, classId, learnerId, totalNumSections, sectionsCompleted = 0, completedClass = False):
+        self.courseId = courseId
         self.classId = classId
         self.learnerId = learnerId
         self.sectionsCompleted = sectionsCompleted
