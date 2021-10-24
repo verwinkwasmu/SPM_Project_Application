@@ -26,19 +26,25 @@
                 <h4>{{ course.courseName }}</h4>
                 Prerequisite Courses:
                 <ul v-if="course.prerequisites == null">
-                    <b>No Prerequisites</b>
+                  <b>No Prerequisites</b>
                 </ul>
                 <ul v-else>
-                    <li>{{course.prerequisites}}</li>
+                  <li>{{ course.prerequisites }}</li>
                 </ul>
                 <h4>Maximum Class Size:</h4>
                 <p>{{ myClass.classSize }}</p>
+                <br />
+                <h4>Current Class Size:</h4>
+                <p>{{ learners.length }}</p>
                 <br />
                 <h4>Period of Enrollment:</h4>
                 <p>{{ myClass.enrolmentPeriod }}</p>
                 <br />
                 <h4>Period of Class:</h4>
-                <p>{{ myClass.startTime}}, {{myClass.startDate}} to {{myClass.endTime}}, {{myClass.endDate}}</p>
+                <p>
+                  {{ myClass.startTime }}, {{ myClass.startDate }} to
+                  {{ myClass.endTime }}, {{ myClass.endDate }}
+                </p>
                 <br />
                 <h4>Course Description:</h4>
                 <p>
@@ -57,7 +63,7 @@
                   :value="trainer"
                   :key="trainer.userId"
                 >
-                  {{ trainer.userName }}
+                  {{ trainer.employeeName }}
                 </option>
               </b-select>
               <br />
@@ -94,34 +100,34 @@
               </div>
             </div>
 
-            <!--<section id="team" class="team section-bg">-->
-            <!-- <b-tabs>
-              <b-tab-item label="Table">
-                <b-table
-                  :data="data"
-                  :columns="columns"
-                  :checked-rows.sync="checkedRows"
-                  :is-row-checkable="row"
-                  checkable
-                  :checkbox-position="checkboxPosition"
-                > -->
-            <!-- <template #bottom-left>
-                                                <b>Total checked</b>: {{ checkedRows.length }}
-                                            </template> -->
-            <!-- </b-table>
-              </b-tab-item>
+            <section id="team" class="team section-bg">
+              <div>
+              <h4>Current Learners enrolled into this class:</h4>
 
-              <div class="remove">
-                <a href="EditClass" class="remove-btn">Remove</a>
-              </div> -->
-            <!-- Link to DB to refresh page with updated list-->
-
-            <!-- <b-tab-item label="Checked rows">
-                                        <pre>{{ checkedRows }}</pre>
-                                    </b-tab-item> -->
-            <!-- </b-tabs> -->
-            <!-- </div> -->
-            <!--</section>-->
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Learner Id</th>
+                      <th scope="col">Learner Name</th>
+                      <th scope="col">Remove?</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="learner in learners" :key="learner.learnerId">
+                      <td>{{ learner.learnerId }}</td>
+                      <td>{{ learner.learnerName }}</td>
+                      <td>
+                          <a
+                            class="remove-btn"
+                            @click="removeLearner(learner.learnerId)"
+                            >Remove</a
+                          >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
           </div>
         </div>
       </div>
@@ -137,6 +143,7 @@ export default {
     course: {},
     myClass: {},
     trainers: [],
+    learners: [],
     error: null,
     message: "",
     selectedTrainer: "",
@@ -145,28 +152,30 @@ export default {
     const apiUrl1 = `http://localhost:5002/getCourse/${this.$route.query.courseId}`;
     const apiUrl2 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
     const apiUrl3 = `http://localhost:5001/getTrainers`;
-
+    const apiUrl4 = `http://localhost:5002/enrolment/${this.$route.query.classId}`;
     const requestOne = axios.get(apiUrl1);
     const requestTwo = axios.get(apiUrl2);
     const requestThree = axios.get(apiUrl3);
+    const requestFour = axios.get(apiUrl4);
 
     axios
-      .all([requestOne, requestTwo, requestThree])
+      .all([requestOne, requestTwo, requestThree, requestFour])
       .then(
         axios.spread((...responses) => {
           const responseOne = responses[0];
           const responseTwo = responses[1];
-          const responesThree = responses[2];
+          const responseThree = responses[2];
+          const responseFour = responses[3];
 
           this.course = responseOne.data;
           this.myClass = responseTwo.data;
-          this.trainers = responesThree.data.data;
-          console.log(this.myClass);
+          this.trainers = responseThree.data.data;
+          this.learners = responseFour.data.data;
         })
       )
       .catch((errors) => {
         // react on errors.
-        console.log(errors);;
+        console.log(errors);
       });
   },
   methods: {
@@ -183,7 +192,6 @@ export default {
 
       try {
         let response = await axios.put(apiUrl, trainerData);
-        console.log(response);
         if (response.status == 200) {
           this.data = response.data;
           this.error = false;
@@ -196,6 +204,26 @@ export default {
         console.log(err);
         this.error = true;
         this.message = err;
+      }
+    },
+    async removeLearner(learnerId) {
+      alert(learnerId);
+      const apiUrl = `http://localhost:5002/removeLearner`
+      const learnerData = {
+        classId: this.$route.query.classId,
+        learnerId: learnerId
+      }
+      try {
+        let response = await axios.delete(apiUrl, {data: learnerData});
+        if (response.status == 200) {
+          alert(response.data.message)
+          window.location.reload()
+        } else {
+          alert("Please Try again!")
+        }
+      } catch (err) {
+        console.log(err);
+        alert(err)
       }
     },
   },

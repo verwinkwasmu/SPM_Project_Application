@@ -175,8 +175,9 @@ def getLearnersInClass(classId):
     
     if not enrolments:
         return jsonify({
-            "message": "No learners found."
-        }), 404
+            "message": "No learners found.",
+            "data" : []
+        }), 200
     return jsonify(
         {
             "data": enrolment_list_dic
