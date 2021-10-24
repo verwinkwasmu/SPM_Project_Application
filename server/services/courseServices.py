@@ -149,7 +149,7 @@ def getClasses(courseId):
 @app.route("/enrolment/<string:classId>", methods=['GET'])
 def getLearnersInClass(classId):
 
-    class_existence = Enrolment.query.filter(Enrolment.classId==classId).all()
+    class_existence = Class.query.filter(Class.classId==classId).all()
     
     # check if class exists 
     if not class_existence:
@@ -173,7 +173,7 @@ def getLearnersInClass(classId):
 @app.route("/enrolment/number/<string:classId>", methods=['GET'])
 def getNumberOfLearnersInClass(classId):
 
-    class_existence = Enrolment.query.filter(Enrolment.classId==classId).all()
+    class_existence = Class.query.filter(Class.classId==classId).all()
     
     # check if class exists 
     if not class_existence:
@@ -188,6 +188,43 @@ def getNumberOfLearnersInClass(classId):
             "data": num_enrolments
         }
     ), 200
+
+# get learnerId of qualified learners to be enrolled into a class
+@app.route("/enrolment/qualifiedlearners/<string:classId>", methods=['GET'])
+def getQualifiedLearnersOfClass(classId):
+
+    class_existence = Class.query.filter(Class.classId==classId).first()
+    
+    # check if class exists 
+    if not class_existence:
+        return jsonify({
+            "message": "No class found."    
+        }), 404
+
+    #create list of userid of those who are already enrolled
+    enrolments = Enrolment.query.filter(Enrolment.classId==classId).all()
+    enrolment_list = []
+    for enrolment in enrolments:
+        enrolment_list.append(enrolment.to_dict()['learnerId'])
+
+    #create list of userid of those who are not enrolled into class
+    intermediate_qualified_learners = Learner.query.filter(Learner.userId.not_in(enrolment_list))
+    intermediate_qualified_learnerIds = []
+    for intermediate_qualified_learner in intermediate_qualified_learners:
+        intermediate_qualified_learnerIds.append(intermediate_qualified_learner.to_dict()['userId'])
+
+    #get prequisite course
+    course_id = class_existence.to_dict()['courseId']
+    this_course = Course.query.filter(Course.courseId==course_id).first()
+    pre_requisite = this_course.to_dict()['prerequisites']
+
+    qualified_learners = Enrolment.query.filter(Enrolment.learnerId.in_(intermediate_qualified_learnerIds), Enrolment.courseId==pre_requisite, Enrolment.completedClass==True).all()
+
+    return jsonify(
+    {
+        "data": [qualified_learner.to_dict()['learnerId'] for qualified_learner in qualified_learners]
+    }
+)   , 200
 
 #enrol learners into class
 @app.route("/enrolment", methods=['POST'])
