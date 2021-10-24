@@ -16,22 +16,28 @@ class User(db.Model):
     __tablename__ = 'user'
 
     userId = db.Column(db.Integer, primary_key=True)
+    employeeName = db.Column(db.String(50))
     userName = db.Column(db.String(50))
     email = db.Column(db.String(50))
     password = db.Column(db.String(120))
     userType = db.Column(db.String(50))
+    designation = db.Column(db.String(50))
+    department = db.Column(db.String(50))
     
 
     __mapper_args__ = {
         'polymorphic_identity': 'user'
     }
 
-    def __init__(self, userId, userName, email, password, userType):
+    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
         self.userId = userId
+        self.employeeName = employeeName
         self.userName = userName
         self.email = email
         self.password = password
         self.userType = userType
+        self.designation = designation
+        self.department = department
 
     def to_dict(self):
         """
@@ -58,8 +64,8 @@ class Learner(User):
         'polymorphic_identity': 'learner',
     }
 
-    def __init__(self, userId, userName, email, password, userType):
-        super().__init__(userId, userName, email, password, userType)
+    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
+        super().__init__(userId, employeeName, userName, email, password, userType, designation, department)
 
 class Trainer(User):
     __tablename__ = 'trainer'
@@ -70,8 +76,8 @@ class Trainer(User):
         'polymorphic_identity': 'trainer',
     }
 
-    def __init__(self, userId, userName, email, password, userType):
-        super().__init__(userId, userName, email, password, userType)
+    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
+        super().__init__(userId, employeeName, userName, email, password, userType, designation, department)
 
 class Hr(User):
     __tablename__ = 'hr'
@@ -82,8 +88,8 @@ class Hr(User):
         'polymorphic_identity': 'hr',
     }
 
-    def __init__(self, userId, userName, email, password, userType):
-        super().__init__(userId, userName, email, password, userType)
+    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
+        super().__init__(userId, employeeName, userName, email, password, userType, designation, department)
 
 class Course(db.Model):
     __tablename__ = 'course'
