@@ -18,8 +18,8 @@ CORS(app)
 def create_trainer():
     data = request.get_json()
     if not all(key in data.keys() for
-               key in ('userName', 'email',
-                       'password', 'userType')):
+               key in ('employeeName', 'userName', 'email',
+                       'password', 'userType', 'designation', 'department')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -32,11 +32,11 @@ def create_trainer():
         }), 404
     
     if data['userType'] == 'Trainer':
-        new_user = Trainer(email=data['email'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'])
+        new_user = Trainer(email=data['email'], employeeName=data['employeeName'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'], designation=data['designation'], department=data['department'])
     elif data['userType'] == 'Learner':
-        new_user = Learner(email=data['email'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'])
+        new_user = Learner(email=data['email'], employeeName=data['employeeName'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'], designation=data['designation'], department=data['department'])
     elif data['userType'] == 'HR':
-        new_user = Hr(email=data['email'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'])
+        new_user = Hr(email=data['email'], employeeName=data['employeeName'], userName=data['userName'], password=generate_password_hash(data['password'], method="sha256"), userType=data['userType'], designation=data['designation'], department=data['department'])
     print(new_user.to_dict())
     try:
         db.session.add(new_user)

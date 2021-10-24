@@ -13,15 +13,19 @@ SET time_zone = "+00:00";
 -- Table structure for table `user`
 
 CREATE TABLE `user` (
-  `userId` int(11) NOT NULL,
+  `userId` int NOT NULL AUTO_INCREMENT,
+  `employeeName` varchar(50) DEFAULT NULL,
   `userName` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `password` varchar(120) DEFAULT NULL,
-  `userType` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `userType` varchar(50) DEFAULT NULL,
+  `Designation` varchar(50) DEFAULT NULL,
+  `Department` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8
 -- --------------------------------------------------------
 
-INSERT INTO `user` (`userId`, `userName`, `email`, `password`, `userType`) VALUES
+INSERT INTO `user` (`userId`, `employeeName`, `email`, `password`, `userType`) VALUES
 (1, 'Phris Coskitt', 'phris@gmail.com', 'dummy', 'Learner'),
 (2, 'Hhris Coskitt', 'hhris@gmail.com', 'dummy', 'Learner'),
 (3, 'Lhris Coskitt', 'lhris@gmail.com', 'dummy', 'Trainer'),

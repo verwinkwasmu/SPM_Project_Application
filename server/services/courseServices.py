@@ -145,7 +145,7 @@ def getClasses(courseId):
         }
     ), 200 
 
-# get learnerId enrolled in a class 
+# get learnerId + learnerName enrolled in a class 
 @app.route("/enrolment/<string:classId>", methods=['GET'])
 def getLearnersInClass(classId):
 
@@ -159,13 +159,27 @@ def getLearnersInClass(classId):
     
     enrolments = Enrolment.query.filter((Enrolment.classId==classId) & (Enrolment.completedClass==False)).all()
 
+    learner_name_list = []
+    for enrolment in enrolments:
+        learner_object = Learner.query.filter(Learner.userId==enrolment.to_dict()['learnerId']).first()
+        learner_name_list.append(learner_object.to_dict()['employeeName'])
+
+    enrolment_list_dic = []
+    n = 0
+    for enrolment in enrolments:
+        learner_dict = {}
+        learner_dict['learnerId'] = enrolment.to_dict()['learnerId']
+        learner_dict['learnerName'] = learner_name_list[n]
+        enrolment_list_dic.append(learner_dict)
+        n+=1
+    
     if not enrolments:
         return jsonify({
             "message": "No learners found."
         }), 404
     return jsonify(
         {
-            "data": [enrolment.to_dict()['learnerId'] for enrolment in enrolments]
+            "data": enrolment_list_dic
         }
     ), 200
 
@@ -189,7 +203,7 @@ def getNumberOfLearnersInClass(classId):
         }
     ), 200
 
-# get learnerId of qualified learners to be enrolled into a class
+# get learnerId + learnerName of qualified learners to be enrolled into a class
 @app.route("/enrolment/qualifiedlearners/<string:classId>", methods=['GET'])
 def getQualifiedLearnersOfClass(classId):
 
@@ -208,24 +222,42 @@ def getQualifiedLearnersOfClass(classId):
         enrolment_list.append(enrolment.to_dict()['learnerId'])
 
     #create list of userid of those who are not enrolled into class
-    intermediate_qualified_learners = Learner.query.filter(Learner.userId.not_in(enrolment_list))
+    learners_not_enrolled = Learner.query.filter(Learner.userId.not_in(enrolment_list)).all()
     intermediate_qualified_learnerIds = []
-    for intermediate_qualified_learner in intermediate_qualified_learners:
-        intermediate_qualified_learnerIds.append(intermediate_qualified_learner.to_dict()['userId'])
+    for learner_not_enrolled in learners_not_enrolled:
+        intermediate_qualified_learnerIds.append(learner_not_enrolled.to_dict()['userId'])
 
     #get prequisite course
     course_id = class_existence.to_dict()['courseId']
     this_course = Course.query.filter(Course.courseId==course_id).first()
     pre_requisite = this_course.to_dict()['prerequisites']
 
-    qualified_learners = Enrolment.query.filter(Enrolment.learnerId.in_(intermediate_qualified_learnerIds), Enrolment.courseId==pre_requisite, Enrolment.completedClass==True).all()
+    if pre_requisite != "":
+        qualified_enrolment_objects = Enrolment.query.filter(Enrolment.learnerId.in_(intermediate_qualified_learnerIds), Enrolment.courseId==pre_requisite, Enrolment.completedClass==True).all()
 
+        qualified_learnerIds = []
+        for qualified_enrolment_object in qualified_enrolment_objects:
+            qualified_learnerIds.append(qualified_enrolment_object.to_dict()['learnerId'])
+
+        qualified_learner_objects = Learner.query.filter(Learner.userId.in_(qualified_learnerIds)).all()
+
+    else:
+        qualified_learner_objects = learners_not_enrolled
+
+    #create list of dictionary for qualified_learners
+    qualified_learners = []
+    for qualified_learner_object in qualified_learner_objects:
+        learner_dict = {}
+        learner_dict['learnerId'] = qualified_learner_object.to_dict()['userId']
+        learner_dict['learnerName'] = qualified_learner_object.to_dict()['employeeName']
+        qualified_learners.append(learner_dict)
+    
     return jsonify(
     {
-        "data": [qualified_learner.to_dict()['learnerId'] for qualified_learner in qualified_learners]
+        "data": qualified_learners
     }
 )   , 200
-
+    
 #enrol learners into class
 @app.route("/enrolment", methods=['POST'])
 def create_enrolment():
