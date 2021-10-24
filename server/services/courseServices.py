@@ -263,7 +263,7 @@ def getQualifiedLearnersOfClass(classId):
 def create_enrolment():
     data = request.get_json()
     if not all(key in data.keys() for
-               key in ('classId', 'learnerId')):
+               key in ('classId', 'learnerIds')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -277,37 +277,51 @@ def create_enrolment():
         }), 501
 
     # (2): Validate learner
-    learner = Learner.query.filter_by(userId=data['learnerId']).first()
+    learner_Ids = data['learnerIds']
+    enrolment_objects = []
+    enrolment_objects2 = []
+    for learner_Id in learner_Ids: 
+        learner = Learner.query.filter_by(userId=learner_Id).first()
+        if not learner:
+            return jsonify({
+                "message": "There is an invalid learner."
+            }), 502
 
-    if not learner:
-        return jsonify({
-            "message": "Learner not valid."
-        }), 502
+        # (3): Create enrolment record
+        enrolments = Enrolment.query.filter(
+                                        Enrolment.classId == data["classId"], 
+                                        Enrolment.learnerId == learner_Id
+                                    ).first()
 
-    # (3): Create enrolment record
-    enrolments = Enrolment.query.filter(
-                                    Enrolment.classId == data["classId"], 
-                                    Enrolment.learnerId == data['learnerId']
-                                ).first()
-
-    if enrolments:
-        return jsonify({
-            "message": "Enrolment already added."
-        }), 503
+        if enrolments:
+            return jsonify({
+                "message": "Enrolment already added."
+            }), 503
     
-    # Compute total number of Sections in the class
-    numSections = Section.query.filter(Section.classId == data["classId"]).count()
-    enrolment = Enrolment(
-        classId = data['classId'], 
-        learnerId = data['learnerId'],
-        totalNumSections = numSections
-    )
+        # Compute total number of Sections in the class
+        numSections = Section.query.filter(Section.classId == data["classId"]).count()
+        class_object = Class.query.filter(Class.classId == data["classId"]).first()
+        course_Id = class_object.to_dict()['courseId']
+        enrolment = Enrolment(
+            courseId = course_Id,
+            classId = data['classId'], 
+            learnerId = learner_Id,
+            totalNumSections = numSections
+        )
+        enrolment_objects.append(enrolment)
+        enrolment_objects2.append(enrolment.to_dict())
 
+    # return jsonify({
+    #         "data": enrolment_objects
+    #     }), 201
+    
     # (4): Commit to DB
     try:
-        db.session.add(enrolment)
+        db.session.add_all(enrolment_objects)
         db.session.commit()
-        return jsonify(enrolment.to_dict()), 201
+        return jsonify({
+            "data": enrolment_objects2
+        })
 
     except Exception:
         return jsonify({
