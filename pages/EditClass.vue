@@ -102,7 +102,7 @@
 
             <section id="team" class="team section-bg">
               <div>
-              <h4>Current Learners enrolled into this class:</h4>
+                <h4>Current Learners enrolled into this class:</h4>
 
                 <table class="table table-striped">
                   <thead>
@@ -117,17 +117,42 @@
                       <td>{{ learner.learnerId }}</td>
                       <td>{{ learner.learnerName }}</td>
                       <td>
-                          <a
-                            class="remove-btn"
-                            @click="removeLearner(learner.learnerId)"
-                            >Remove</a
-                          >
+                        <a
+                          class="remove-btn"
+                          @click="removeLearner(learner.learnerId)"
+                          >Remove</a
+                        >
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </section>
+            <div class="buttongroup">
+              <div class="classCreate">
+                <router-link class="classCreate-btn" :to="{
+                    path: '/AddEngineer',
+                    query: {
+                      classId: this.$route.query.classId,
+                    },
+                  }"
+                  >Add Learners</router-link
+                >
+              </div>
+              <div class="cancel">
+                <router-link
+                  class="cancel-btn"
+                  :to="{
+                    path: '/ViewClasses',
+                    query: {
+                      courseId: this.$route.query.courseId,
+                      courseName: this.$route.query.courseName,
+                    },
+                  }"
+                  >Cancel</router-link
+                >
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -208,22 +233,22 @@ export default {
     },
     async removeLearner(learnerId) {
       alert(learnerId);
-      const apiUrl = `http://localhost:5002/removeLearner`
+      const apiUrl = `http://localhost:5002/removeLearner`;
       const learnerData = {
         classId: this.$route.query.classId,
-        learnerId: learnerId
-      }
+        learnerId: learnerId,
+      };
       try {
-        let response = await axios.delete(apiUrl, {data: learnerData});
+        let response = await axios.delete(apiUrl, { data: learnerData });
         if (response.status == 200) {
-          alert(response.data.message)
-          window.location.reload()
+          alert(response.data.message);
+          window.location.reload();
         } else {
-          alert("Please Try again!")
+          alert("Please Try again!");
         }
       } catch (err) {
         console.log(err);
-        alert(err)
+        alert(err);
       }
     },
   },
