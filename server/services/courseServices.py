@@ -187,7 +187,6 @@ def getLearnersInClass(classId):
 # get number of learners enrolled in a class 
 @app.route("/enrolment/number/<string:classId>", methods=['GET'])
 def getNumberOfLearnersInClass(classId):
-
     class_existence = Class.query.filter(Class.classId==classId).all()
     
     # check if class exists 
@@ -207,38 +206,36 @@ def getNumberOfLearnersInClass(classId):
 # get learnerId + learnerName of qualified learners to be enrolled into a class
 @app.route("/enrolment/qualifiedlearners/<string:classId>", methods=['GET'])
 def getQualifiedLearnersOfClass(classId):
-
     class_existence = Class.query.filter(Class.classId==classId).first()
-    
-    # check if class exists 
+    # check if class exists     
     if not class_existence:
         return jsonify({
             "message": "No class found."    
         }), 404
+    courseId = class_existence.courseId
 
     #create list of userid of those who are already enrolled
-    enrolments = Enrolment.query.filter(Enrolment.classId==classId).all()
+    enrolments = Enrolment.query.filter(Enrolment.courseId==courseId).all()
     enrolment_list = []
     for enrolment in enrolments:
-        enrolment_list.append(enrolment.to_dict()['learnerId'])
-
+        enrolment_list.append(enrolment.learnerId)
     #create list of userid of those who are not enrolled into class
-    learners_not_enrolled = Learner.query.filter(Learner.userId.not_in(enrolment_list)).all()
+    learners_not_enrolled = Learner.query.filter(Learner.userId.notin_(enrolment_list)).all()
     intermediate_qualified_learnerIds = []
     for learner_not_enrolled in learners_not_enrolled:
-        intermediate_qualified_learnerIds.append(learner_not_enrolled.to_dict()['userId'])
+        intermediate_qualified_learnerIds.append(learner_not_enrolled.userId)
 
     #get prequisite course
-    course_id = class_existence.to_dict()['courseId']
+    course_id = class_existence.courseId
     this_course = Course.query.filter(Course.courseId==course_id).first()
-    pre_requisite = this_course.to_dict()['prerequisites']
+    pre_requisite = this_course.prerequisites
 
     if pre_requisite != "":
         qualified_enrolment_objects = Enrolment.query.filter(Enrolment.learnerId.in_(intermediate_qualified_learnerIds), Enrolment.courseId==pre_requisite, Enrolment.completedClass==True).all()
 
         qualified_learnerIds = []
         for qualified_enrolment_object in qualified_enrolment_objects:
-            qualified_learnerIds.append(qualified_enrolment_object.to_dict()['learnerId'])
+            qualified_learnerIds.append(qualified_enrolment_object.learnerId)
 
         qualified_learner_objects = Learner.query.filter(Learner.userId.in_(qualified_learnerIds)).all()
 
@@ -249,8 +246,8 @@ def getQualifiedLearnersOfClass(classId):
     qualified_learners = []
     for qualified_learner_object in qualified_learner_objects:
         learner_dict = {}
-        learner_dict['learnerId'] = qualified_learner_object.to_dict()['userId']
-        learner_dict['learnerName'] = qualified_learner_object.to_dict()['employeeName']
+        learner_dict['learnerId'] = qualified_learner_object.userId
+        learner_dict['learnerName'] = qualified_learner_object.employeeName
         qualified_learners.append(learner_dict)
     
     return jsonify(
@@ -322,7 +319,7 @@ def create_enrolment():
         db.session.commit()
         return jsonify({
             "data": enrolment_objects2
-        })
+        }), 201
 
     except Exception:
         return jsonify({
