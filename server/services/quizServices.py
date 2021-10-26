@@ -7,8 +7,8 @@ from sqlalchemy.sql import select
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-                                           'pool_recycle': 280}
+# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+#                                            'pool_recycle': 280}
 db = SQLAlchemy(app)
 
 CORS(app)
@@ -100,7 +100,7 @@ def getQuestion(classId, sectionId, quizId, questionId):
                                 Question.questionId == questionId
                             ).first()
     
-    # check if class exists 
+    # check if question exists 
     if not question:
         return jsonify({
             "message": "No question found."    
@@ -108,14 +108,14 @@ def getQuestion(classId, sectionId, quizId, questionId):
 
     return jsonify(question.to_dict()), 200
 
-# create question for a quiz
+# create a question for a quiz
 @app.route("/createQuestion", methods=['POST'])
 def createQuestion():
     # retrieve data
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('sectionId', 'classId', 'quizId', 'questionId', 'question', 'option', 'answer')):
+               key in ('sectionId', 'classId', 'quizId', 'questionId', 'question', 'option', 'answer', 'explanation')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -141,7 +141,8 @@ def createQuestion():
             questionId = data['questionId'],
             question = data['question'],
             option = data['option'],
-            answer = data['answer']
+            answer = data['answer'],
+            explanation = data['explanation']
         )
     print(question.to_dict())
 
@@ -189,6 +190,8 @@ def updateQuestion():
         question.option = data['option']
     if 'answer' in data:
         question.answer = data['answer']
+    if 'explanation' in data:
+        question.explanation = data['explanation']
         
     # (4): Commit to DB
     try:

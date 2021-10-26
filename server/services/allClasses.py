@@ -225,6 +225,7 @@ class Section(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
+
 class Quiz(db.Model):
     __tablename__ = 'quiz'
 
@@ -263,13 +264,14 @@ class Question(db.Model):
     question = db.Column(db.String(500))
     option = db.Column(db.String(500))
     answer = db.Column(db.String(500))
+    explanation = db.Column(db.String(500))
 
 
     __mapper_args__ = {
         'polymorphic_identity': 'question'
     }
 
-    def __init__(self, sectionId, classId, quizId, questionId, question, option, answer):
+    def __init__(self, sectionId, classId, quizId, questionId, question, option, answer, explanation):
         self.sectionId = sectionId
         self.classId = classId
         self.quizId = quizId
@@ -277,8 +279,9 @@ class Question(db.Model):
         self.question = question
         self.option = option
         self.answer = answer
+        self.explanation = explanation
 
-    
+
     def to_dict(self):
         """
         'to_dict' converts the object into a dictionary,
