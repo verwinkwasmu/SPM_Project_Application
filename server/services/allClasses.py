@@ -231,15 +231,17 @@ class Quiz(db.Model):
     quizId = db.Column(db.String(50), primary_key=True)
     sectionId = db.Column(db.String(50), db.ForeignKey('section.sectionId'), primary_key=True)
     classId = db.Column(db.String(50), db.ForeignKey('section.classId'), primary_key=True)
+    time = db.Column(db.Integer)
 
     __mapper_args__ = {
         'polymorphic_identity': 'quiz'
     }
 
-    def __init__(self, classId, sectionId, quizId):
+    def __init__(self, classId, sectionId, quizId, time):
         self.classId = classId
         self.sectionId = sectionId
         self.quizId = quizId
+        self.time = time
     
     def to_dict(self):
         """
@@ -251,6 +253,9 @@ class Quiz(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
+        
+    def get_time(self):
+        return self.time
 
 
 class Question(db.Model):
