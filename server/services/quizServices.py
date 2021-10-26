@@ -33,6 +33,11 @@ def getAllQuestions(classId, sectionId, quizId):
                                         Question.classId == classId,
                                         Question.quizId == quizId
                                     ).all()
+    quiz = Quiz.query.filter(
+                            Quiz.sectionId == sectionId, 
+                            Quiz.classId == classId,
+                            Quiz.quizId == quizId
+                        ).first()
 
     if not questions:
         return jsonify({
@@ -41,7 +46,8 @@ def getAllQuestions(classId, sectionId, quizId):
 
     return jsonify(
         {
-            "data": [question.to_dict() for question in questions]
+            "questions": [question.to_dict() for question in questions],
+            "time": quiz.get_time()
         }
     ), 200
 
@@ -52,7 +58,7 @@ def createQuiz():
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('sectionId', 'classId', 'quizId')):
+               key in ('sectionId', 'classId', 'quizId', 'time')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -61,7 +67,8 @@ def createQuiz():
     checkQuiz = Quiz.query.filter(
                             Quiz.sectionId == data["sectionId"], 
                             Quiz.classId == data['classId'],
-                            Quiz.quizId == data['quizId']
+                            Quiz.quizId == data['quizId'],
+                            Quiz.time == data['time'],
                         ).first()
 
 
@@ -74,7 +81,8 @@ def createQuiz():
     quiz = Quiz(
             sectionId = data['sectionId'],
             classId = data['classId'],
-            quizId = data['quizId']
+            quizId = data['quizId'],
+            time = data['time']
         )
 
     # (4): Commit to DB
