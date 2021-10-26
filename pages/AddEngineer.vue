@@ -54,7 +54,7 @@ export default {
     };
   },
   async mounted() {
-    const apiUrl = `http://localhost:5002/enrolment/qualifiedlearners/${this.$route.query.classId}`;
+    const apiUrl = `http://localhost:5004/enrolment/qualifiedlearners/${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
       this.data = response.data.data;
@@ -68,7 +68,7 @@ export default {
   methods: {
     async enrolLearners(event) {
       event.preventDefault();
-      const apiUrl = `http://localhost:5002/enrolment`;
+      const apiUrl = `http://localhost:5004/enrolment`;
       const learnerIds = [];
       const checkedRows = this.checkedRows;
 
