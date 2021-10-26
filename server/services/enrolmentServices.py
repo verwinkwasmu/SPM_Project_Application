@@ -7,8 +7,8 @@ from sqlalchemy.sql import select
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-                                           'pool_recycle': 280}
+# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+#                                            'pool_recycle': 280}
 db = SQLAlchemy(app)
 
 CORS(app)
