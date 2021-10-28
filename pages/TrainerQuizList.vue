@@ -10,6 +10,9 @@
                     <div class="TrainerCreateQuiz">
                         <a href="TrainerCreateQuiz" class="TrainerCreateQuiz-btn">Create Quiz</a>
                     </div>
+                    <div class="TrainerCreateQuiz">
+                        <a href="TrainerCreateQuiz" class="TrainerCreateQuiz-btn">Create Final Quiz</a>
+                    </div>
 
                 </div>
                    

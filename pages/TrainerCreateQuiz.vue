@@ -4,136 +4,120 @@
         <section id="team" class="team section-bg">
             <div class="" data-aos="fade-up">
                 <div class="section-title">
-                  
                     <h2>Fundamentals of Xerox WorkCentre 7845 (Quiz)</h2>
+                    <h1>Quiz questions</h1>
+                </div>
 
-                    <div class="row">
-                        <div class="col-lg-8" id="TrainerViewCourseDetails" style="padding-bottom: 40px">                                        
-                                <div class="member-info" id="question">
-                                    <div>
-                                        <div class="float-container">
-    
-                                            <div id="app" class="">
-                                                <h3>Create your True/False or Multiple-Choice Question here</h3>
-                                                <div id="div2">
-                                                    <label for="question">Type your question: </label>
-                                                    <textarea v-model="question" id="question" cols="80" rows="1"></textarea>
-                                                </div>
-                                                
-                                                <br>
-                                                    <div id="div1">
-                                                    <label for="option1">Option 1: </label>
-                                                    <input type="text" v-model="option1" />
-                                                    </div>
-                                                    <br>
+                <div id="app" class="container">
+                    <form>
+                        
+                        <div class="work-questions">
 
-                                                    <div id="div1">
-                                                    <label for="option2">Option 2: </label>
-                                                    <input type="text" v-model="option2">
-                                                    </div>
-                                                    <br>
+                            <div class="form-row" v-for="(question, index) in questions" :key="index">
+                            <div class="form-group col-md-10">
+                                <label>Question: </label>
+                                <input v-model="question.fullquestion" :name="`questions[${index}][fullquestion]`" type="text" class="form-control" placeholder="Enter your question here">
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label>Option 1: </label>
+                                <input v-model="question.option1" :name="`questions[${index}][option1]`" type="text" class="form-control" placeholder="Option 1">
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label>Option 2: </label>
+                                <input v-model="question.option2" :name="`questions[${index}][option2]`" type="text" class="form-control" placeholder="Option 2">
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label>Option 3: </label>
+                                <input v-model="question.option3" :name="`questions[${index}][option3]`" type="text" class="form-control" placeholder="Option 3">
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label>Option 4: </label>
+                                <input v-model="question.option4" :name="`questions[${index}][option4]`" type="text" class="form-control" placeholder="Option 4">
+                            </div>
 
-                                                    <div id="div1">
-                                                    <label for="option1">Option 3: </label>
-                                                    <input type="text" class="tb" v-model="option3" />
-                                                    </div>
-                                                    <br>
+                            <div class="form-group col-md-6">
+                                <label>Answer: </label>
+                                <b-select v-model="question.answer">
+                                  <option disabled value="">Please select one</option>
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                    <option>Option 4</option>
+                                </b-select>
+                            </div>
 
-                                                    <div id="div1">
-                                                    <label for="option2">Option 4: </label>
-                                                    <input type="text" v-model="option4">
-                                                    </div>
-                                                    <br>
+                            <div class="form-group col-md-6">
+                                <label>Timer for quiz (in minutes): </label>
+                                <input type='number' min=1 max=60 class="form-control">
+                            </div>
 
 
-                                                    <div id="div3">
-                                                    <label for="correctOption">Answer: </label>
-                                                    <input type="text" v-model="correctOption">
-                                                    </div>
-                                                    <br>
-                                                    
-                                                <hr>
-
-                                                <h3>Preview Question</h3>
-                                                <!-- <question :question="question" :options="options"></question> -->
-                                                <h5>{{question}}</h5>
-                                                <label for="option1"><input name="answers" type="radio" :val="option1"> {{option1}}</label>
-                                                <br>
-                                                <label for="option2"><input name="answers" type="radio" :val="option2"> {{option2}}</label>
-                                                <br>
-                                                <label for="option3"><input name="answers" type="radio" :val="option1"> {{option3}}</label>
-                                                <br>
-                                                <label for="option4"><input name="answers" type="radio" :val="option2"> {{option4}}</label>
-                                                <br>
-                                                
-                                                <br>
-                                                <br>
-
-                                                    
-                                                <div>
-                                                    <label for="graded"><input name="graded" type="radio" value="Yes" v-model="graded"> Select if the quiz is graded </label> 
-                                                </div>
-                                                <br>
-                                                    
-
-                                                    <label for="time">Enter duration of the quiz (in minutes): </label>
-                                                    <input type="number" min= "1" v-model="time">
-
-                                            </div>
-                                            
-                                        </div>                                    
-                                    </div>                                                                                                                            
-                                </div>
+                            <div class="form-group col-md-12">
+                                <hr>
+                            </div>
+                            
                             </div>
                         </div>
 
-  
-                    </div>
+                        <div class="form-group">
+                            <button @click="addquestion" type="button" class="btn btn-primary">Add Question</button>
+                        </div>
+                      
+                    </form>
                 </div>
-                
-                <div class="buttongroup">
+                  <div class="buttongroup">
                     <div class="TrainerCreateQuiz">
-                        <a href="" class="TrainerCreateQuiz-btn" @click="testing">Add Question</a>
+                        <button @click="submit" type="button" class="TrainerCreateQuiz-btn">Create Quiz</button>
                     </div>
 
-                    <div class="TrainerCancelQuiz">
-                        <a href="TrainerCancelQuiz" class="TrainerCancelQuiz-btn">Cancel</a>
+                    <div class="cancel">
+                        <a href="TrainerViewSection" class="cancel-btn">Cancel</a>
                     </div>
+
+                  </div>
                 </div>
-                   
-
         </section>
     </div>
 </template>
 
-
-
 <script>
-  export default {
-    data: () => ({
-        question: 'Your Question',
+
+export default {
+  name: "App",
+  
+  data: () => ({
+    questions: [
+      {
+        fullquestion: "",
+        option1: "",
+        option2: "",
+        option3: "",
+        option4: "",
+        answer: ""
+      },
+    ]
+  }),
+
+  methods: {
+    addquestion () {
+      this.questions.push({
+        fullquestion: '',
         option1: '',
         option2: '',
         option3: '',
         option4: '',
-        correctOption: '',
-        time: 1,
-        graded: '',
-    }),
-        
-    methods: {
-        testing: function(){
-            if (this.option1 != "" && this.option2 != ""){
-                console.log('yay')
-                console.log(this.option1)
-                console.log(this.option2)
-            }
-            else {
-                console.log('Please enter an option')
-            }
-        },
-    }
-  };
+        answer: ''
 
+      })
+    },
+
+    submit () {
+      const data = {
+        questions: this.questions
+      }
+      alert(JSON.stringify(data, null, 2))
+    }
+  }
+};
 </script>
 
