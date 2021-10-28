@@ -1,0 +1,89 @@
+version: "3.9" 
+services:
+
+    ###################################
+    # userServices: User Services
+    ###################################
+    userServices:
+        build: 
+            context: ./server/services/userServices
+            dockerfile: Dockerfile
+        # volumes:
+        # - ./userServices:/usr/src/app
+        image: weixiangtoh/user_services:spm
+        restart: always
+        environment:
+            # dbURL: mysql+mysqlconnector://root:passwd@host.docker.internal:3306/userServices
+            PYTHONUNBUFFERED: 1
+        ports:
+        - 5001:5001
+
+    ###################################
+    # courseServices: Course Services
+    ###################################
+    courseServices:
+        build: 
+            context: ./server/services/courseServices
+            dockerfile: Dockerfile
+        # volumes:
+        # - ./courseServices:/usr/src/app
+        image: weixiangtoh/course_services:spm
+        restart: always
+        environment:
+            # dbURL: mysql+mysqlconnector://root:passwd@host.docker.internal:3306/courseServices
+            PYTHONUNBUFFERED: 1
+        ports:
+        - 5002:5002
+
+    ###################################
+    # quizServices: Quiz Services
+    ###################################
+    quizServices:
+        build: 
+            context: ./server/services/quizServices
+            dockerfile: Dockerfile
+        # volumes:
+        # - ./quizServices:/usr/src/app
+        image: weixiangtoh/quiz_services:spm
+        restart: always
+        environment:
+            # dbURL: mysql+mysqlconnector://root:passwd@host.docker.internal:3306/quizServices
+            PYTHONUNBUFFERED: 1
+        ports:
+        - 5003:5003
+
+    ###################################
+    # enrolmentServices: Enrolment Services
+    ###################################
+    enrolmentServices:
+        build: 
+            context: ./server/services/enrolmentServices
+            dockerfile: Dockerfile
+        # volumes:
+        # - ./enrolmentServices:/usr/src/app
+        image: weixiangtoh/enrolment_services:spm
+        restart: always
+        environment:
+            # dbURL: mysql+mysqlconnector://root:passwd@host.docker.internal:3306/enrolmentServices
+            PYTHONUNBUFFERED: 1
+        ports:
+        - 5004:5004
+
+    ###################################
+    # s3Services: s3 Services
+    ###################################
+    # s3Services:
+    #     build: 
+    #         context: ./server/services/s3Services
+    #         dockerfile: Dockerfile
+    #     # volumes:
+    #     # - ./s3Services:/usr/src/app
+    #     image: weixiangtoh/s3_services:spm
+    #     restart: always
+    #     environment:
+    #         # dbURL: mysql+mysqlconnector://root:passwd@host.docker.internal:3306/s3Services
+    #         PYTHONUNBUFFERED: 1
+    #         # BUCKET: "spm-grp2-storage"
+    #         # S3_DOMAIN: "http://spm-grp2-storage.s3.amazonaws.com/"
+    #     ports:
+    #     - 5050:5050

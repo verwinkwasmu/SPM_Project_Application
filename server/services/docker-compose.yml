@@ -1,8 +1,0 @@
-version: "3.9" 
-services:
-  course_service:
-    build: ./courseServices
-    volumes:
-      - ./courseServices:/usr/src/app
-    ports:
-      - 5002:5002
