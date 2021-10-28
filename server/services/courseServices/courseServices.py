@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from allClasses import *
+from datetime import date
 # from sqlalchemy.sql import select
 
 app = Flask(__name__)
@@ -74,7 +75,7 @@ def createClass():
 
     # check if proper data is sent
     if not all(key in data.keys() for
-               key in ('classId', 'courseId', 'classSize', 'classTitle', 'startTime', 'endTime', 'startDate', 'endDate','enrolmentPeriod')):
+               key in ('classId', 'courseId', 'classSize', 'classTitle', 'startTime', 'endTime', 'startDate', 'endDate','enrolmentStartDate', 'enrolmentEndDate')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -87,7 +88,7 @@ def createClass():
             "message": "Class exists."
         }), 200
     
-    new_class = Class(classId=data['classId'], courseId=data['courseId'], classSize=data['classSize'], classTitle=data['classTitle'], startTime=data['startTime'], endTime=data['endTime'], startDate=data['startDate'], endDate=data['endDate'], enrolmentPeriod=data['enrolmentPeriod'], trainerAssigned=None, trainerName=None)
+    new_class = Class(classId=data['classId'], courseId=data['courseId'], classSize=data['classSize'], classTitle=data['classTitle'], startTime=data['startTime'], endTime=data['endTime'], startDate=data['startDate'], endDate=data['endDate'], enrolmentStartDate=data['enrolmentStartDate'], enrolmentEndDate=data['enrolmentEndDate'], trainerAssigned=None, trainerName=None)
 
     
     try:
@@ -293,6 +294,19 @@ def checkIfCurrentlyEnrolled(learnerId, courseId):
     if enrolment:
         return True
     return False
+
+# View classes available for LEARNER
+@app.route('/viewLearnerClasses')
+def getLearnerClasses():
+    courseId = request.args.get('courseId')
+    today = date.today()
+    current_date = today.strftime("%Y-%m-%d")
+
+    class_list = Class.query.filter(Class.courseId==courseId, current_date <= Class.enrolmentEndDate).all()
+
+    return jsonify({
+        "data": [_class.to_dict() for _class in class_list]
+    })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)

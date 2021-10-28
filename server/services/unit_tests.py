@@ -111,7 +111,8 @@ class TestClass(unittest.TestCase):
                     endTime = "13:00",
                     startDate = "2021-11-30",
                     endDate = "2021-12-30",
-                    enrolmentPeriod="2021-10-30 to 2021-11-29",
+                    enrolmentStartDate= "2021-10-30",
+                    enrolmentEndDate= "2021-11-29",
                     trainerAssigned=13,
                     trainerName="Sir Verwin"
                     )
@@ -125,7 +126,8 @@ class TestClass(unittest.TestCase):
                 "endTime" : "13:00",
                 "startDate" : "2021-11-30",
                 "endDate" : "2021-12-30",
-                "enrolmentPeriod":"2021-10-30 to 2021-11-29",
+                "enrolmentStartDate" : "2021-10-30",
+                "enrolmentEndDate" : "2021-11-29",
                 "trainerAssigned":13,
                 "trainerName":"Sir Verwin"
             }
