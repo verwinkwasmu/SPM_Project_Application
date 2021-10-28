@@ -188,6 +188,36 @@ def assignTrainerClass():
             "message": "Unable to commit to database."
         }), 503
 
+# get courses that a trainer is assigned to 
+@app.route("/getTrainerCourses/<string:trainerId>", methods=['GET'])
+def getTrainerCourses(trainerId):
+
+    trainer_existence = Trainer.query.filter(Trainer.userId==trainerId).all()
+    
+    # check if class exists 
+    if not trainer_existence:
+        return jsonify({
+            "message": "Trainer not found."    
+        }), 404
+
+    trainerClasses = Class.query.filter(Class.trainerAssigned==trainerId).all()
+
+    courseList = {}
+    for trainerClass in trainerClasses: 
+        if trainerClass.courseId not in courseList: 
+            trainerCourse = Course.query.filter(Course.courseId==trainerClass.courseId).first()
+            courseList[trainerClass.courseId] = trainerCourse.courseName
+    
+    if len(courseList) == 0:
+        return jsonify({
+            "message": "No course found.",
+            "data" : []
+        }), 200
+    return jsonify(
+        {
+            "data": courseList
+        }
+    ), 200
 
 # Create Section
 @app.route("/createSection", methods=['POST'])
