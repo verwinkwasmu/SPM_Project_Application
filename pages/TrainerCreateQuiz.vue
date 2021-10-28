@@ -48,7 +48,7 @@
 
                             <div class="form-group col-md-6">
                                 <label>Timer for quiz (in minutes): </label>
-                                <input type='number' min=1 max=60 class="form-control">
+                                <input type='number' v-model="question.quizTimer" min=1 max=60 class="form-control">
                             </div>
 
 
@@ -93,7 +93,9 @@ export default {
         option2: "",
         option3: "",
         option4: "",
-        answer: ""
+        answer: "",
+        quizTimer: ""
+        
       },
     ]
   }),
@@ -106,7 +108,8 @@ export default {
         option2: '',
         option3: '',
         option4: '',
-        answer: ''
+        answer: '',
+        quizTimer: ""
 
       })
     },
