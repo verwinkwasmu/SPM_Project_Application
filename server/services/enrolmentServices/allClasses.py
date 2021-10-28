@@ -2,7 +2,6 @@ from typing import ClassVar
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
@@ -19,7 +18,6 @@ class User(db.Model):
     employeeName = db.Column(db.String(50))
     userName = db.Column(db.String(50))
     email = db.Column(db.String(50))
-    password = db.Column(db.String(120))
     userType = db.Column(db.String(50))
     designation = db.Column(db.String(50))
     department = db.Column(db.String(50))
@@ -29,12 +27,11 @@ class User(db.Model):
         'polymorphic_identity': 'user'
     }
 
-    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
+    def __init__(self, userId, employeeName, userName, email, userType, designation, department):
         self.userId = userId
         self.employeeName = employeeName
         self.userName = userName
         self.email = email
-        self.password = password
         self.userType = userType
         self.designation = designation
         self.department = department
@@ -49,11 +46,6 @@ class User(db.Model):
         for column in columns:
             result[column] = getattr(self, column)
         return result
-    
-    def verify_password(self, password):
-        if check_password_hash(self.password, password):
-            return True
-        return False
 
 class Learner(User):
     __tablename__ = 'learner'
@@ -64,8 +56,8 @@ class Learner(User):
         'polymorphic_identity': 'learner',
     }
 
-    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
-        super().__init__(userId, employeeName, userName, email, password, userType, designation, department)
+    def __init__(self, userId, employeeName, userName, email, userType, designation, department):
+        super().__init__(userId, employeeName, userName, email, userType, designation, department)
 
 class Trainer(User):
     __tablename__ = 'trainer'
@@ -76,8 +68,8 @@ class Trainer(User):
         'polymorphic_identity': 'trainer',
     }
 
-    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
-        super().__init__(userId, employeeName, userName, email, password, userType, designation, department)
+    def __init__(self, userId, employeeName, userName, email, userType, designation, department):
+        super().__init__(userId, employeeName, userName, email, userType, designation, department)
 
 class Hr(User):
     __tablename__ = 'hr'
@@ -88,8 +80,8 @@ class Hr(User):
         'polymorphic_identity': 'hr',
     }
 
-    def __init__(self, userId, employeeName, userName, email, password, userType, designation, department):
-        super().__init__(userId, employeeName, userName, email, password, userType, designation, department)
+    def __init__(self, userId, employeeName, userName, email, userType, designation, department):
+        super().__init__(userId, employeeName, userName, email, userType, designation, department)
 
 class Course(db.Model):
     __tablename__ = 'course'

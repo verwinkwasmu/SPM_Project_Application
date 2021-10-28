@@ -22,17 +22,18 @@ CREATE TABLE `user` (
   `Designation` varchar(50) DEFAULT NULL,
   `Department` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
 -- --------------------------------------------------------
 
-INSERT INTO `user` (`userId`, `employeeName`, `email`, `password`, `userType`) VALUES
-(1, 'Phris Coskitt', 'phris@gmail.com', 'dummy', 'Learner'),
-(2, 'Hhris Coskitt', 'hhris@gmail.com', 'dummy', 'Learner'),
-(3, 'Lhris Coskitt', 'lhris@gmail.com', 'dummy', 'Trainer'),
-(4, 'uhris Coskitt', 'uhris@gmail.com', 'dummy', 'Trainer'),
-(5, 'jhris Coskitt', 'jhris@gmail.com', 'dummy', 'Trainer'),
-(6, 'khris Coskitt', 'khris@gmail.com', 'dummy', 'HR'),
-(7, 'ohris Coskitt', 'ohris@gmail.com', 'dummy', 'HR');
+INSERT INTO `user` (`userId`, `employeeName`, `email`, `userType`) VALUES
+(1, 'Phris Coskitt', 'phris@gmail.com', 'Learner'),
+(2, 'Hhris Coskitt', 'hhris@gmail.com', 'Learner'),
+(3, 'Lhris Coskitt', 'lhris@gmail.com', 'Trainer'),
+(4, 'uhris Coskitt', 'uhris@gmail.com', 'Trainer'),
+(5, 'jhris Coskitt', 'jhris@gmail.com', 'Trainer'),
+(6, 'khris Coskitt', 'khris@gmail.com', 'HR'),
+(7, 'ohris Coskitt', 'ohris@gmail.com', 'HR');
 
 --
 -- Table structure for table `learner`
