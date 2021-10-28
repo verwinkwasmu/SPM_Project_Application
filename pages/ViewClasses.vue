@@ -23,9 +23,7 @@
               <div class="member-info">
                 <h4>{{ _class.classTitle }}</h4>
                 <span>{{ _class.trainerName }}</span>
-                <p>
-                  Explicabo voluptatem mollitia et repellat qui dolorum quasi
-                </p>
+                <p> Maximum Class Capacity: {{_class.classSize}} </p>
               </div>
               <div class="viewClass">
                 <router-link :to="{path: '/EditClass', query: {classId: _class.classId, courseId: _class.courseId}}" class="viewClass-btn">Edit Class</router-link>
