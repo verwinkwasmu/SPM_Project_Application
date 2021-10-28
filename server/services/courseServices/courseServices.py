@@ -189,13 +189,13 @@ def assignTrainerClass():
             "message": "Unable to commit to database."
         }), 503
 
-# get courses that a trainer is assigned to 
+# get dict of courses that a trainer is assigned to 
 @app.route("/getTrainerCourses/<string:trainerId>", methods=['GET'])
 def getTrainerCourses(trainerId):
 
     trainer_existence = Trainer.query.filter(Trainer.userId==trainerId).all()
     
-    # check if class exists 
+    # check if trainer exists 
     if not trainer_existence:
         return jsonify({
             "message": "Trainer not found."    
@@ -203,11 +203,16 @@ def getTrainerCourses(trainerId):
 
     trainerClasses = Class.query.filter(Class.trainerAssigned==trainerId).all()
 
-    courseList = {}
+    courseList = []
+    distinctCourses = []
     for trainerClass in trainerClasses: 
-        if trainerClass.courseId not in courseList: 
+        if trainerClass.courseId not in distinctCourses: 
             trainerCourse = Course.query.filter(Course.courseId==trainerClass.courseId).first()
-            courseList[trainerClass.courseId] = trainerCourse.courseName
+            courseDict = {}
+            courseDict['courseId'] = trainerClass.courseId
+            courseDict['courseName'] = trainerCourse.courseName
+            distinctCourses.append(trainerClass.courseId)
+            courseList.append(courseDict)
     
     if len(courseList) == 0:
         return jsonify({
@@ -217,6 +222,41 @@ def getTrainerCourses(trainerId):
     return jsonify(
         {
             "data": courseList
+        }
+    ), 200
+
+# get list of classId of a specific course that a trainer is assigned to 
+@app.route("/getTrainerClasses/<string:trainerId>/<string:courseId>", methods=['GET'])
+def getTrainerClasses(trainerId, courseId):
+
+    trainer_existence = Trainer.query.filter(Trainer.userId==trainerId).all()
+    # check if trainer exists 
+    if not trainer_existence:
+        return jsonify({
+            "message": "Trainer not found."    
+        }), 404
+
+    course_existence = Course.query.filter(Course.courseId==courseId).all()
+    # check if course exists 
+    if not course_existence:
+        return jsonify({
+            "message": "Course not found."    
+        }), 404
+
+    trainerCourseClasses = Class.query.filter((Class.trainerAssigned==trainerId) & (Class.courseId==courseId)).all()
+
+    classList = []
+    for trainerCourseClass in trainerCourseClasses: 
+        classList.append(trainerCourseClass.classId)
+    
+    if len(classList) == 0:
+        return jsonify({
+            "message": "No class found.",
+            "data" : []
+        }), 200
+    return jsonify(
+        {
+            "data": classList
         }
     ), 200
 
