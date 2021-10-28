@@ -230,5 +230,39 @@ def createSection():
             "data": str(request.get_data())
         }), 504
 
+# View courses available for LEARNER
+@app.route('/viewLearnerCourses', methods=['GET'])
+def getLearnerCourses():
+    learnerId = request.args.get('learnerId')
+    result = []
+
+    list_of_courses = Course.query.all()
+
+    for course in list_of_courses:
+        # check if not prereq and not currently enrolled
+        if not course.prerequisites and not checkIfCurrentlyEnrolled(learnerId, course.courseId):
+            result.append(course.to_dict())
+
+        elif course.prerequisites and not checkIfCurrentlyEnrolled(learnerId, course.courseId):
+            prerequisite_courseId = (course.prerequisites).split(':')[0]
+            if checkIfCompleted(learnerId, prerequisite_courseId):
+                result.append(course.to_dict())
+
+    return jsonify({
+        'data': result
+    }), 200
+
+def checkIfCompleted(learnerId, courseId):
+    enrolment = Enrolment.query.filter(Enrolment.learnerId==learnerId, Enrolment.courseId==courseId, Enrolment.completedClass==True).first()
+    if enrolment:
+        return True
+    return False
+
+def checkIfCurrentlyEnrolled(learnerId, courseId):
+    enrolment = Enrolment.query.filter(Enrolment.learnerId==learnerId, Enrolment.courseId==courseId).first()
+    if enrolment:
+        return True
+    return False
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
