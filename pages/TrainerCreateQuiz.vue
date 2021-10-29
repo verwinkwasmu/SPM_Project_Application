@@ -106,10 +106,9 @@ export default {
         option4: "",
         answer: "",
         explanation: "",
-        quizTimer: ""
-        
       },
-    ]
+    ],
+    quizTimer: ''
   }),
 
   methods: {
@@ -132,12 +131,15 @@ export default {
             option2: '',
             option3: '',
             option4: '',
+            answer: '',
+            explanation: ''
         })
     },
 
     submit () {
       const data = {
-        questions: this.questions
+        questions: this.questions,
+        quizTimer: this.quizTimer
       }
       alert(JSON.stringify(data, null, 2))
     },

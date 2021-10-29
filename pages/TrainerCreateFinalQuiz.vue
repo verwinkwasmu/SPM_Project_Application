@@ -111,11 +111,10 @@ export default {
         option3: "",
         option4: "",
         answer: "",
-        explanation: "",
-        quizTimer: ""
-        
+        explanation: ""
       },
-    ]
+    ], 
+    quizTimer: ""
   }),
 
   methods: {
@@ -126,6 +125,8 @@ export default {
         option2: '',
         option3: '',
         option4: '',
+        answer: '',
+        explanation: ''
 
       })
     },
@@ -137,25 +138,18 @@ export default {
             option2: '',
             option3: '',
             option4: '',
+            answer: '',
+            explanation: ''
         })
     },
 
     submit () {
       const data = {
-        questions: this.questions
+        questions: this.questions,
+        quizTimer: this.quizTimer
       }
       alert(JSON.stringify(data, null, 2))
     },
   }
 };
 </script>
-
-<style>
-.example {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
-  text-align: center;
-}
-</style>
