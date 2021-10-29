@@ -4,8 +4,9 @@
         <section id="team" class="team section-bg">
             <div class="" data-aos="fade-up">
                 <div class="section-title">
-                    <h2>Fundamentals of Xerox WorkCentre 7845 (Quiz)</h2>
-                    <h1>Quiz questions</h1>
+                    <h2>Fundamentals of Xerox WorkCentre 7845 Final Quiz</h2>
+                    <h1>Final Quiz questions</h1>
+                    Assume 1 correct answer is 1 mark
                 </div>
 
                 <div id="app" class="container">
@@ -61,7 +62,7 @@
                         <div class="form-group">
                             <button @click="addquestion" type="button" class="btn btn-primary">Add Question</button>
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <button @click="removequestion" type="button" class="btn btn-danger">Remove Question</button>
                         </div> 
                         <br>
@@ -78,6 +79,8 @@
                     <div class="buttongroup">
                       <div class="TrainerCreateQuiz">
                           <button @click="submit" type="button" class="TrainerCreateQuiz-btn">Create Quiz</button>
+                          <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          Loading... -->
                       </div>
 
                       <div class="cancel">
@@ -95,6 +98,9 @@
 export default {
   
   name: "App",
+  // components: {
+  //   VueLoadingButton,
+  // },
   
   data: () => ({
     questions: [
@@ -105,10 +111,10 @@ export default {
         option3: "",
         option4: "",
         answer: "",
-        explanation: "",
+        explanation: ""
       },
-    ],
-    quizTimer: ''
+    ], 
+    quizTimer: ""
   }),
 
   methods: {
@@ -121,6 +127,7 @@ export default {
         option4: '',
         answer: '',
         explanation: ''
+
       })
     },
 

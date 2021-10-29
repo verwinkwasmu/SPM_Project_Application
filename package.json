@@ -18,10 +18,14 @@
     "dotenv": "^10.0.0",
     "element": "^0.1.4",
     "element-ui": "^2.15.6",
+    "lucien-form-builder": "^2.3.41",
     "nuxt": "^2.15.7",
     "nuxt-buefy": "^0.4.10",
+    "oxo-form-builder": "^2.1.7",
     "ui": "^0.2.4",
     "vue-action-table": "^0.1.0",
+    "vue-button-spinner": "^2.2.1",
+    "vue-loading-button": "^0.2.0",
     "vuejs-datepicker": "^1.6.2"
   }
 }
