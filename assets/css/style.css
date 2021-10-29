@@ -2236,3 +2236,49 @@ section {
     padding-top: 4px;
   }
 }
+
+/* Learner */
+
+.LearnerEnrol {
+  padding-bottom:45px;
+}
+.LearnerEnrol .LearnerEnrol-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 670px;
+}
+
+.LearnerEnrol .LearnerEnrol-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+.LearnerViewClass .LearnerViewClass-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:relative; 
+  margin-left: 200px;
+  /* bottom:15px; */
+}
+
+.LearnerViewClass .LearnerViewClass-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
