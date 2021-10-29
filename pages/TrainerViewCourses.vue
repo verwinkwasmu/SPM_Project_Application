@@ -8,21 +8,42 @@
           </div>
 
           <div class="row">
+            <div v-if="error" class="alert alert-danger" role="alert">
+            {{ message }}
+            </div>
+
             <div
+              v-for="course in courses"
+              :key="course.courseId"
               class="col-xl-3 col-md-6 d-flex align-items-stretch"
               data-aos="zoom-in"
-              data-aos-delay="100"
+              data-aos-delay="400"
             >
+            
               <div class="icon-box">
+                <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                <h4><a href="">{{ course.courseName }}</a></h4>
+                <div class="course">
+                  <a href="TrainerViewClasses" class="course-btn" :to="{path: '/TrainerViewClasses', query: {courseId: course.courseId, courseName: course.courseName}}">View Classes</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div
+              class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
+              data-aos="zoom-in"
+              data-aos-delay="100"
+            > -->
+              <!-- <div class="icon-box">
                 <div class="icon"><i class="bx bxl-dribbble"></i></div>
                 <h4><a href="">Fundamentals of Xerox WorkCentre 7845</a></h4>
                 <div class="course">
                   <a href="TrainerViewClasses" class="course-btn">View Classes</a>
                 </div>
               </div>
-            </div>
-
-            <div
+            </div> -->
+            
+            <!-- <div
               class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
               data-aos="zoom-in"
               data-aos-delay="200"
@@ -63,9 +84,36 @@
                 </div>
               </div>
               
-            </div>
+            </div> -->
           </div>
         </div>
       </section>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data: () => ({
+    courses: [],
+    error: false,
+    message: "",
+  }),
+  async mounted() {
+    const apiUrl = "http://localhost:5002/getTrainerCourses/13";
+    // ${this.$route.query.trainerId}
+    try {
+      let response = await axios.get(apiUrl);
+      this.courses = response.data.data;
+      this.error = false;
+    } catch (err) {
+      console.log(err);
+      this.error = true;
+      this.message = err;
+    }
+  },
+  
+  
+};
+</script>
