@@ -2,6 +2,7 @@ from typing import ClassVar
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from sqlalchemy.sql.elements import Null
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
@@ -169,18 +170,20 @@ class Enrolment(db.Model):
     totalNumSections = db.Column(db.Integer)
     sectionsCompleted = db.Column(db.Integer)
     completedClass = db.Column(db.Boolean)
+    status = db.Column(db.String(50))
 
     __mapper_args__ = {
         'polymorphic_identity': 'enrolment'
     }
 
-    def __init__(self, courseId, classId, learnerId, totalNumSections, sectionsCompleted = 0, completedClass = False):
+    def __init__(self, courseId, classId, learnerId, totalNumSections, status, sectionsCompleted = 0, completedClass = False):
         self.courseId = courseId
         self.classId = classId
         self.learnerId = learnerId
         self.sectionsCompleted = sectionsCompleted
         self.totalNumSections = totalNumSections
         self.completedClass = completedClass
+        self.status = status
     
     def to_dict(self):
         """
