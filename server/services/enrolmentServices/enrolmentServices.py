@@ -205,7 +205,7 @@ def create_enrolment():
 
 # Remove learner from course
 @app.route("/removeLearner", methods=['DELETE'])
-def removeTrainer():
+def removeLearner():
     # retrieve data
     data = request.get_json()
 
@@ -287,6 +287,43 @@ def enrolLearner():
         db.session.add(enrolment)
         db.session.commit()
         return jsonify(enrolment.to_dict()), 201
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database.",
+            "data": str(request.get_data())
+        }), 504
+
+# learner withdraw from course
+@app.route("/withdrawLearner", methods=['DELETE'])
+def withdrawLearner():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('classId', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    enrolment = Enrolment.query.filter(
+        Enrolment.classId == data["classId"],
+        Enrolment.learnerId == data['learnerId'],
+        Enrolment.status == "ACCEPTED"
+    ).first()
+
+    if not enrolment:
+        return jsonify({
+            "message": "Enrolment does not exist."
+        }), 503
+
+    try:
+        db.session.query(Enrolment).filter(
+            Enrolment.classId == data['classId'], Enrolment.learnerId == data['learnerId'], Enrolment.status=="ACCEPTED").delete()
+        db.session.commit()
+        return jsonify({
+            "message": "Learner Withdrawn"
+        }), 200
 
     except Exception:
         return jsonify({
