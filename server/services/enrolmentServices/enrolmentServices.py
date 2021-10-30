@@ -352,7 +352,7 @@ def getPendingEnrolments():
 
 
 # ACCEPT OR REJECT PENDING ENROLMENT REQUESTS
-@app.route('/updateEnrolmentRequest', methods=['POST'])
+@app.route('/updateEnrolmentRequest', methods=['PUT'])
 def updateEnrolmentRequest():
     # retrieve data
     data = request.get_json()
