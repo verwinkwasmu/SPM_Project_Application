@@ -297,7 +297,6 @@ def enrolLearner():
 # learner withdraw from course
 @app.route("/withdrawLearner", methods=['DELETE'])
 def withdrawLearner():
-    # retrieve data
     data = request.get_json()
 
     if not all(key in data.keys() for
@@ -331,6 +330,57 @@ def withdrawLearner():
             "data": str(request.get_data())
         }), 504
 
+# VIEW ALL ENROLMENT BASED ON STATUS
+@app.route('/viewPendingEnrolments')
+def getPendingEnrolments():
+    classId = request.args.get('classId')        
 
+    pending_enrolments = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.status=="PENDING").all()
+
+    if not pending_enrolments:
+        return jsonify({
+            "message": "No pending enrolments found.",
+            "data": []
+        }), 200
+    return jsonify(
+        {
+            "message": "Pending enrolments found",
+            "data": [enrolment.to_dict() for enrolment in pending_enrolments]
+        }
+    ), 200
+
+
+
+# ACCEPT OR REJECT PENDING ENROLMENT REQUESTS
+@app.route('/updateEnrolmentRequest', methods=['POST'])
+def updateEnrolmentRequest():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('classId', 'learnerId', 'status')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    learnerId = data['learnerId']
+    classId = data['classId']
+    status = data['status']
+
+    #update enrolment record
+    enrolmentObj = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.learnerId==learnerId).first()
+    enrolmentObj.status = status
+
+    try:
+        db.session.merge(enrolmentObj)
+        db.session.commit()
+        return jsonify({
+            "data": enrolmentObj.to_dict(),
+            "message": "enrolment updated"
+        }), 200
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 503
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5004, debug=True)
