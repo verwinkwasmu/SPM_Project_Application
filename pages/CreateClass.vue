@@ -143,7 +143,7 @@
                 <date-picker
                   placeholder="MM/DD/YYYY"
                   format="MM/dd/yyyy"
-                  v-model="enrolmentStart"
+                  v-model="enrolmentStartDate"
                 />
               </client-only>
               <div class="date">
@@ -152,7 +152,7 @@
                   <date-picker
                     placeholder="MM/DD/YYYY"
                     format="MM/dd/yyyy"
-                    v-model="enrolmentEnd"
+                    v-model="enrolmentEndDate"
                   />
                 </client-only>
               </div>
@@ -213,8 +213,8 @@ export default {
     endTime: "",
     startDate: "",
     endDate: "",
-    enrolmentStart: "",
-    enrolmentEnd: "",
+    enrolmentStartDate: "",
+    enrolmentEndDate: "",
     message: "",
     error: null,
   }),
@@ -239,7 +239,8 @@ export default {
         endTime: this.endTime,
         startDate: (this.startDate).toISOString().substring(0, 10),
         endDate: (this.endDate).toISOString().substring(0, 10),
-        enrolmentPeriod: (this.enrolmentStart).toISOString().substring(0, 10) + " to " + (this.enrolmentEnd).toISOString().substring(0, 10),
+        enrolmentStartDate: (this.enrolmentStartDate).toISOString().substring(0, 10),
+        enrolmentEndDate: (this.enrolmentEndDate).toISOString().substring(0, 10),
       };
       
       try {

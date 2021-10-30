@@ -1341,7 +1341,6 @@ section {
   border: 1px solid #CA1B10;
   position: absolute;
   margin-left: 750px;
-
 }
 
 .cancel .cancel-btn:hover {
@@ -1568,6 +1567,29 @@ section {
   color: #fff;
 }
 
+.TrainerCreateFinalQuiz {
+  padding-top:15px;
+}
+.TrainerCreateFinalQuiz .TrainerCreateFinalQuiz-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 470px;
+}
+
+.TrainerCreateFinalQuiz .TrainerCreateFinalQuiz-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
 .editSection .editSection-btn {
   display: inline-block;
   padding: 10px 30px;
@@ -1612,7 +1634,7 @@ section {
 
 .TrainerCreateQuiz {
   display: inline-block;
-  padding-bottom:45px;
+  padding-bottom:55px;
 }
 .TrainerCreateQuiz .TrainerCreateQuiz-btn{
   display: inline-block;
@@ -1628,6 +1650,7 @@ section {
   position: absolute;
   margin-left: 500px;
 }
+
 
 .TrainerCreateQuiz .TrainerCreateQuiz-btn:hover {
   background: #409C20;

@@ -11,6 +11,9 @@
             <div class="TrainerCreateSection">
                 <a href="TrainerCreateSection" class="TrainerCreateSection-btn">Create Section</a>
             </div>
+            <div class="TrainerCreateFinalQuiz">
+                <a href="TrainerCreateFinalQuiz" class="TrainerCreateFinalQuiz-btn">Create Final Quiz</a>
+            </div>
             
           </div>
               
@@ -36,8 +39,7 @@
                 <div class="editSection">  
                     <a href="TrainerCreateSection" class="editSection-btn">Edit Section</a>
                 </div>
-
-               
+                
 
                 <div class="quizList">  
                     <a href="TrainerQuizList" class="quizList-btn">Quiz List</a>

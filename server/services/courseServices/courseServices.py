@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from allClasses import *
+from datetime import date
 # from sqlalchemy.sql import select
 
 app = Flask(__name__)
@@ -74,7 +75,7 @@ def createClass():
 
     # check if proper data is sent
     if not all(key in data.keys() for
-               key in ('classId', 'courseId', 'classSize', 'classTitle', 'startTime', 'endTime', 'startDate', 'endDate','enrolmentPeriod')):
+               key in ('classId', 'courseId', 'classSize', 'classTitle', 'startTime', 'endTime', 'startDate', 'endDate','enrolmentStartDate', 'enrolmentEndDate')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -87,7 +88,7 @@ def createClass():
             "message": "Class exists."
         }), 200
     
-    new_class = Class(classId=data['classId'], courseId=data['courseId'], classSize=data['classSize'], classTitle=data['classTitle'], startTime=data['startTime'], endTime=data['endTime'], startDate=data['startDate'], endDate=data['endDate'], enrolmentPeriod=data['enrolmentPeriod'], trainerAssigned=None, trainerName=None)
+    new_class = Class(classId=data['classId'], courseId=data['courseId'], classSize=data['classSize'], classTitle=data['classTitle'], startTime=data['startTime'], endTime=data['endTime'], startDate=data['startDate'], endDate=data['endDate'], enrolmentStartDate=data['enrolmentStartDate'], enrolmentEndDate=data['enrolmentEndDate'], trainerAssigned=None, trainerName=None)
 
     
     try:
@@ -188,6 +189,76 @@ def assignTrainerClass():
             "message": "Unable to commit to database."
         }), 503
 
+# get dict of courses that a trainer is assigned to 
+@app.route("/getTrainerCourses/<string:trainerId>", methods=['GET'])
+def getTrainerCourses(trainerId):
+
+    trainer_existence = Trainer.query.filter(Trainer.userId==trainerId).all()
+    
+    # check if trainer exists 
+    if not trainer_existence:
+        return jsonify({
+            "message": "Trainer not found."    
+        }), 404
+
+    trainerClasses = Class.query.filter(Class.trainerAssigned==trainerId).all()
+
+    courseList = []
+    distinctCourses = []
+    for trainerClass in trainerClasses: 
+        if trainerClass.courseId not in distinctCourses: 
+            trainerCourse = Course.query.filter(Course.courseId==trainerClass.courseId).first()
+            courseDict = {}
+            courseDict['courseId'] = trainerClass.courseId
+            courseDict['courseName'] = trainerCourse.courseName
+            distinctCourses.append(trainerClass.courseId)
+            courseList.append(courseDict)
+    
+    if len(courseList) == 0:
+        return jsonify({
+            "message": "No course found.",
+            "data" : []
+        }), 200
+    return jsonify(
+        {
+            "data": courseList
+        }
+    ), 200
+
+# get list of classId of a specific course that a trainer is assigned to 
+@app.route("/getTrainerClasses/<string:trainerId>/<string:courseId>", methods=['GET'])
+def getTrainerClasses(trainerId, courseId):
+
+    trainer_existence = Trainer.query.filter(Trainer.userId==trainerId).all()
+    # check if trainer exists 
+    if not trainer_existence:
+        return jsonify({
+            "message": "Trainer not found."    
+        }), 404
+
+    course_existence = Course.query.filter(Course.courseId==courseId).all()
+    # check if course exists 
+    if not course_existence:
+        return jsonify({
+            "message": "Course not found."    
+        }), 404
+
+    trainerCourseClasses = Class.query.filter((Class.trainerAssigned==trainerId) & (Class.courseId==courseId)).all()
+
+    classList = []
+    for trainerCourseClass in trainerCourseClasses: 
+        classList.append(trainerCourseClass.classId)
+    
+    if len(classList) == 0:
+        return jsonify({
+            "message": "No class found.",
+            "data" : []
+        }), 200
+    return jsonify(
+        {
+            "data": classList
+        }
+    ), 200
 
 # Create Section
 @app.route("/createSection", methods=['POST'])
@@ -229,6 +300,53 @@ def createSection():
             "message": "Unable to commit to database.",
             "data": str(request.get_data())
         }), 504
+
+# View courses available for LEARNER
+@app.route('/viewLearnerCourses', methods=['GET'])
+def getLearnerCourses():
+    learnerId = request.args.get('learnerId')
+    result = []
+
+    list_of_courses = Course.query.all()
+
+    for course in list_of_courses:
+        # check if not prereq and not currently enrolled
+        if not course.prerequisites and not checkIfCurrentlyEnrolled(learnerId, course.courseId):
+            result.append(course.to_dict())
+
+        elif course.prerequisites and not checkIfCurrentlyEnrolled(learnerId, course.courseId):
+            prerequisite_courseId = (course.prerequisites).split(':')[0]
+            if checkIfCompleted(learnerId, prerequisite_courseId):
+                result.append(course.to_dict())
+
+    return jsonify({
+        'data': result
+    }), 200
+
+def checkIfCompleted(learnerId, courseId):
+    enrolment = Enrolment.query.filter(Enrolment.learnerId==learnerId, Enrolment.courseId==courseId, Enrolment.completedClass==True).first()
+    if enrolment:
+        return True
+    return False
+
+def checkIfCurrentlyEnrolled(learnerId, courseId):
+    enrolment = Enrolment.query.filter(Enrolment.learnerId==learnerId, Enrolment.courseId==courseId).first()
+    if enrolment:
+        return True
+    return False
+
+# View classes available for LEARNER
+@app.route('/viewLearnerClasses')
+def getLearnerClasses():
+    courseId = request.args.get('courseId')
+    today = date.today()
+    current_date = today.strftime("%Y-%m-%d")
+
+    class_list = Class.query.filter(Class.courseId==courseId, current_date <= Class.enrolmentEndDate).all()
+
+    return jsonify({
+        "data": [_class.to_dict() for _class in class_list]
+    })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)

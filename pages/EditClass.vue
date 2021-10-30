@@ -38,7 +38,7 @@
                 <p>{{ learners.length }}</p>
                 <br />
                 <h4>Period of Enrollment:</h4>
-                <p>{{ myClass.enrolmentPeriod }}</p>
+                <p>{{ myClass.enrolmentStartDate }} to {{myClass.enrolmentEndDate}}</p>
                 <br />
                 <h4>Period of Class:</h4>
                 <p>
