@@ -1340,7 +1340,7 @@ section {
   transition: 0.3s;
   border: 1px solid #CA1B10;
   position: absolute;
-  margin-left: 750px;
+  margin-left: 770px;
 }
 
 .cancel .cancel-btn:hover {
@@ -1632,6 +1632,15 @@ section {
   color: #fff;
 }
 
+
+#addquestion{
+  display:inline-block;
+}
+
+#removequestion{
+  display:inline-block;
+}
+
 .TrainerCreateQuiz {
   display: inline-block;
   padding-bottom:55px;
@@ -1747,6 +1756,30 @@ section {
   border: 1px solid red;
 }
 
+
+#axiosForm{  /* Components Root Element ID */
+  position: relative;
+}
+.loader{  /* Loader Div Class */
+  /* display: block; */
+  /* margin: 0px; */
+  position: absolute;
+  /* left:50%; */
+  /* bottom: 50%; */
+  top:0px;
+  right:0px;
+  width:100%;
+  height:100%;
+  background-color:#eceaea;
+  background-image: url('assets/img/ajax-loader.gif');
+  background-size: 70px;
+  background-repeat:no-repeat;
+  background-position: bottom;
+  z-index:100;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+
+}
 
 
 /*--------------------------------------------------------------
