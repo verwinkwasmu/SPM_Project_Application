@@ -3,6 +3,11 @@
     <Header />
     <section id="team" class="team section-bg">
       <div class="container" data-aos="fade-up">
+        <div class="row pb-5 mb-2 ml-0">
+          <div class="viewClass">
+            <router-link :to="{path: '/ViewCourses'}" class="viewClass-btn">Back to see all Courses</router-link>
+          </div>
+        </div>
         <div class="section-title">
           <!--<div class="createClass">
                   <a href="createClass" class="createClass-btn">Create Class</a>

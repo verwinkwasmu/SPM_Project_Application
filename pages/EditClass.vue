@@ -7,7 +7,12 @@
 
     <section id="team" class="team section-bg">
       <!--box-->
-      <div class="container" data-aos="fade-up">
+      <div class="container block" data-aos="fade-up">
+        <div class="row pb-5 mb-2">
+          <div class="viewClass">
+            <router-link :to="{path: '/ViewClasses', query: {courseId: this.course.courseId, courseName: this.course.courseName}}" class="viewClass-btn">Back to see all Classes</router-link>
+          </div>
+        </div>
         <div class="section-title">
           <h2>
             {{ course.courseName }} <br />
