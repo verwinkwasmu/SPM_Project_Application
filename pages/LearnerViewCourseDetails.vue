@@ -2,8 +2,8 @@
     <div>
         <Header/>
 
-        <!--<Homepage/>
-       -->
+
+
         <section id="team" class="team section-bg">  <!--box-->
             <div class="container" data-aos="fade-up">
 
@@ -18,8 +18,11 @@
                                 data-aos-delay="100"
                             >
                                 <div class="LearnerEnrol">
-                                     <a href="LearnerViewClass" class="LearnerEnrol-btn">Enrol into course</a>
-                                </div>          
+                                     <a href="LearnerViewClass" @click="enrol" class="LearnerEnrol-btn" v-if="notEnrolled">Enrol into course</a>
+                                </div>
+
+                                <span class="badge badge-success" v-if="enrolled">Already Enrolled</span>
+                                
                                 <div class="member-info">
                                 <h4>Fundamentals of Xerox WorkCentre 7845</h4>
                                 Prerequisite Courses: 
@@ -37,6 +40,10 @@
                                 </div>
                             </div>
 
+                            <div class="LearnerWithdraw">  
+                                <a href="" class="LearnerWithdraw-btn" v-if="enrolled">Withdraw from Course</a>
+                            </div>  <!--if true, this button will show, if false, this button will not show. -->
+                            
                         </div>     
                     </div>
             </div>
@@ -44,3 +51,20 @@
         </section>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data: () => ({
+      notEnrolled: true,
+      enrolled: false,
+  }),
+
+  methods: {
+      enrol () {
+
+      }
+  }
+};
+</script>

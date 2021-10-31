@@ -10,7 +10,8 @@
                 <a href="TrainerViewSection" class="createClass-btn">View Sections</a>
             </div> -->
           </div>
-              
+          
+          
           <div class="row">
             <div class="col-lg-6">
               <div
