@@ -6,8 +6,8 @@ import logging
 import os
 
 app = Flask(__name__)
-BUCKET = "spm-grp2-storage"
-S3_DOMAIN = "http://spm-grp2-storage.s3.amazonaws.com/"
+BUCKET = os.getenv('BUCKET')
+S3_DOMAIN = os.getenv('S3_DOMAIN')
 
 s3 = boto3.client(
     "s3",
@@ -22,16 +22,16 @@ def upload():
     className = request.args.get('className')
     sectionName = request.args.get('sectionName')
     file = request.files['file']
-    
+
     filename = secure_filename(file.filename)
     content_type = request.mimetype
 
     try:
         response = s3.put_object(ACL='public-read',
-                                        Body=file,
-                                        Bucket=BUCKET,
-                                        Key=f'{courseId}/{className}/{sectionName}/' + filename,
-                                        ContentType=content_type)
+                                 Body=file,
+                                 Bucket=BUCKET,
+                                 Key=f'{courseId}/{className}/{sectionName}/' + filename,
+                                 ContentType=content_type)
         return response
 
     except ClientError as e:
@@ -67,6 +67,33 @@ def list_files():
         logging.error(e)
         return jsonify({
             "message": "Unable to get files from s3."
+        }), 500
+
+
+@app.route("/removeFile", methods=['DELETE'])
+def removeFile():
+    data = request.get_json()
+    if not all(key in data.keys() for
+               key in ('courseId', 'className', 'sectionName', 'fileName')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    courseId = data['courseId']
+    className = data['className']
+    sectionName = data['sectionName']
+    fileName = data['fileName']
+
+    try:
+        response = s3.delete_object(
+            Bucket=BUCKET,
+            Key=f'{courseId}/{className}/{sectionName}/' + fileName
+        )
+        return response
+    except ClientError as e:
+        logging.error(e)
+        return jsonify({
+            "message": "Unable to delete file from s3."
         }), 500
 
 
