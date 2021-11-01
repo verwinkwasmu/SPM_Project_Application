@@ -7,7 +7,12 @@
 
     <section id="team" class="team section-bg">
       <!--box-->
-      <div class="container" data-aos="fade-up">
+      <div class="container block" data-aos="fade-up">
+        <div class="row pb-5 mb-2">
+          <div class="viewClass">
+            <router-link :to="{path: '/ViewClasses', query: {courseId: this.course.courseId, courseName: this.course.courseName}}" class="viewClass-btn">Back to see all Classes</router-link>
+          </div>
+        </div>
         <div class="section-title">
           <h2>
             {{ course.courseName }} <br />
@@ -212,12 +217,16 @@ export default {
       const trainerData = {
         classId: this.myClass.classId,
         trainerAssigned: this.selectedTrainer.userId,
-        trainerName: this.selectedTrainer.userName,
+        trainerName: this.selectedTrainer.employeeName,
       };
 
       try {
         let response = await axios.put(apiUrl, trainerData);
         if (response.status == 200) {
+          console.log(trainerData.trainerName);
+          // console.log(this.selectedTrainer);
+          console.log(trainerData.trainerAssigned);
+          console.log(trainerData.classId);
           this.data = response.data;
           this.error = false;
           this.message = "Trainer Successfully Assigned! 😃";
