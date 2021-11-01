@@ -4,6 +4,7 @@ import boto3
 from botocore.exceptions import ClientError
 import logging
 import os
+import mimetypes
 
 app = Flask(__name__)
 BUCKET = os.getenv('BUCKET')
@@ -24,14 +25,16 @@ def upload():
     file = request.files['file']
 
     filename = secure_filename(file.filename)
-    content_type = request.mimetype
 
+    file_type = mimetypes.guess_type(filename)
+    
     try:
         response = s3.put_object(ACL='public-read',
                                  Body=file,
                                  Bucket=BUCKET,
                                  Key=f'{courseId}/{className}/{sectionName}/' + filename,
-                                 ContentType=content_type)
+                                 ContentType=file_type[0]
+                                 )
         return response
 
     except ClientError as e:
