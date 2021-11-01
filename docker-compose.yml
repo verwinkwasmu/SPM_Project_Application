@@ -59,8 +59,8 @@ services:
         build: 
             context: ./server/services/enrolmentServices
             dockerfile: Dockerfile
-        # volumes:
-        # - ./enrolmentServices:/usr/src/app
+        volumes:
+        - ./server/services/enrolmentServices:/usr/src/app
         image: weixiangtoh/enrolment_services:spm
         restart: always
         environment:
