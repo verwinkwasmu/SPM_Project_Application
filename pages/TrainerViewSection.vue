@@ -18,10 +18,10 @@
             <h3>{{course.courseName}}</h3>
 
             <div class="TrainerCreateSection">
-                <a href="TrainerCreateSection" class="TrainerCreateSection-btn">Create Section</a>
+              <router-link :to="{path: '/TrainerCreateSection', query: {classId: classObj.classId}}" class="TrainerCreateSection-btn">Create Section</router-link>
             </div>
             <div class="TrainerCreateFinalQuiz ">
-                <a href="TrainerCreateFinalQuiz" class="TrainerCreateFinalQuiz-btn">Create Final Quiz</a>
+              <router-link :to="{path: '/TrainerCreateFinalQuiz', query: {classId: classObj.classId}}" class="TrainerCreateFinalQuiz-btn">Create Final Quiz</router-link>
             </div>
             
           </div>
@@ -43,7 +43,7 @@
                   
                 </div>
                 <div class="editSection">  
-                    <a href="TrainerCreateSection" class="editSection-btn">Edit Section</a>
+                    <a href="TrainerCourseMaterials" class="editSection-btn">Course Materials</a>
                 </div>
                 
 
@@ -103,28 +103,6 @@ export default {
       console.log(err);
       this.error = true;
       this.message = err;
-    }
-  },
-
-  methods: {
-    async viewClassSize(classId){
-      const getEnrolmentURL = `http://localhost:5004/enrolment/number/${classId}`;
-      try {
-        let response = await axios.get(getEnrolmentURL);
-  
-        console.log(response)
-  
-        this.enrolment[classId] = response.data.data;
-  
-        console.log(this.enrolment[classId]);
-        console.log(response.data.data);
-  
-        this.error = false;
-      } catch (err) {
-        console.log(err);
-        this.error = true;
-        this.message = err;
-      }
     }
   },
 

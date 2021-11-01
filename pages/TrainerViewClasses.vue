@@ -60,9 +60,7 @@
               >
                 <div class="member-info">
                   <h4>{{ _class.classTitle }}</h4>
-                  <span>{{ _class.trainerName }}</span>
-                  <p> Maximum Class Capacity: {{_class.classSize}} </p>
-                  <p> Current Class Size: {{ enrolment[_class.classId] }} </p>
+                  <p> Current Class Size: {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
                   <br>
 
                   <p>

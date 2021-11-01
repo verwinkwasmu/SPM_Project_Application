@@ -287,7 +287,8 @@ def createSection():
 
     section = Section(
             sectionId = data['sectionId'],
-            classId = data['classId']
+            classId = data['classId'],
+            fileName = None
         )
 
     # (4): Commit to DB
