@@ -26,14 +26,16 @@
                             >
                                 
                         <div class="member-info">
-                          <h4>{{ course.courseName }}</h4>
+                          <!-- <h4>{{ course.courseName }}</h4> -->
 
                           <div v-if="course.prerequisites != ''">
-                            Prerequisite Courses: 
+                            <h4>Prequiresite Course:</h4> 
+                            <p>{{ course.prerequisites }}</p> <br>
+                            <!-- Prerequisite Courses: 
 
                             <ul>
                               <li>{{ course.prerequisites }}</li>
-                            </ul>
+                            </ul> -->
                           </div>
                           <div v-else>
                             <br/>
@@ -67,13 +69,14 @@
                     Start Date: {{_class.startDate}} 
                   </p>
                   <p>
-                    End Date: {{_class.endDate}} 
+                    Start Time: {{_class.startTime}} 
                   </p>
+
 
                   <br>
 
                   <p>
-                    Start Time: {{_class.startTime}} 
+                    End Date: {{_class.endDate}} 
                   </p>
                   <p>
                     End Time: {{_class.endTime}} 
