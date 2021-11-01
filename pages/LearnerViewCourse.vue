@@ -17,7 +17,7 @@
                 <div class="icon"><i class="bx bxl-dribbble"></i></div>
                 <h4><a href="">Fundamentals of Xerox WorkCentre 7845</a></h4>
                 <div class="course">
-                  <a href="LearnerViewClasses" class="course-btn">View Details</a>
+                  <a href="LearnerViewCourseDetails" class="course-btn">View Details</a>
                 </div>
               </div>
             </div>

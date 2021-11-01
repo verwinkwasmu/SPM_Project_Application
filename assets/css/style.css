@@ -2298,3 +2298,101 @@ section {
     padding-top: 4px;
   }
 }
+
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: rgb(228, 228, 228); /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 200px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #000000;
+}
+
+.content {
+  padding-left: 200px;
+}
+=======
+/* Learner */
+
+.LearnerEnrol {
+  padding-bottom:45px;
+}
+.LearnerEnrol .LearnerEnrol-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 670px;
+}
+
+.LearnerEnrol .LearnerEnrol-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+.LearnerViewClass .LearnerViewClass-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:relative; 
+  margin-left: 200px;
+  /* bottom:15px; */
+}
+
+.LearnerViewClass .LearnerViewClass-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.LearnerWithdraw .LearnerWithdraw-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:relative; 
+  margin-left: 200px;
+  /* bottom:15px; */
+}
+
+.LearnerWithdraw .LearnerWithdraw-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
