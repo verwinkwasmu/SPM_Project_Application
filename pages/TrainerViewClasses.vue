@@ -105,41 +105,22 @@ export default {
   async mounted() {
     const apiUrl1 = `http://localhost:5002/getTrainerClasses/13/${this.$route.query.courseId}`;
     const apiUrl2 = `http://localhost:5002/getCourse/${this.$route.query.courseId}`;
-    // const getEnrolmentURL = `http://localhost:5004/enrolment/size/13/${this.$route.query.courseId}`;
+    const getEnrolmentURL = `http://localhost:5004/enrolment/size/13/${this.$route.query.courseId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
-      // let response3 = await axios.get(getEnrolmentURL);
+      let response3 = await axios.get(getEnrolmentURL);
 
       console.log(response1)
       console.log(response2)
-      // console.log(response3)
+      console.log(response3)
 
       this.classes = await response1.data.data;
       this.course = await response2.data;
-      // this.enrolment = await response3.data.data;
+      this.enrolment = await response3.data.data;
   
       console.log(this.classes);
       console.log(this.course);
-
-      const classes = this.classes;
-
-      classes.forEach(function (arrayItem) {
-        console.log(arrayItem.classId);
-        this.viewClassSize(arrayItem.classId);
-        // const getEnrolmentURL = `http://localhost:5004/enrolment/number/${arrayItem.classId}`;
-        // let enrolmentResponse = axios.get(getEnrolmentURL);
-  
-        // console.log(enrolmentResponse)
-  
-        // this.enrolment[arrayItem.classId] = enrolmentResponse.data.data;
-  
-        // console.log(this.enrolment[arrayItem.classId]);
-        // console.log(enrolmentResponse.data.data);
-  
-        // this.error = false;
-      });
-
       console.log(this.enrolment);
 
       this.error = false;
@@ -147,28 +128,6 @@ export default {
       console.log(err);
       this.error = true;
       this.message = err;
-    }
-  },
-
-  methods: {
-    async viewClassSize(classId){
-      const getEnrolmentURL = `http://localhost:5004/enrolment/number/${classId}`;
-      try {
-        let response = await axios.get(getEnrolmentURL);
-  
-        console.log(response)
-  
-        this.enrolment[classId] = response.data.data;
-  
-        console.log(this.enrolment[classId]);
-        console.log(response.data.data);
-  
-        this.error = false;
-      } catch (err) {
-        console.log(err);
-        this.error = true;
-        this.message = err;
-      }
     }
   },
 
