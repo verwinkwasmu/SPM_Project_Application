@@ -30,7 +30,7 @@
                 data-aos="zoom-in"
                 data-aos-delay="100"
               >
-                <iframe src="~/assets/img/sample.pdf" width="100%" height="500px"></iframe>
+                <iframe src="https://spm-grp2-storage.s3.ap-southeast-1.amazonaws.com/XRX-101/Class2/Section1/Project_Instructions.pdf" width="100%" height="500px"></iframe>
                 
               </div>
               <br>
@@ -40,7 +40,7 @@
                 data-aos-delay="100"
               >
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/v64KOxKVLVg" allowfullscreen></iframe>
+                        <iframe class="embed-responsive-item" src="https://spm-grp2-storage.s3.ap-southeast-1.amazonaws.com/XRX-101/Class2/Section1/TechSeries-Demo.mp4" sandbox allowfullscreen></iframe>
                     </div>
                </div>
         </div>
