@@ -2351,12 +2351,12 @@ section {
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
   color: #000000;
+  background-color: rgb(165, 165, 165);
 }
 
 .content {
-  padding-left: 200px;
+  padding-left: 150px;
 }
-=======
 /* Learner */
 
 .LearnerEnrol {
@@ -2423,4 +2423,16 @@ section {
   background: #47b2e4;
   color: #fff;
 }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+#takequiz{
+  display:inline-block;
+  /* margin-top: 50px; */
+  margin-left: 1070px;
+}
+
 
