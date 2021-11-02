@@ -10,7 +10,7 @@
       <div class="container block" data-aos="fade-up">
         <div class="row pb-5 mb-2">
           <div class="viewClass">
-            <router-link :to="{path: '/ViewClasses', query: {courseId: this.course.courseId, courseName: this.course.courseName}}" class="viewClass-btn">Back to see all Classes</router-link>
+            <router-link :to="{path: '/ViewClasses'}" class="viewClass-btn">Back to see all Classes</router-link>
           </div>
         </div>
         <div class="section-title">
@@ -28,10 +28,9 @@
               data-aos-delay="100"
             >
               <div class="member-info">
-                <h4>{{ course.courseName }}</h4>
-                Prerequisite Courses:
-                <ul v-if="course.prerequisites == null">
-                  <b>No Prerequisites</b>
+                <h4>Prerequisite Courses:</h4>
+                <ul v-if="course.prerequisites == ''">
+                  <li>No Prerequisites</li>
                 </ul>
                 <ul v-else>
                   <li>{{ course.prerequisites }}</li>
@@ -148,11 +147,7 @@
                 <router-link
                   class="cancel-btn"
                   :to="{
-                    path: '/ViewClasses',
-                    query: {
-                      courseId: this.$route.query.courseId,
-                      courseName: this.$route.query.courseName,
-                    },
+                    path: '/ViewClasses'
                   }"
                   >Cancel</router-link
                 >
@@ -170,6 +165,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
+    courseId: localStorage.getItem('courseId'),
     course: {},
     myClass: {},
     trainers: [],
@@ -179,7 +175,7 @@ export default {
     selectedTrainer: "",
   }),
   mounted() {
-    const apiUrl1 = `http://localhost:5002/getCourse/${this.$route.query.courseId}`;
+    const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
     const apiUrl2 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
     const apiUrl3 = `http://localhost:5001/getTrainers`;
     const apiUrl4 = `http://localhost:5004/enrolment/${this.$route.query.classId}`;

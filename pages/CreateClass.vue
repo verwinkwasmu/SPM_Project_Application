@@ -8,6 +8,7 @@
       <div class="container" data-aos="fade-up">
         <div class="section-title">
           <h2>Create Class</h2>
+          <h3>{{ this.$route.query.courseName }}</h3>
         </div>
 
         <div class="row">
@@ -196,7 +197,7 @@
         >
       </div>
       <div class="cancel">
-        <router-link class="cancel-btn" :to="{path: '/ViewClasses', query: {courseId: this.$route.query.courseId, courseName: this.$route.query.courseName}}">Cancel</router-link>
+        <router-link class="cancel-btn" :to="{path: '/ViewClasses'}">Cancel</router-link>
       </div>
     </div>
   </div>
@@ -207,6 +208,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
+    courseId: localStorage.getItem('courseId'),
     classTitle: "",
     classSize: "",
     startTime: "",
@@ -231,8 +233,8 @@ export default {
       const apiUrl = "http://localhost:5002/createClass";
 
       const class_details = {
-        classId: this.$route.query.courseId + " " + this.classTitle,
-        courseId: this.$route.query.courseId,
+        classId: this.courseId + " " + this.classTitle,
+        courseId: this.courseId,
         classSize: this.classSize,
         classTitle: this.classTitle,
         startTime: this.startTime,
