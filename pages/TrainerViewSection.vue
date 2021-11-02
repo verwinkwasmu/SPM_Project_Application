@@ -6,7 +6,7 @@
 
            <div class="row pb-5 mb-2 ml-0">
             <div class="viewClass">
-              <router-link :to="{path: '/TrainerViewClasses', query: {courseId: course.courseId}}" class="viewClass-btn">Back to see all Classes</router-link>
+              <router-link :to="{path: '/TrainerViewClasses'}" class="viewClass-btn">Back to see all Classes</router-link>
             </div>
           </div>
 
@@ -43,12 +43,12 @@
                   
                 </div>
                 <div class="editSection">  
-                    <a href="TrainerCourseMaterials" class="editSection-btn">Course Materials</a>
+                    <router-link :to="{path: '/TrainerCourseMaterials', query: {classTitle : classObj.classTitle, sectionId: section.sectionId, classId: classObj.classId}}" class="editSection-btn">Course Materials</router-link>
                 </div>
                 
 
                 <div class="quizList">  
-                    <a href="TrainerQuizList" class="quizList-btn">Quiz List</a>
+                    <router-link :to="{path: '/TrainerQuizList', query: {classTitle : classObj.classTitle, sectionId: section.sectionId, classId: classObj.classId}}" class="quizList-btn">Quiz List</router-link>
                 </div>
 
               </div>
@@ -74,11 +74,12 @@ export default {
     classObj: {},
     error: false,
     message: "",
-    enrolment: {}
+    enrolment: {},
+    courseId: localStorage.getItem('courseId')
   }),
   async mounted() {
     const apiUrl1 = `http://localhost:5002/viewSections/${this.$route.query.classId}`;
-    const apiUrl2 = `http://localhost:5002/getCourse/${this.$route.query.courseId}`;
+    const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
     const apiUrl3 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
     try {
       let response1 = await axios.get(apiUrl1);
