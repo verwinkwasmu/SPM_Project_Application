@@ -25,7 +25,7 @@ def getLearnersInClass(classId):
         }), 404
 
     enrolments = Enrolment.query.filter(
-        (Enrolment.classId == classId) & (Enrolment.completedClass == False)).all()
+        (Enrolment.classId == classId) & (Enrolment.completedClass == False) & (Enrolment.status == 'ACCEPTED')).all()
 
     learner_name_list = []
     for enrolment in enrolments:
@@ -65,7 +65,7 @@ def getNumberOfLearnersInClass(classId):
         }), 404
 
     num_enrolments = Enrolment.query.filter(
-        (Enrolment.classId == classId) & (Enrolment.completedClass == False)).count()
+        (Enrolment.classId == classId) & (Enrolment.completedClass == False) & (Enrolment.status == 'ACCEPTED')).count()
 
     return jsonify(
         {
@@ -204,7 +204,7 @@ def create_enrolment():
                 "message": "There is an invalid learner."
             }), 502
 
-        # (3): Create enrolment record
+        # (3): Check for enrolment record
         enrolments = Enrolment.query.filter(
             Enrolment.classId == data["classId"],
             Enrolment.learnerId == learner_Id
@@ -225,7 +225,8 @@ def create_enrolment():
             courseId=course_Id,
             classId=data['classId'],
             learnerId=learner_Id,
-            totalNumSections=numSections
+            totalNumSections=numSections,
+            status='ACCEPTED'
         )
         enrolment_objects.append(enrolment)
         enrolment_objects2.append(enrolment.to_dict())
@@ -303,7 +304,7 @@ def removeLearner():
             "data": str(request.get_data())
         }), 504
 
-
+#Self-enrolling of learner
 @app.route('/enrolLearner', methods=['POST'])
 def enrolLearner():
     data = request.get_json()
@@ -396,7 +397,6 @@ def getPendingEnrolments():
     ), 200
 
 
-
 # ACCEPT OR REJECT PENDING ENROLMENT REQUESTS
 @app.route('/updateEnrolmentRequest', methods=['PUT'])
 def updateEnrolmentRequest():
@@ -428,5 +428,83 @@ def updateEnrolmentRequest():
         return jsonify({
             "message": "Unable to commit to database."
         }), 503
+
+# Award badge upon completing 
+@app.route('/updateCompletionStatus', methods=['PUT'])
+def updateCompletionStatus():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('classId', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    learnerId = data['learnerId']
+    classId = data['classId']
+
+    #update enrolment record
+    enrolmentObj = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.learnerId==learnerId).first()
+
+    course_id = enrolmentObj.to_dict()['courseId']
+    courseObj = Course.query.filter(Course.courseId==course_id).first()
+
+    if enrolmentObj.completedClass: 
+        return jsonify({
+            "message": "Learner has already completed the class"
+        }), 501
+
+    enrolmentObj.completedClass = True
+    # course_id = enrolmentObj.courseId
+    # courseObj = Course.query.filter(Course.courseId==course_id).first()
+
+    try:
+        db.session.merge(enrolmentObj)
+        db.session.commit()
+        return jsonify({
+            "data": courseObj.to_dict(),
+            "message": "enrolment updated"
+        }), 200
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 503
+
+# get user's awarded badges
+@app.route("/awardedBadges")
+def awardedBadges():
+    learner_id = request.args.get('learnerId')
+
+    # (1): Validate learner
+    learnerCheck = Learner.query.filter(Learner.userId==learner_id).first()
+
+    if not learnerCheck:
+        return jsonify({
+            "message": "Learner does not exist"
+        }), 501
+
+    badges = Enrolment.query.filter((Enrolment.learnerId==learner_id) & (Enrolment.completedClass==True)).all()
+
+    awarded_badge = []
+    for badge in badges: 
+        badgeDict = {}
+        badgeDict['courseId'] = badge.courseId
+        courseObject = Course.query.filter(Course.courseId==badge.courseId).first()
+        badgeDict['courseName'] = courseObject.courseName
+        awarded_badge.append(badgeDict)
+
+    if len(awarded_badge) == 0: 
+        return jsonify({
+            "message": "Learner has not completed any courses",
+            "data": []
+        }), 200
+    
+    return jsonify(
+        {
+            "data": awarded_badge
+        }
+    ), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5004, debug=True)
