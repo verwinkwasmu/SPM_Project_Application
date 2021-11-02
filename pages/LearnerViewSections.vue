@@ -40,6 +40,7 @@
                 >
                 <iframe :src="url" width="100%" height="500px"></iframe>
                 
+                <br>
                 <button type="button" @click="addClicks" class="btn btn-outline-success">Mark as Complete</button>
                 </div>
               </li>
@@ -58,10 +59,12 @@
                   class="collapse"
                   data-bs-parent=".faq-list"
                 >
+                
                   <div class="embed-responsive embed-responsive-16by9">
-                      <iframe class="embed-responsive-item" src="https://spm-grp2-storage.s3.ap-southeast-1.amazonaws.com/XRX-101/Class2/Section1/TechSeries-Demo.mp4" sandbox allowfullscreen></iframe>
+                      <iframe class="embed-responsive-item" src="https://spm-grp2-storage.s3.ap-southeast-1.amazonaws.com/XRX-101/Class2/Section1/TechSeries-Demo.mp4" type="application/x-shockwave-flash" sandbox allowfullscreen></iframe>
                   </div>
              
+                  <br>
                   <button type="button" @click="addClicks" class="btn btn-outline-success">Mark as Complete</button>
                 </div>
               </li>   

@@ -2435,4 +2435,32 @@ a.disabled {
   margin-left: 1070px;
 }
 
+#quizrbtn {
+  background:transparent;
+  color:black;
+  border-radius:8px;   
+  padding:10px;
+  margin:0px;
+  cursor:pointer;
+  width: 1000px;
+}
 
+#quizrbtn:hover {
+  background:#ccc;   
+}
+
+#quizrbtn:hover, #quizrbtn:focus {
+  background-color:#ccc;
+  color:#000000;
+  cursor:pointer;
+}
+
+#quizrbtn {
+  margin-right:1em;   
+}
+
+.fieldgroup{
+  float: left;
+  width: auto;
+  margin-left: 3em;
+}
