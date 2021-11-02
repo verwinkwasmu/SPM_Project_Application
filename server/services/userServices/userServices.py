@@ -98,18 +98,14 @@ def login():
     data = request.get_json()
 
     # check if proper data is sent
-    if not all(key in data.keys() for
-               key in ('email', 'password')):
+    if not data['userName']:
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
     
-    user = User.query.filter_by(email=data['email']).first()
+    user = User.query.filter_by(userName=data['userName']).first()
     
-    # retrieve password
-    password = data['password']
-    
-    if not user or not user.verify_password(password):
+    if not user:
         return jsonify({
             "message": "Person not found."
         }), 404
