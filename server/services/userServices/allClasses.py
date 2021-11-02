@@ -299,5 +299,34 @@ class Question(db.Model):
                 result["option"] = list(option_str.split(";"))
                 
         return result
+        
+class File(db.Model):
+    __tablename__ = 'file'
+
+    learnerId = db.Column(db.Integer, db.ForeignKey('learner.userId'), primary_key=True)
+    fileId = db.Column(db.String(100), primary_key=True)
+    completed = db.Column(db.Boolean)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'file'
+    }
+    
+    def __init__(self, learnerId, fileId, completed):
+        self.learnerId = learnerId
+        self.fileId = fileId
+        self.completed = completed
+
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+
 
 db.create_all()
