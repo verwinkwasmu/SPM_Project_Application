@@ -11,22 +11,26 @@
                 </div>
                   
                           <div class="" v-for="(question, index) in questions" :key="index">
-                              <h4>{{question.fullquestion}}</h4>
-                              <div class="radio">
-                                      <div class="radio">
-                                          <label id="quizrbtn"><input type="radio" name="optradio" checked>{{question.option1}}</label>
+                              <h4>{{index+1}}. {{question.fullquestion}}</h4>
+                              <div class="optionContainer">
+                                      <div class="option">
+                                          <label id="quizrbtn"><input type="radio" name="optradio">    
+                                          {{question.option1}}</label>
                                       </div>
       
-                                      <div class="radio">
-                                          <label id="quizrbtn"><input type="radio" name="optradio">{{question.option2}}</label>
+                                      <div class="option">
+                                          <label id="quizrbtn"><input type="radio" name="optradio" >     
+                                          {{question.option2}}</label>
                                       </div>
                                       
-                                      <div class="radio">
-                                          <label id="quizrbtn"><input type="radio" name="optradio">{{question.option3}}</label>
+                                      <div class="option">
+                                          <label id="quizrbtn"><input type="radio" name="optradio" :class="'is-selected'">     
+                                          {{question.option3}}</label>
                                       </div>
       
-                                      <div class="radio">
-                                          <label id="quizrbtn"><input type="radio" name="optradio">{{question.option4}}</label>
+                                      <div class="option">
+                                          <label id="quizrbtn"><input type="radio" name="optradio" :class="'is-selected'">     
+                                          {{question.option4}}</label>
                                       </div>
                               </div>
                               <hr>
