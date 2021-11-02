@@ -1573,6 +1573,34 @@ section {
   color: #fff;
 }
 
+#createSection {
+  margin: auto;
+  width: 70%;
+  padding: 0px;  
+}
+
+
+.viewSection .viewSection-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 30px;
+  /* bottom:15px; */
+}
+
+.viewSection .viewSection-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
 .TrainerCreateFinalQuiz {
   padding-top:15px;
 }

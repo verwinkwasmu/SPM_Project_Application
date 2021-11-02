@@ -5,6 +5,13 @@
     <!-- <Homepage/> -->
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
+        
+        <div class="row pb-5 mb-2 ml-0">
+            <div class="viewSection">
+              <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId, courseId: classObj.courseId}}" class="viewSection-btn">Back to see all Sections</router-link>
+            </div>
+          </div>
+
         <div class="section-title">
           <h2>Create Section</h2>
         </div>
@@ -71,12 +78,10 @@
     </section>
 
     <div class="buttongroup">
-      <div class="classCreate">
-        <a href="#" class="classCreate-btn" @click="createSection">Create Section</a>
+      <div class="TrainerCreateSection">
+        <a href="#" class="TrainerCreateSection-btn" style="margin-left: 1010px" @click="createSection">Create Section</a>
       </div>
-      <div class="viewClass">
-        <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId, courseId: classObj.courseId}}" class="viewClass-btn">View Sections</router-link>
-      </div>
+     
     </div>
 
 
