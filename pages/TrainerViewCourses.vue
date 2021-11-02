@@ -24,7 +24,7 @@
                 <div class="icon"><i class="bx bxl-dribbble"></i></div>
                 <h4><a href="">{{ course.courseName }}</a></h4>
                 <div class="viewClass">
-                  <router-link :to="{path: '/TrainerViewClasses', query: {trainerId: 13, courseId: course.courseId}}" class="viewClass-btn">View Classes</router-link>
+                  <a class="viewClass-btn" @click="setCourseIdSession(course.courseId)">View Classes</a>
                 </div>
               </div>
             </div>
@@ -113,6 +113,13 @@ export default {
       this.message = err;
     }
   },
+  methods: {
+    setCourseIdSession(courseId){
+      localStorage.removeItem('courseId')
+      localStorage.setItem('courseId', courseId)
+      this.$router.push('/TrainerViewClasses')
+    }
+  }
   
   
 };

@@ -81,7 +81,7 @@
                   </p>
                 </div>
                 <div class="viewClass">
-                  <router-link :to="{path: '/TrainerViewSection', query: {classId: _class.classId, courseId: _class.courseId}}" class="viewClass-btn">View Sections</router-link>
+                  <router-link :to="{path: '/TrainerViewSection', query: {classId: _class.classId}}" class="viewClass-btn">View Sections</router-link>
                 </div>
               </div>
             </div>
@@ -101,12 +101,13 @@ export default {
     classes: [],
     error: false,
     message: "",
-    enrolment: {}
+    enrolment: {},
+    courseId: localStorage.getItem('courseId')
   }),
   async mounted() {
-    const apiUrl1 = `http://localhost:5002/getTrainerClasses/13/${this.$route.query.courseId}`;
-    const apiUrl2 = `http://localhost:5002/getCourse/${this.$route.query.courseId}`;
-    const getEnrolmentURL = `http://localhost:5004/enrolment/size/13/${this.$route.query.courseId}`;
+    const apiUrl1 = `http://localhost:5002/getTrainerClasses/13/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
+    const getEnrolmentURL = `http://localhost:5004/enrolment/size/13/${this.courseId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);

@@ -5,8 +5,12 @@ from botocore.exceptions import ClientError
 import logging
 import os
 import mimetypes
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
+
 BUCKET = os.getenv('BUCKET')
 S3_DOMAIN = os.getenv('S3_DOMAIN')
 
@@ -57,6 +61,7 @@ def list_files():
     try:
         response = s3.list_objects(
             Bucket=BUCKET, Prefix=f'{courseId}/{className}/{sectionName}/')['Contents']
+            
         for item in response:
             url = S3_DOMAIN + item['Key']
             filename = (item['Key']).split('/')[-1]
