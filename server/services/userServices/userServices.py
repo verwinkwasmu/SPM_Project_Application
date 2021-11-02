@@ -121,5 +121,28 @@ def login():
             }
         ), 200
 
+# set learner's course material as completed
+@app.route('/setFileCompleted', methods=['POST'])
+def setFileCompleted():
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('learnerId', 'fileId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    file = File(learnerId=data['learnerId'], fileId=data['fileId'], completed=True)
+    
+    try:
+        db.session.add(file)
+        db.session.commit()
+        return jsonify(file.to_dict()), 201
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 500
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
