@@ -28,8 +28,8 @@
               <h4>
                 <a href="">{{ course.courseName }}</a>
               </h4>
-              <div class="course">
-                <router-link class="course-btn" :to="{path: '/ViewClasses', query: {courseId: course.courseId, courseName: course.courseName}}">View Classes</router-link>
+              <div class="viewClass">
+                <a class="viewClass-btn" @click="setCourseIdSession(course.courseId)">View Classes</a>
               </div>
             </div>
           </div>
@@ -60,6 +60,13 @@ export default {
       this.message = err;
     }
   },
+  methods: {
+    setCourseIdSession(courseId){
+      localStorage.removeItem('courseId')
+      localStorage.setItem('courseId', courseId)
+      this.$router.push('/ViewClasses')
+    }
+  }
   
   
 };

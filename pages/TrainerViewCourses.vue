@@ -96,13 +96,13 @@ import axios from "axios";
 
 export default {
   data: () => ({
+    trainerId: localStorage.getItem('userId'),
     courses: [],
     error: false,
     message: "",
   }),
   async mounted() {
-    const apiUrl = "http://localhost:5002/getTrainerCourses/13";
-    // ${this.$route.query.trainerId}
+    const apiUrl = `http://localhost:5002/getTrainerCourses/${this.trainerId}`;
     try {
       let response = await axios.get(apiUrl);
       this.courses = response.data.data;
@@ -120,6 +120,7 @@ export default {
       this.$router.push('/TrainerViewClasses')
     }
   }
+
   
   
 };

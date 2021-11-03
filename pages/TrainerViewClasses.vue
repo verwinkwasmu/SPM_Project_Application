@@ -6,7 +6,7 @@
 
           <div class="row pb-5 mb-2 ml-0">
             <div class="viewClass">
-              <router-link :to="{path: '/TrainerViewCourses', query: {trainerId: 13}}" class="viewClass-btn">Back to see all Courses</router-link>
+              <router-link :to="{path: '/TrainerViewCourses'}" class="viewClass-btn">Back to see all Courses</router-link>
             </div>
           </div>
 
@@ -27,19 +27,13 @@
                                 
                         <div class="member-info">
                           <!-- <h4>{{ course.courseName }}</h4> -->
-
+                          <h4>Prerequisite Courses:</h4>
                           <div v-if="course.prerequisites != ''">
-                            <h4>Prequiresite Course:</h4> 
-                            <p>{{ course.prerequisites }}</p> <br>
-                            <!-- Prerequisite Courses: 
-
-                            <ul>
-                              <li>{{ course.prerequisites }}</li>
-                            </ul> -->
+                            <li>{{ course.prerequisites }}</li> <br>
                           </div>
-                          <div v-else>
-                            <br/>
-                          </div>
+                          <ul v-else>
+                            <li> No Prerequisites required</li>
+                          </ul>
                           <h4>Period of Enrollment: </h4> <p>1st July - 30th July</p> <br>
                           <h4>Course Description: </h4>
                           <p>
