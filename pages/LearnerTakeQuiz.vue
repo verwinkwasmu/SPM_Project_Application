@@ -32,6 +32,9 @@
                                           <label id="quizrbtn"><input type="radio" name="optradio" :class="'is-selected'">     
                                           {{question.option4}}</label>
                                       </div>
+                                      <div id="remainingTime">
+                                        hihihihi {{timer}}
+                                      </div>
                               </div>
                               <hr>
                           </div>
@@ -56,8 +59,6 @@
     loading: false,
     error: null,
     courseName: 'Fundamentals of XXX',
-    // userResponses
-    // data: null,
 
     questions: [
       {
@@ -67,8 +68,8 @@
         option3: "Maybe",
         option4: "Maybe not",
       }],
-        
 
+    quizTimer: 30,
   }),
   };
 </script>
