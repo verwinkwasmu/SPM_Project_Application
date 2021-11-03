@@ -38,9 +38,9 @@
                         </router-link>
                     </div>
 
-                </div>
+                </div >
                    
-                  <table class="table">
+                  <table v-if="quizExist==true" class="table">
                     <thead>
                         <tr>
                         <th scope="col">#</th>
