@@ -5,7 +5,6 @@
           <div class="" data-aos="fade-up">
               <div id='App' class="container">
                 <div class="section-title">
-                  <!-- <h2>{{courseName}}</h2> -->
                   <h2>{{courseName}}</h2>
                   <h3> Section 1 Quiz </h3>
                 </div>
@@ -41,8 +40,7 @@
                               </div>
                               <hr>
                           </div>
-                  <!-- </div>
-              </div>    -->
+          
               </div>
       
               </div>
