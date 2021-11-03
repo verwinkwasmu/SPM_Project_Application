@@ -49,12 +49,14 @@
 
   export default {
       name: "App",
+      
   data: () => ({
     success: false,
     error: false,
     loading: false,
     error: null,
     courseName: 'Fundamentals of XXX',
+    // userResponses
     // data: null,
 
     questions: [

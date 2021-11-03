@@ -2403,24 +2403,27 @@ section {
   color: #fff;
 }
 
-.LearnerWithdraw .LearnerWithdraw-btn {
+.LearnerWithdraw {
+  padding-top:60px;
+}
+
+.LearnerWithdraw .LearnerWithdraw-btn{
   display: inline-block;
   padding: 10px 30px;
   border-radius: 50px;
-  color: #47b2e4;
+  color: #9b0101;
   transition: none;
   font-size: 16px;
   font-weight: 500;
   font-family: "Jost", sans-serif;
   transition: 0.3s;
-  border: 1px solid #47b2e4;
-  position:relative; 
-  margin-left: 200px;
-  /* bottom:15px; */
+  border: 1px solid #9b0101;
+  position: absolute;
+  margin-left: 670px;
 }
 
 .LearnerWithdraw .LearnerWithdraw-btn:hover {
-  background: #47b2e4;
+  background: #9b0101;
   color: #fff;
 }
 
@@ -2443,10 +2446,11 @@ a.disabled {
   margin:0px;
   cursor:pointer;
   width: 1000px;
+  
 }
-/* 
-#quizrbtn:hover {
-  background:#ccc;   
+
+/* #quizrbtn:hover {
+  background:rgb(131, 104, 104);     
 } */
 
 /* #quizrbtn:hover, #quizrbtn:focus {
@@ -2470,8 +2474,10 @@ a.disabled {
   flex-grow: 1;
 } */
 .option {
-    border-radius: 15px;
-    padding: 9px 18px;
+    border-radius: 8px;
+    /* padding: 9px 18px; */
+    padding:10px;
+
     margin: 0 18px;
     margin-bottom: 12px;
     /* transition: $trans_duration; */
@@ -2479,13 +2485,22 @@ a.disabled {
     background-color: rgba(0, 0, 0, 0.05);
     border: transparent 1px solid;
 }
+
 .is-selected {
   border-color: #209cee;
   background-color: white;
 }
-option:hover {
+
+.option:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
-option:active {
+
+/* .option:active {
   transform: scaleX(0.9);
+
+} */
+
+.LearnerEnrolStatus {
+  padding-left: 900px;
+  padding-bottom: 20px;
 }

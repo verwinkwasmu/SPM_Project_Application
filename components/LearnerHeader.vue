@@ -11,7 +11,7 @@
             </li>
             
             <li>
-                <a class="nav-link" href="LearnerViewCourse">Enrol</a>
+                <a class="nav-link" href="LearnerViewAvailableCourses">Enrol</a>
             </li>
             <li class="dropdown">
               <a href="TrainerViewCourses"
