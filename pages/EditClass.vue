@@ -14,11 +14,8 @@
           </div>
         </div>
         <div class="section-title">
-          <h2>
-            {{ course.courseName }} <br />
-            <br />
-            {{ myClass.classTitle }}
-          </h2>
+          <h2>{{myClass.classId}}</h2>
+          <h3>{{course.courseName}}</h3>
         </div>
         <div class="row">
           <div class="col-lg-8" id="createCourse" style="padding-bottom: 50px">
@@ -28,6 +25,10 @@
               data-aos-delay="100"
             >
               <div class="member-info">
+                <h4>Course ID: </h4> 
+                <p>{{ course.courseId }}</p> <br>
+                <h4>Course Description:</h4>
+                <p>{{ course.courseDescription }}</p> <br>
                 <h4>Prerequisite Courses:</h4>
                 <ul v-if="course.prerequisites == ''">
                   <li>No Prerequisites</li>
@@ -46,14 +47,10 @@
                 <br />
                 <h4>Period of Class:</h4>
                 <p>
-                  {{ myClass.startTime }}, {{ myClass.startDate }} to
-                  {{ myClass.endTime }}, {{ myClass.endDate }}
+                  {{ myClass.startDate }}, {{ myClass.startTime }}  <b>to</b>
+                  {{ myClass.endDate }}, {{ myClass.endTime }}
                 </p>
                 <br />
-                <h4>Course Description:</h4>
-                <p>
-                  {{ course.courseDescription }}
-                </p>
               </div>
             </div>
           </div>

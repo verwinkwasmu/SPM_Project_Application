@@ -27,6 +27,10 @@
                                 
                         <div class="member-info">
                           <!-- <h4>{{ course.courseName }}</h4> -->
+                          <h4>Course ID: </h4> 
+                          <p>{{ course.courseId }}</p> <br>
+                          <h4>Course Description: </h4>
+                          <p>{{course.courseDescription}}</p> <br>
                           <h4>Prerequisite Courses:</h4>
                           <div v-if="course.prerequisites != ''">
                             <li>{{ course.prerequisites }}</li> <br>
@@ -34,11 +38,6 @@
                           <ul v-else>
                             <li> No Prerequisites required</li>
                           </ul>
-                          <h4>Period of Enrollment: </h4> <p>1st July - 30th July</p> <br>
-                          <h4>Course Description: </h4>
-                          <p>
-                              {{course.courseDescription}}
-                          </p>
                           </div>
                       </div>
                 </div>
@@ -54,24 +53,24 @@
               >
                 <div class="member-info">
                   <h4>{{ _class.classTitle }}</h4>
-                  <p> Current Class Size: {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
+                  <p> <b>Current Class Size:</b> {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
                   <br>
 
                   <p>
-                    Start Date: {{_class.startDate}} 
+                    <b>Start Date:</b> {{_class.startDate}} 
                   </p>
                   <p>
-                    Start Time: {{_class.startTime}} 
+                    <b>Start Time:</b> {{_class.startTime}} 
                   </p>
 
 
                   <br>
 
                   <p>
-                    End Date: {{_class.endDate}} 
+                    <b>End Date:</b> {{_class.endDate}} 
                   </p>
                   <p>
-                    End Time: {{_class.endTime}} 
+                    <b>End Time:</b> {{_class.endTime}} 
                   </p>
                 </div>
                 <div class="viewClass">
