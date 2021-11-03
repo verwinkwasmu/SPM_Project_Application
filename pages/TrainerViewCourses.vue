@@ -15,7 +15,7 @@
             <div
               v-for="course in courses"
               :key="course.courseId"
-              class="col-xl-3 col-md-6 d-flex align-items-stretch"
+              class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
               data-aos="zoom-in"
               data-aos-delay="400"
             >
