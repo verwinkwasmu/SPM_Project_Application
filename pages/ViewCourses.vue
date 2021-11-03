@@ -22,6 +22,7 @@
             class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
             data-aos="zoom-in"
             data-aos-delay="400"
+            style="padding-bottom: 30px;"
           >
             <div class="icon-box">
               <div class="icon"><i class="bx bx-layer"></i></div>

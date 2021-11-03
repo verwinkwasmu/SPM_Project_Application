@@ -1411,6 +1411,26 @@ section {
   color: #fff;
 }
 
+.approve .approve-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: relative;
+  margin-left: 830px;
+}
+
+.approve .approve-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
 .cancel{
   display: inline-block;
   margin-bottom: 55px;
@@ -1459,6 +1479,29 @@ section {
   background: #CA1B10;
   color: #fff;
 }
+
+
+.reject .reject-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color:#CA1B10;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #CA1B10;
+  position: absolute;
+  margin-left: 810px;
+  /* margin-left: 5px; */
+}
+
+.reject .reject-btn:hover {
+  background: #CA1B10;
+  color: #fff;
+}
+
 
 
 
@@ -2507,4 +2550,14 @@ a.disabled {
 
 .timer {
   padding-left: 970px;
+}
+
+/* HR Approve/Reject */
+
+.approve {
+  padding-right: 100px;
+}
+
+.reject {
+  padding-left: 150px;
 }
