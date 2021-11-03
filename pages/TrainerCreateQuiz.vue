@@ -12,7 +12,7 @@
                     <form>
                         
                         <div class="work-questions">
-                            <div class="form-row" v-for="(question, index) in questions" :key="index">
+                            <div class="form-group" v-for="(question, index) in questions" :key="index">
                               <div class="form-group col-md-10">
                                   <label>Question: </label>
                                   <input v-model="question.fullquestion" :name="`questions[${index}][fullquestion]`" type="text" class="form-control" placeholder="Enter your question here">

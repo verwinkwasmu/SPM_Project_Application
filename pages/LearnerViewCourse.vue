@@ -13,6 +13,7 @@
               :key="course.courseId"
               class="col-xl-3 col-md-6 d-flex align-items-stretch"
               data-aos="zoom-in"
+              style="padding-bottom:50px;"
               data-aos-delay="100"
             >
               <div class="icon-box">
