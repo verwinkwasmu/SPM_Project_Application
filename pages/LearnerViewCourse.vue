@@ -24,7 +24,7 @@
                 <!-- </div> -->
                 <h4><a href="">{{ course.courseName }}</a></h4>
                 <div class="viewClass">
-                  <a class="viewClass-btn" @click="setCourseIdSession(course.courseId)">View Classes</a>
+                  <a class="viewClass-btn" @click="setCourseIdSession(course.courseId)">View Course Details</a>
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
       </section>
     </div>
 </template>
-
+  
 <script>
 import axios from "axios";
 
@@ -59,7 +59,7 @@ export default {
     setCourseIdSession(courseId){
       localStorage.removeItem('courseId')
       localStorage.setItem('courseId', courseId)
-      this.$router.push('/LearnerViewClass')
+      this.$router.push('/LearnerViewCourseDetails')
     }
   }
   

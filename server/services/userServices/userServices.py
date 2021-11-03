@@ -102,6 +102,8 @@ def login():
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
+
+    # data_userName = data['userName']
     
     user = User.query.filter_by(userName=data['userName']).first()
     
