@@ -68,6 +68,8 @@ def list_files():
 
             result.append({"filename": filename,
                            "url": url,
+                           "completed": False,
+                           "fileId": item['Key']
                            })
         return jsonify(result)
 

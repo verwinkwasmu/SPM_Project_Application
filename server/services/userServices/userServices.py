@@ -156,14 +156,13 @@ def getCompletedFiles():
     learnerId = data['learnerId']
 
     file_path = f"{courseId}/{className}/{sectionName}/"
-    print(file_path)
     
     files = File.query.filter(File.fileId.contains(file_path), File.learnerId==learnerId).all()
 
     if files:
         return jsonify(
             {
-                "data": [file.to_dict() for file in files]
+                "data": [file.fileId for file in files]
             }
         ), 200
     else:
