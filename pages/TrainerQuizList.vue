@@ -12,7 +12,7 @@
                 <div class="section-title">
                   
                     <h2>{{sectionId}}</h2>
-                    <h3>{{course.courseName}}</h3>
+                    <h3>{{classObj.classId}}</h3>
                     <div class="row pt-3">
                       <div class="col-lg-6" id="TrainerViewCourseDetails" style="padding-bottom: 40px">
                           <div class="member d-flex"
