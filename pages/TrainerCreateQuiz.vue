@@ -4,8 +4,8 @@
         <section id="team" class="team section-bg">
             <div class="" data-aos="fade-up">
                 <div class="section-title">
-                    <h2>Fundamentals of Xerox WorkCentre 7845 Quiz</h2>
-                    <h1>Quiz questions</h1>
+                    <h2>{{course.courseName}}</h2>
+                    <h1>{{this.quizId}} questions</h1>
                 </div>
 
                 <div id="app" class="container">
@@ -38,10 +38,10 @@
                                   <label>Answer: </label>
                                   <b-select v-model="question.answer">
                                     <option disabled value="">Please select one</option>
-                                      <option>Option 1</option>
-                                      <option>Option 2</option>
-                                      <option>Option 3</option>
-                                      <option>Option 4</option>
+                                      <option>{{question.option1}}</option>
+                                      <option>{{question.option2}}</option>
+                                      <option>{{question.option3}}</option>
+                                      <option>{{question.option4}}</option>
                                   </b-select>
                               </div>
                               
@@ -87,7 +87,7 @@
                       </div>
 
                       <div class="cancel">
-                        <a href="TrainerViewSection" class="cancel-btn">Cancel</a>
+                        <router-link :to="{path: '/TrainerViewSection', query: {sectionId: sectionId, classId: classObj.classId}}"  class="cancel-btn">Cancel</router-link>
                       </div>
 
                       <div
@@ -134,6 +134,10 @@ export default {
     error: false,
     loading: false,
     error: null,
+    classObj: {},
+    sectionId:"",
+    quizId: "",
+    course: {},
     // data: null,
 
     questions: [
@@ -149,8 +153,28 @@ export default {
     
     quizTimer: '',
     
-
+    courseId: localStorage.getItem('courseId')
   }),
+  async mounted() {
+    const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
+    try {
+      let response1 = await axios.get(apiUrl1);
+      let response2 = await axios.get(apiUrl2);
+
+      this.course = await response1.data;
+      this.classObj = await response2.data;
+      this.sectionId = await this.$route.query.sectionId;
+  
+      this.quizId = await this.sectionId.replace("Section", "Quiz");
+
+      this.error = false;
+    } catch (err) {
+      console.log(err);
+      this.error = true;
+      this.message = err;
+    }
+  },
 
   methods: {
     addquestion () {
@@ -177,30 +201,98 @@ export default {
         })
     },
 
-    submit() {
+    async submit(event) {
+      event.preventDefault();
+      // form validation
       if(!this.questions || !this.quizTimer){
         this.error = true
         this.message = "Please make sure Question, Options, Answer, Explanation and Quiz Duration are not empty!"
         return
       }
-      const formData = {
-        questions: this.questions,
-        quizTimer: this.quizTimer
-      };
-      try{
-        this.loading = true
-        axios.post("https://jsonplaceholder.typicode.com/posts", formData)
-        .then(response => {
-            this.reset();
-            this.success = true;
-            this.message = "Quiz successfully created! 😃"
-            console.log('yay')
-        })
-      }catch(error){
-        this.error = true;
-        console.log(error)
+
+      // create quiz
+      await this.createQuiz(event);
+
+      // create questions
+      var number = 1;
+
+      for (let i = 0; i<this.questions.length; i++){
+        console.log(this.questions[i]);
+        await this.createQuestion(event, this.questions[i], number);
+        number++;
       }
-      
+
+      if (!this.error){
+        setTimeout(function(){ 
+          this.$router.push({path: '/TrainerViewSection', query: {sectionId: this.sectionId, classId: this.classObj.classId}});
+        }.bind(this), 1000);
+      }
+     
+    },
+
+    async createQuiz(event){
+      event.preventDefault();
+      const apiUrl = "http://localhost:5003/createQuiz";
+      const quiz_details = {
+        sectionId: this.sectionId,
+        classId: this.classObj.classId,
+        quizId: this.quizId,
+        time: this.quizTimer
+      };
+      this.loading = true
+      try{
+        let response = await axios.post(apiUrl, quiz_details)
+        console.log(response)
+        if (response.status == 201) {
+          this.reset();
+          this.data = response.data;
+          // alert("Quiz Successfully Created! 😃");
+        } else {
+          this.error = true;
+          alert("Quiz already exists!");
+        }
+      }catch(err){
+        console.log(err)
+        this.error = true;
+        this.message = err
+      }
+    },
+
+
+    async createQuestion(event, qn, number){
+      event.preventDefault();
+      const apiUrl = "http://localhost:5003/createQuestion";
+      const option = qn.option1 + ";" + qn.option2 + ";" + qn.option3 + ";" + qn.option4;
+
+      const question_details = {
+        sectionId : this.sectionId,
+        classId : this.classObj.classId,
+        quizId : this.quizId,
+        questionId : "Question " + number.toString(),
+        question : qn.fullquestion,
+        option : option,
+        answer : qn.answer,
+        explanation : qn.explanation
+      };
+      this.loading = true
+      try{
+        let response = await axios.post(apiUrl, question_details)
+        console.log(response)
+        if (response.status == 201) {
+          this.reset();
+          this.success = true;
+          this.message = "Questions successfully created! 😃"
+          console.log(response.status)
+          this.error = false;
+        } else {
+          this.error = true;
+          alert("Question already exists!");
+        }
+      }catch(err){
+        console.log(err)
+        this.error = true;
+        this.message = err
+      }
     },
 
     reset(){
