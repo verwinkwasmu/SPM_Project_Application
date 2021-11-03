@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, current_app as app
+from flask import Flask, json, request, jsonify, current_app as app
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -140,5 +140,39 @@ def setFileCompleted():
             "message": "Unable to commit to database."
         }), 500
         
+@app.route('/getCompletedFiles', methods=['POST'])
+def getCompletedFiles():
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('courseId', 'className', 'sectionName', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    courseId = data['courseId']
+    className = data['className']
+    sectionName = data['sectionName']
+    learnerId = data['learnerId']
+
+    file_path = f"{courseId}/{className}/{sectionName}/"
+    print(file_path)
+    
+    files = File.query.filter(File.fileId.contains(file_path), File.learnerId==learnerId).all()
+
+    if files:
+        return jsonify(
+            {
+                "data": [file.to_dict() for file in files]
+            }
+        ), 200
+    else:
+        return jsonify(
+            {
+                "data": [],
+                "message": "no files completed yet"
+            }
+        ), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
