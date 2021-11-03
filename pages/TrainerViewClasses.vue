@@ -85,46 +85,4 @@
     </div>
 </template>
 
-<script>
-import axios from "axios";
-
-export default {
-  data: () => ({
-    course: {},
-    classes: [],
-    error: false,
-    message: "",
-    enrolment: {},
-    courseId: localStorage.getItem('courseId')
-  }),
-  async mounted() {
-    const apiUrl1 = `http://localhost:5002/getTrainerClasses/13/${this.courseId}`;
-    const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const getEnrolmentURL = `http://localhost:5004/enrolment/size/13/${this.courseId}`;
-    try {
-      let response1 = await axios.get(apiUrl1);
-      let response2 = await axios.get(apiUrl2);
-      let response3 = await axios.get(getEnrolmentURL);
-
-      console.log(response1)
-      console.log(response2)
-      console.log(response3)
-
-      this.classes = await response1.data.data;
-      this.course = await response2.data;
-      this.enrolment = await response3.data.data;
-  
-      console.log(this.classes);
-      console.log(this.course);
-      console.log(this.enrolment);
-
-      this.error = false;
-    } catch (err) {
-      console.log(err);
-      this.error = true;
-      this.message = err;
-    }
-  },
-
-};
-</script>
+ç

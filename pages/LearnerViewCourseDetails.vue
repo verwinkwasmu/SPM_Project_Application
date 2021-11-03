@@ -8,7 +8,7 @@
             <div class="container" data-aos="fade-up">
 
                 <div class="section-title">
-                    <h2>Fundamentals of Xerox WorkCentre 7845 <br></h2>
+                    <h2>{{ course.courseName }}<br></h2>
                 </div>
                 <div class="LearnerEnrolStatus">
                     <span class="badge badge-secondary">Pending Approval</span>
@@ -21,27 +21,25 @@
                                 data-aos-delay="100"
                             >
                                 <div class="LearnerEnrol">
-                                    <a href="LearnerViewClass" @click="enrol" class="LearnerEnrol-btn" v-if="notEnrolled">Enrol into course</a>
+                                    <router-link :to="{path: '/LearnerViewClass'}" class="LearnerEnrol-btn" v-if="notEnrolled">Enrol into Course</router-link>
                                 </div>
                                 <div class="LearnerWithdraw">  
                                     <a href="" class="LearnerWithdraw-btn">Withdraw from Course</a>
                                 </div>
                                 
                                 <div class="member-info">
-                                <h4>Fundamentals of Xerox WorkCentre 7845</h4>
-                                Prerequisite Courses: 
-                                <ul>
-                                    <li>Fundamentals of Xerox</li>
-                                    <li>Fundamentals of Printing</li>
-                                </ul>
-                                
-                                <h4>Course Description: </h4>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-                                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                </p>
-
+                                    <!-- <h4>{{ course.courseName }}</h4> -->
+                                    <h4>Course ID: </h4> 
+                                    <p>{{ course.courseId }}</p> <br>
+                                    <h4>Course Description: </h4>
+                                        <p>{{course.courseDescription}}</p> <br>
+                                    <h4>Prerequisite Courses:</h4>
+                                    <ul v-if="course.prerequisites != ''">
+                                        <li>{{ course.prerequisites }}</li> 
+                                    </ul>
+                                    <ul v-else>
+                                        <li>No prerequisites required</li>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -57,19 +55,38 @@
     </div>
 </template>
 
+
 <script>
 import axios from "axios";
 
 export default {
   data: () => ({
-      notEnrolled: true,
-      enrolled: false,
+    course: {},
+    error: false,
+    message: "",
+    enrolment: {},
+    courseId: localStorage.getItem('courseId'),
+    notEnrolled: true,
+    enrolled: false,
   }),
+  async mounted() {
+    const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
+    try {
+      let response1 = await axios.get(apiUrl1);
 
-  methods: {
-      enrol () {
+      console.log(response1)
 
-      }
-  }
+      this.course = await response1.data;
+
+      console.log(this.course)
+
+      this.error = false;
+    } catch (err) {
+      console.log(err);
+      this.error = true;
+      this.message = err;
+    }
+  },
 };
 </script>
+
