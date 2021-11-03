@@ -2551,3 +2551,13 @@ a.disabled {
 .timer {
   padding-left: 970px;
 }
+
+/* HR Approve/Reject */
+
+.approve {
+  padding-right: 100px;
+}
+
+.reject {
+  padding-left: 150px;
+}

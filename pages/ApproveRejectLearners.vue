@@ -9,7 +9,6 @@
               <h5>Total List of Engineers:</h5>
             </div>
 
-            <b-tabs>
               <b-tab-item label="Table">
                   <b-table
                       :data="data"
@@ -18,24 +17,16 @@
                       :is-row-checkable="(row) "
                       checkable
                       :checkbox-position="checkboxPosition">
-
-                      <!-- <template #bottom-left>
-                          <b>Total checked</b>: {{ checkedRows.length }}
-                      </template> -->
                   </b-table>
               </b-tab-item>
-
-          <div class="reject">
-              <a href="" class="reject-btn">Reject</a>
-          </div> <!-- Link to DB to refresh page with updated list-->
-
-              <!-- <b-tab-item label="Checked rows">
-                  <pre>{{ checkedRows }}</pre>
-              </b-tab-item> -->
-          </b-tabs>
-
-            <div class="approve">
-              <a href="" class="approve-btn" @click="ViewClasses">Approve</a>
+              <div class="reject">
+                <a href="" class="reject-btn">Reject</a>
+              </div> <!-- Link to DB to refresh page with updated list-->
+            <div class="ApproveReject">
+              <div class="approve">
+                <a href="" class="approve-btn">Approve</a>
+              </div>
+              
             </div>
             <!-- Link to DB to refresh page with updated list-->
           </div>
