@@ -175,11 +175,11 @@ def getQualifiedLearnersOfClass(classId):
     # get prequisite course
     course_id = class_existence.courseId
     this_course = Course.query.filter(Course.courseId == course_id).first()
-    pre_requisite = this_course.prerequisites
+    pre_requisiteId = (this_course.prerequisites).split(':')[0]
 
-    if pre_requisite != "":
+    if pre_requisiteId != "":
         qualified_enrolment_objects = Enrolment.query.filter(Enrolment.learnerId.in_(
-            intermediate_qualified_learnerIds), Enrolment.courseId == pre_requisite, Enrolment.completedClass == True).all()
+            intermediate_qualified_learnerIds), Enrolment.courseId == pre_requisiteId, Enrolment.completedClass == True).all()
 
         qualified_learnerIds = []
         for qualified_enrolment_object in qualified_enrolment_objects:
