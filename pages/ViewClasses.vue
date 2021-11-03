@@ -27,18 +27,17 @@
         
               <div class="member-info">
                 <!-- <h4>{{ course.courseName }}</h4> -->
+                <h4>Course ID: </h4> 
+                <p>{{ course.courseId }}</p> <br>
+                <h4>Course Description: </h4>
+                          <p>{{course.courseDescription}}</p> <br>
                 <h4>Prerequisite Courses:</h4>
-                <div v-if="course.prerequisites != ''">
-                  <li>{{ course.prerequisites }}</li> <br>
-                </div>
+                <ul v-if="course.prerequisites != ''">
+                  <li>{{ course.prerequisites }}</li> 
+                </ul>
                 <ul v-else>
                   <li>No prerequisites required</li>
                 </ul>
-                <h4>Period of Enrollment: </h4> <p>1st July - 30th July</p> <br>
-                <h4>Course Description: </h4>
-                <p>
-                    {{course.courseDescription}}
-                </p>
               </div>
             </div>
           </div>
@@ -57,20 +56,24 @@
                 <!-- <p> Maximum Class Capacity: {{_class.classSize}} </p> -->
               <!-- </div> -->
               <!-- <div class="member-info"> -->
-              <p> Current Class Size: {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
+              <p> <b> Current Class Size: </b> {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
                   <br>
                   <p>
-                    Start Date: {{_class.startDate}} 
-                  </p>
-                  <p>
-                    Start Time: {{_class.startTime}} 
+                    <b>Enrolment Period: </b> {{_class.enrolmentStartDate}} to {{_class.enrolmentEndDate}}
                   </p>
                   <br>
                   <p>
-                    End Date: {{_class.endDate}} 
+                    <b>Start Date: </b>{{_class.startDate}} 
                   </p>
                   <p>
-                    End Time: {{_class.endTime}} 
+                    <b>Start Time: </b>{{_class.startTime}} 
+                  </p>
+                  <br>
+                  <p>
+                    <b>End Date: </b>{{_class.endDate}} 
+                  </p>
+                  <p>
+                    <b>End Time: </b>{{_class.endTime}} 
                   </p>
             </div>    
               <div class="viewClass">
@@ -99,7 +102,7 @@ export default {
   async mounted() {
     const apiUrl1 = `http://localhost:5002/getClasses/${this.courseId}`;
     const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const getEnrolmentURL = `http://localhost:5004/enrolment/size/13/${this.courseId}`;
+    const getEnrolmentURL = `http://localhost:5004/enrolment/size/${this.courseId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);

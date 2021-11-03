@@ -74,7 +74,7 @@ def getNumberOfLearnersInClass(classId):
     ), 200
 
 
-# get number of learners enrolled in a class taught by a Trainer
+# get number of learners enrolled in a classes taught by a Trainer
 @app.route("/enrolment/size/<string:trainerId>/<string:courseId>", methods=['GET'])
 def getCurrentClassSizeTrainer(trainerId, courseId):
 
@@ -109,7 +109,37 @@ def getCurrentClassSizeTrainer(trainerId, courseId):
             }), 406
 
         num_enrolments = Enrolment.query.filter(
-            (Enrolment.classId == classId) & (Enrolment.completedClass == False)).count()
+            (Enrolment.classId == classId) & (Enrolment.completedClass == False) & (Enrolment.status == 'ACCEPTED')).count()
+
+        classDict[classId] = num_enrolments
+
+    return jsonify(
+        {
+            "data": classDict
+        }
+    ), 200
+
+# get number of learners enrolled in classes of a course
+@app.route("/enrolment/size/<string:courseId>", methods=['GET'])
+def getCurrentClassSize(courseId):
+
+    course_existence = Course.query.filter(Course.courseId==courseId).all()
+    # check if course exists 
+    if not course_existence:
+        return jsonify({
+            "message": "Course not found."    
+        }), 405
+
+    CourseClasses = Class.query.filter(Class.courseId==courseId).all()
+
+    classList = []
+    for CourseClass in CourseClasses: 
+        classList.append(CourseClass.classId)
+
+    classDict = {}
+    for classId in classList:
+        num_enrolments = Enrolment.query.filter(
+            (Enrolment.classId == classId) & (Enrolment.completedClass == False) & (Enrolment.status == 'ACCEPTED')).count()
 
         classDict[classId] = num_enrolments
 
