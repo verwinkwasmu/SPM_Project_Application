@@ -79,13 +79,8 @@
 <script>
   import axios from "axios";
   export default {
-      name: "App",
-      
+  name: "App",
   data: () => ({
-    success: false,
-    error: false,
-    loading: false,
-    error: null,
     courseName: 'Fundamentals of XXX',
     time: 1800,
     displayTime: '',
