@@ -14,40 +14,40 @@ db = SQLAlchemy(app)
 CORS(app)
 
 # Get all questions in a Quiz
-@app.route("/quiz/<string:classId>/<string:sectionId>/<string:quizId>", methods=['GET'])
-def getAllQuestions(classId, sectionId, quizId):
+@app.route("/quiz/<string:classId>/<string:sectionId>", methods=['GET'])
+def getAllQuestions(classId, sectionId):
     quiz = Quiz.query.filter(
                                 Quiz.sectionId == sectionId, 
                                 Quiz.classId == classId,
-                                Quiz.quizId == quizId
                             ).first()
     
     # check if class exists 
     if not quiz:
         return jsonify({
             "message": "No quiz found."    
-        }), 404
+        }), 403
 
     questions = Question.query.filter(
                                         Question.sectionId == sectionId, 
                                         Question.classId == classId,
-                                        Question.quizId == quizId
+                                        Question.quizId == quiz.quizId
                                     ).all()
     quiz = Quiz.query.filter(
                             Quiz.sectionId == sectionId, 
                             Quiz.classId == classId,
-                            Quiz.quizId == quizId
+                            Quiz.quizId == quiz.quizId
                         ).first()
 
     if not questions:
         return jsonify({
-            "message": "No learners found."
+            "message": "No questions found."
         }), 404
 
     return jsonify(
         {
             "questions": [question.to_dict() for question in questions],
-            "time": quiz.get_time()
+            "time": quiz.get_time(),
+            "quiz": quiz.to_dict()
         }
     ), 200
 
