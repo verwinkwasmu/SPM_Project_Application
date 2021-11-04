@@ -6,29 +6,54 @@
         <div class="row">
           <div class="col-lg-8" id="createCourse" style="padding-bottom: 50px">
             <div class="addEngineer">
-              <h5>Total List of Engineers:</h5>
+              <h5>Pending list:</h5>
             </div>
-
-              <b-tab-item label="Table">
-                  <b-table
-                      :data="data"
-                      :columns="columns"
-                      :checked-rows.sync="checkedRows"
-                      :is-row-checkable="(row) "
-                      checkable
-                      :checkbox-position="checkboxPosition">
-                  </b-table>
-              </b-tab-item>
-              <div class="reject">
-                <a href="" class="reject-btn">Reject</a>
-              </div> <!-- Link to DB to refresh page with updated list-->
-            <div class="ApproveReject">
-              <div class="approve">
-                <a href="" class="approve-btn">Approve</a>
+            <div class="container" id="app">
+            <div class="row">
+                <div class="col-12">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Learner ID</th>
+                        <th scope="col">Learner Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{learner3.learnerID}}</td>
+                        <td>{{learner3.name}}</td>
+                        <td>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1" :value="learner3.learnerID" v-model="learnerName">
+                            <label class="custom-control-label" for="customCheck1"></label>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{learner4.learnerID}}</td>
+                        <td>{{learner4.name}}</td>
+                        <td>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck2" :value="learner4.learnerID" v-model="learnerName">
+                            <label class="custom-control-label" for="customCheck2"></label>
+                        </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                {{learnerName}}
+                <div class="ApproveRejectPage">
+                    <div class="approve">
+                        <a @click="submit" class="approve-btn">Approve</a>
+                    </div>
+                    <div class="reject">
+                        <a href="" class="reject-btn">Reject</a>
+                    </div> <!-- Link to DB to refresh page with updated list-->
               </div>
+            </div>
               
             </div>
-            <!-- Link to DB to refresh page with updated list-->
           </div>
         </div>
       </div>
@@ -37,32 +62,30 @@
 </template>
 
 <script>
-  export default {
-      data() {
-          const data = [
-              { 'id': 1, 'engineer_name': 'Jesse Simmons'},
-              { 'id': 2, 'engineer_name': 'John Jacobs'},
-              { 'id': 3, 'engineer_name': 'Tina Gilbert'},
-              { 'id': 4, 'engineer_name': 'Clarence Flores'},
-              { 'id': 5, 'engineer_name': 'Anne Lee'}
-          ]
-          return {
-              data,
-              checkboxPosition: 'right',
-              checkedRows: [],
-              columns: [
-                  {
-                      field: 'id',
-                      label: 'ID',
-                      width: '40',
-                      numeric: true
-                  },
-                  {
-                      field: 'engineer_name',
-                      label: 'Engineer Name',
-                  }
-              ]
-          }
-      }
-  }
-</script>  
+    export default{
+        name: 'app',
+        data: () => ({
+            name: '',
+            learnerName: [],
+            learner1: 'Ezboii',
+            learner2: 'wxtohhh',
+
+            learner3: {
+                name: "hiii",
+                learnerID: 10,
+            },
+            learner4: {
+                name: "ooo",
+                learnerID: 11,
+            },
+        }),
+
+        methods: {
+            submit () {
+                
+            }
+        },
+
+    }
+</script>
+

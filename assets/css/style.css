@@ -2552,13 +2552,14 @@ a.disabled {
 /* HR Approve/Reject */
 
 .approve {
-  padding-right: 100px;
+  margin-top: 15px;
+  padding-right: 1000px;
 }
 
 .reject {
-  padding-left: 150px;
+  padding-left: 15px;
+  margin-top: 10px;
 }
-
 
 .approvereject {
   padding-left: 1px;
