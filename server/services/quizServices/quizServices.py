@@ -25,7 +25,7 @@ def getAllQuestions(classId, sectionId):
     if not quiz:
         return jsonify({
             "message": "No quiz found."    
-        }), 403
+        }), 203
 
     questions = Question.query.filter(
                                         Question.sectionId == sectionId, 
@@ -41,7 +41,7 @@ def getAllQuestions(classId, sectionId):
     if not questions:
         return jsonify({
             "message": "No questions found."
-        }), 404
+        }), 204
 
     return jsonify(
         {
@@ -213,6 +213,51 @@ def updateQuestion():
         return jsonify({
             "message": "Unable to commit to database."
         }), 503
+
+
+# Remove learner from course
+@app.route("/removeQuestion", methods=['DELETE'])
+def removeQuestion():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('sectionId', 'classId', 'quizId', 'questionId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    # (1): Validate class
+    question = Question.query.filter(
+                                Question.sectionId == data["sectionId"], 
+                                Question.classId == data['classId'],
+                                Question.quizId == data['quizId'],
+                                Question.questionId == data['questionId']
+                            ).first()
+
+    if not question:
+        return jsonify({
+            "message": "Question is not valid"
+        }), 501
+
+    # Commit to DB
+    try:
+        db.session.query(Question).filter(
+            Question.sectionId == data["sectionId"], 
+            Question.classId == data['classId'],
+            Question.quizId == data['quizId'],
+            Question.questionId == data['questionId']).delete()
+        db.session.commit()
+        return jsonify({
+            "message": "Question Deleted"
+        }), 200
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database.",
+            "data": str(request.get_data())
+        }), 504
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003, debug=True)

@@ -65,7 +65,7 @@
                             <button @click="removequestion" type="button" class="btn btn-danger">Remove Question</button>
                         </div> 
                         <br>
-                        <div class="form-group">
+                        <div v-if="quizExist==false" class="form-group">
                             <label>Quiz Duration (in minutes): </label>
                             <div style="padding-right: 1005px">
                               <input type='number' v-model="quizTimer" min=1 max=60 class="form-control">
@@ -152,15 +152,23 @@ export default {
       }],
     
     quizTimer: '',
-    
-    courseId: localStorage.getItem('courseId')
+    quizExist: false,
+    courseId: localStorage.getItem('courseId'),
+    questionNum: 1
   }),
   async mounted() {
     const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
     const apiUrl2 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
+    const apiUrl3 = `http://localhost:5003/quiz/${this.$route.query.classId}/${this.$route.query.sectionId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
+      let response3 = await axios.get(apiUrl3);
+
+      if (response3.status == 200){
+        this.quizExist = true;
+        this.questionNum = await response3.data.questions.length + 1;
+      }
 
       this.course = await response1.data;
       this.classObj = await response2.data;
@@ -204,22 +212,22 @@ export default {
     async submit(event) {
       event.preventDefault();
       // form validation
-      if(!this.questions || !this.quizTimer){
+      if(!this.questions || (!this.quizTimer&&!this.quizExist)){
         this.error = true
         this.message = "Please make sure Question, Options, Answer, Explanation and Quiz Duration are not empty!"
         return
       }
 
       // create quiz
-      await this.createQuiz(event);
+      if (!this.quizExist){
+        await this.createQuiz(event);
+      }
 
       // create questions
-      var number = 1;
-
       for (let i = 0; i<this.questions.length; i++){
         console.log(this.questions[i]);
-        await this.createQuestion(event, this.questions[i], number);
-        number++;
+        await this.createQuestion(event, this.questions[i], this.questionNum);
+        this.questionNum++;
       }
 
       if (!this.error){
