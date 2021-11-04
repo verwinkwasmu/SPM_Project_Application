@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LearnerHeader />
+    <LearnerHeader/>
 
     <section id="team" class="team section-bg">
       <!--box-->

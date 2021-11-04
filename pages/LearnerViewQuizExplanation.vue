@@ -1,6 +1,6 @@
 <template>
   <div id="axiosForm">
-      <TrainerHeader/>
+      <LearnerHeader/>
       <section id="team" class="team section-bg">
           <div class="" data-aos="fade-up">
               <div id='App' class="container">
