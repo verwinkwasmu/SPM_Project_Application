@@ -1,108 +1,161 @@
 <template>
-
   <div id="App">
-    <LearnerHeader/>
+    <LearnerHeader />
     <main id="main">
       <div class="content">
-      <section id="faq" class="faq section-bg">
-        <div class="sidenav">
+        <section id="faq" class="faq section-bg">
+          <div class="sidenav">
             <a href="#">Section 1</a>
             <a href="#" class="disabled">Section 2</a>
             <a href="#" class="disabled"> Section 3</a>
             <a href="#" class="disabled">Section 4</a>
-        </div>
-        
-        <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <h2>{{courseName}}</h2>
-            <h3> Section 1 Overview </h3>
-            <p>
-              {{ sectionOverview }} 
-            </p>
           </div>
 
-          <div class="faq-list">
-            <ul>
-              <li data-aos="fade-up" data-aos-delay="200">
-                <!-- <i class="bx bx-help-circle icon-help"></i> -->
-                <a
-                  data-bs-toggle="collapse"
-                  data-bs-target="#faq-list-2"
-                  class="collapsed"
-                  >Section 1: {{title}}
-                  <i class="bx bx-chevron-down icon-show"></i
-                  ><i class="bx bx-chevron-up icon-close"></i
-                ></a>
-                <div
-                  id="faq-list-2"
-                  class="collapse"
-                  data-bs-parent=".faq-list"
-                >
-                <iframe :src="url" width="100%" height="500px"></iframe>
-                
-                <br>
-                <button type="button" @click="addClicks" class="btn btn-outline-success">Mark as Complete</button>
-                </div>
-              </li>
-
-              <li data-aos="fade-up" data-aos-delay="300">
-                <a
-                  data-bs-toggle="collapse"
-                  data-bs-target="#faq-list-3"
-                  class="collapsed"
-                  >Section 1: {{title}}
-                  <i class="bx bx-chevron-down icon-show"></i
-                  ><i class="bx bx-chevron-up icon-close"></i
-                ></a>
-                <div
-                  id="faq-list-3"
-                  class="collapse"
-                  data-bs-parent=".faq-list"
-                >
-                
-                  <div class="embed-responsive embed-responsive-16by9">
-                      <iframe class="embed-responsive-item" src="https://spm-grp2-storage.s3.ap-southeast-1.amazonaws.com/XRX-101/Class2/Section1/TechSeries-Demo.mp4" type="application/x-shockwave-flash" sandbox allowfullscreen></iframe>
-                  </div>
-             
-                  <br>
-                  <button type="button" @click="addClicks" class="btn btn-outline-success">Mark as Complete</button>
-                </div>
-              </li>   
-              
-            </ul>
-          </div>
-            <div class="form-group" id="takequiz" v-if="clicks_array.length==numberOfSections">
-                <button @click="takequiz" type="button" class="btn btn-primary" :disabled='isDisabled'>Take Quiz</button>
+          <div class="container" data-aos="fade-up">
+            <div class="section-title">
+              <h2>{{ courseName }}</h2>
+              <h3>{{sectionName}}</h3>
+              <p></p>
             </div>
-        </div>
-      </section>
-    </div>
-      
+
+            <div class="faq-list">
+              <ul>
+                <li
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                  v-for="file in file_list"
+                  :key="file.filename"
+                >
+                  <a
+                    data-bs-toggle="collapse"
+                    :data-bs-target="'#' + file.betterFileId"
+                    class="collapsed"
+                    >Section 1: {{ file.filename }}
+                    <i class="bx bx-chevron-down icon-show"></i
+                    ><i class="bx bx-chevron-up icon-close"></i
+                  ></a>
+                  <div
+                    :id="file.betterFileId"
+                    class="collapse"
+                    data-bs-parent=".faq-list"
+                  >
+                    <div class="embed-responsive embed-responsive-16by9">
+                      <iframe
+                        :src="file.url"
+                        width="100%"
+                        height="500px"
+                      ></iframe>
+                    </div>
+                    <br />
+                    <button v-if="file.completed != true"
+                      type="button"
+                      @click="setFileCompleted(file.fileId)"
+                      class="btn btn-outline-success"
+                    >
+                      Mark as Complete
+                    </button>
+                    <button v-else
+                      type="button"
+                      disabled
+                      class="btn btn-outline-info"
+                    >
+                      COMPLETED! 😃
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="form-group"
+              id="takequiz"
+              v-if="showQuiz"
+            >
+              <button
+                type="button"
+                class="btn btn-primary"
+              >
+                Take Quiz
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   </div>
 </template>
 
 <script>
-  import axios from "axios";
+import axios from "axios";
 
-  export default {
-    name: "App",
-    data: () => ({
-      courseName: 'Fundamentals of XXX',
-      sectionOverview: 'Section 1 Overview Section 1 Overview Section 1 Overview Section 1 Overview Section 1 Overview Section 1 Overview ',
-      title:'This is the title of the material',
-      url: 'https://spm-grp2-storage.s3.ap-southeast-1.amazonaws.com/XRX-101/Class2/Section1/Project_Instructions.pdf',
-      numberOfSections: 2,
-      clicks_array: [],
-      completed: false,
-      disabled: false,
-    }),
+export default {
+  data: () => ({
+    courseName: "Fundamentals of XXX",
+    // this.$route.query.courseName,
+    sectionTitle: "Section 1",
+    sectionName: "Section1",
+    // this.$route.query.sectionId.replace(" ", ""),
+    className: "Class2",
+    // this.$route.query.classTitle.replace(" ", ""),
+    courseId: localStorage.getItem("courseId"),
+    file_list: [],
+    completedFileIdList: [],
+    showQuiz: false,
+  }),
+  async created() {
+    const apiUrl1 = `http://localhost:5050/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
+    const apiUrl2 = "http://localhost:5001/getCompletedFiles";
 
-    methods: {
-      addClicks () {
-        this.clicks_array.push('check');
-      },
+    const post_data = {
+      courseId: this.courseId,
+      className: this.className,
+      sectionName: this.sectionName,
+      learnerId: localStorage.getItem("userId"),
+    };
+
+    try {
+      let response1 = await axios.get(apiUrl1);
+      let response2 = await axios.post(apiUrl2, post_data);
+      this.file_list = response1.data;
+      this.completedFileIdList = response2.data;
+    
+    const file_list = this.file_list
+    const completedFileIdList = this.completedFileIdList.data
+
+    file_list.forEach(element => {
+      if (completedFileIdList.includes(element.fileId)){
+        element.completed = true
+      }
+    });
+      console.log(this.file_list)
+      if (this.completedFileIdList.data.length == this.file_list.length) {
+        this.showQuiz = true
+      }
+    } catch (err) {
+      console.log(err)
     }
-  }
+  },
+  methods: {
+    async setFileCompleted(fileId) {
+      const apiUrl = "http://localhost:5001/setFileCompleted";
+      const post_data = {
+        learnerId: localStorage.getItem("userId"),
+        fileId: fileId,
+      };
+
+      try {
+        let response = await axios.post(apiUrl, post_data);
+        if (response.status == 201) {
+          alert("learning material completed!");
+          window.location.reload()
+        }
+        else{
+          alert("Please try again!")
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+  },
+};
 </script>
 
