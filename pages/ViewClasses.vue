@@ -80,7 +80,7 @@
                 <router-link :to="{path: '/EditClass', query: {classId: _class.classId}}" class="viewClass-btn">Edit Class</router-link>
               </div>
               <div class="approvereject">
-                <button class="approvereject-btn">Approve/Reject Learners</button>
+                <router-link :to="{path: '/ApproveRejectLearners', query: {classId: _class.classId}}" class="approvereject-btn">Approve/Reject Learners</router-link>
                 <!-- routes to ApproveRejectLearners.vue -->
               </div>
             </div>

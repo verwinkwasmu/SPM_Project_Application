@@ -13,8 +13,6 @@ db = SQLAlchemy(app)
 CORS(app)
 
 # get learnerId + learnerName enrolled in a class
-
-
 @app.route("/enrolment/<string:classId>", methods=['GET'])
 def getLearnersInClass(classId):
 
@@ -56,8 +54,6 @@ def getLearnersInClass(classId):
     ), 200
 
 # get number of learners enrolled in a class
-
-
 @app.route("/enrolment/number/<string:classId>", methods=['GET'])
 def getNumberOfLearnersInClass(classId):
     class_existence = Class.query.filter(Class.classId == classId).all()
@@ -125,8 +121,6 @@ def getCurrentClassSizeTrainer(trainerId, courseId):
     ), 200
 
 # get number of learners enrolled in classes of a course
-
-
 @app.route("/enrolment/size/<string:courseId>", methods=['GET'])
 def getCurrentClassSize(courseId):
 
@@ -157,8 +151,6 @@ def getCurrentClassSize(courseId):
     ), 200
 
 # get learnerId + learnerName of qualified learners to be enrolled into a class
-
-
 @app.route("/enrolment/qualifiedlearners/<string:classId>", methods=['GET'])
 def getQualifiedLearnersOfClass(classId):
     class_existence = Class.query.filter(Class.classId == classId).first()
@@ -421,6 +413,12 @@ def getPendingEnrolments():
     classId = request.args.get('classId')        
 
     pending_enrolments = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.status=="PENDING").all()
+    result = [enrolment.to_dict() for enrolment in pending_enrolments]
+    for element in result:
+        learnerId = element["learnerId"]
+        learnerName = (Learner.query.filter_by(userId=learnerId).first()).employeeName
+        element["learnerName"] = learnerName
+
 
     if not pending_enrolments:
         return jsonify({
@@ -430,13 +428,13 @@ def getPendingEnrolments():
     return jsonify(
         {
             "message": "Pending enrolments found",
-            "data": [enrolment.to_dict() for enrolment in pending_enrolments]
+            "data": result
         }
     ), 200
 
 
 # ACCEPT OR REJECT PENDING ENROLMENT REQUESTS
-@app.route('/updateEnrolmentRequest', methods=['PUT'])
+@app.route('/updateEnrolmentRequests', methods=['PUT'])
 def updateEnrolmentRequest():
     # retrieve data
     data = request.get_json()

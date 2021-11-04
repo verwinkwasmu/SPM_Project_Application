@@ -9,50 +9,48 @@
               <h5>Pending list:</h5>
             </div>
             <div class="container" id="app">
-            <div class="row">
+              <div class="row">
                 <div class="col-12">
-                <table class="table table-bordered">
+                  <table class="table table-bordered">
                     <thead>
-                    <tr>
+                      <tr>
                         <th scope="col">Learner ID</th>
                         <th scope="col">Learner Name</th>
-                    </tr>
+                      </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>{{learner3.learnerID}}</td>
-                        <td>{{learner3.name}}</td>
+                      <tr v-for="learner in learners" :key="learner.learnerId">
+                        <td>{{ learner.learnerId }}</td>
+                        <td>{{ learner.learnerName }}</td>
                         <td>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1" :value="learner3.learnerID" v-model="learnerName">
-                            <label class="custom-control-label" for="customCheck1"></label>
-                        </div>
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              :id="learner.learnerId"
+                              :value="learner.learnerId"
+                              v-model="learnerIds"
+                            />
+                            <label
+                              class="custom-control-label"
+                              :for="learner.learnerId"
+                            ></label>
+                          </div>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>{{learner4.learnerID}}</td>
-                        <td>{{learner4.name}}</td>
-                        <td>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2" :value="learner4.learnerID" v-model="learnerName">
-                            <label class="custom-control-label" for="customCheck2"></label>
-                        </div>
-                        </td>
-                    </tr>
+                      </tr>
                     </tbody>
-                </table>
+                  </table>
                 </div>
-                {{learnerName}}
                 <div class="ApproveRejectPage">
-                    <div class="approve">
-                        <a @click="submit" class="approve-btn">Approve</a>
-                    </div>
-                    <div class="reject">
-                        <a href="" class="reject-btn">Reject</a>
-                    </div> <!-- Link to DB to refresh page with updated list-->
+                  <div class="approve">
+                    <button @click="updateEnrolment('ACCEPTED')" class="approve-btn">Approve</button>
+                  </div>
+                  <div class="reject">
+                    <button @click="updateEnrolment('REJECTED')" class="reject-btn">Reject</button>
+                  </div>
+                  <!-- Link to DB to refresh page with updated list-->
+                </div>
               </div>
-            </div>
-              
             </div>
           </div>
         </div>
@@ -62,30 +60,50 @@
 </template>
 
 <script>
-    export default{
-        name: 'app',
-        data: () => ({
-            name: '',
-            learnerName: [],
-            learner1: 'Ezboii',
-            learner2: 'wxtohhh',
+import axios from "axios";
 
-            learner3: {
-                name: "hiii",
-                learnerID: 10,
-            },
-            learner4: {
-                name: "ooo",
-                learnerID: 11,
-            },
-        }),
+export default {
+  name: "app",
+  data: () => ({
+    learners: [],
+    learnerIds: [],
 
-        methods: {
-            submit () {
-                
-            }
-        },
+  }),
 
+  async created() {
+    const apiUrl = `http://localhost:5004/viewPendingEnrolments?classId=${this.$route.query.classId}`;
+    try {
+      let response = await axios.get(apiUrl);
+      this.learners = response.data.data;
+      console.log(this.learnerIds)
+    } catch (err) {
+      console.log(err);
     }
+  },
+  methods: {
+    async updateEnrolment(status) {
+      console.log(this.learnerIds);
+      const apiUrl = "http://localhost:5004/updateEnrolmentRequests";
+
+      const pending_data = {
+        classId: this.$route.query.classId,
+        learnerIds: this.learnerIds,
+        status: status
+      };
+      try {
+        let response = await axios.put(apiUrl, pending_data);
+        console.log(response)
+        if (response.status == 200) {
+          alert("Enrolment Successfully Updated!");
+          window.location.reload();
+        } else {
+          alert("Please Try again!");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+};
 </script>
 
