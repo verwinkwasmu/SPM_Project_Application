@@ -235,7 +235,7 @@ export default {
     },
     async removeLearner(learnerId) {
       alert(learnerId);
-      const apiUrl = `http://localhost:5002/removeLearner`;
+      const apiUrl = `http://localhost:5004/removeLearner`;
       const learnerData = {
         classId: this.$route.query.classId,
         learnerId: learnerId,
