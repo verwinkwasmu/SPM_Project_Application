@@ -46,7 +46,7 @@
       <section id="services" class="services section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>My Courses</h2>
+            <h2>My Current Courses</h2>
             <p>
             </p>
           </div>
@@ -61,7 +61,7 @@
                 <div class="icon"><i class="bx bxl-dribbble"></i></div>
                 <h4><a href="">Fundamentals of Xerox WorkCentre 7845</a></h4>
                 <div class="course">
-                  <a href="TrainerViewClasses" class="course-btn">View Classes</a>
+                  <a href="" class="course-btn">View Materials</a>
                 </div>
               </div>
             </div>

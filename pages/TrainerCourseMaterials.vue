@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TrainerHeader />
+    <TrainerHeader/>
 
     <section id="team" class="team section-bg">
       <div class="container" data-aos="fade-up">
