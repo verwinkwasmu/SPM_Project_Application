@@ -44,7 +44,7 @@ export default {
     message: "",
   }),
   async mounted() {
-    const apiUrl = "http://localhost:5002/viewLearnerAvailableCourses";
+    const apiUrl = "http://localhost:5002/viewLearnerCourses";
     try {
       let response = await axios.get(apiUrl);
       this.courses = response.data.data;
