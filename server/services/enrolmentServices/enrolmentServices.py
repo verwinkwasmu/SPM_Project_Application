@@ -257,7 +257,7 @@ def removeLearner():
             "data": str(request.get_data())
         }), 504
 
-
+# Self-enrolling of learner
 @app.route('/enrolLearner', methods=['POST'])
 def enrolLearner():
     data = request.get_json()
@@ -358,24 +358,27 @@ def updateEnrolmentRequest():
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('classId', 'learnerId', 'status')):
+               key in ('classId', 'learnerIds', 'status')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
 
-    learnerId = data['learnerId']
+    learnerIds = data['learnerIds']
     classId = data['classId']
     status = data['status']
+    result = []
 
-    #update enrolment record
-    enrolmentObj = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.learnerId==learnerId).first()
-    enrolmentObj.status = status
+    learner_rows = db.session.query(Enrolment).filter(Enrolment.learnerId.in_(learnerIds), Enrolment.classId==classId).all()
+    print(learner_rows)
 
+    for row in learner_rows:
+        row.status = status
+        result.append(row.to_dict())
+        print(row.to_dict())
     try:
-        db.session.merge(enrolmentObj)
         db.session.commit()
         return jsonify({
-            "data": enrolmentObj.to_dict(),
+            "data": result,
             "message": "enrolment updated"
         }), 200
     except Exception:
