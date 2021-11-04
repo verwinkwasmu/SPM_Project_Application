@@ -2492,16 +2492,6 @@ a.disabled {
   
 }
 
-/* #quizrbtn:hover {
-  background:rgb(131, 104, 104);     
-} */
-
-/* #quizrbtn:hover, #quizrbtn:focus {
-  background-color:#ccc;
-  color:#000000;
-  cursor:pointer;
-} */
-
 #quizrbtn {
   margin-right:1em;   
 }
@@ -2550,6 +2540,13 @@ a.disabled {
 
 .timer {
   padding-left: 970px;
+}
+
+
+#submitquiz{
+  display:inline-block;
+  position:absolute;
+  margin-left: 1155px;
 }
 
 /* HR Approve/Reject */
