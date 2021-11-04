@@ -1,7 +1,7 @@
 <template>
     <header id="header" class="fixed-top">
       <div class="container d-flex align-items-center">
-        <a href="" class="logo me-auto"><img src="~/assets/img/LMS.png" alt="" class="img-fluid"> AIO Learning Management System </a>
+        <a href="/LearnerHomePage" class="logo me-auto"><img src="~/assets/img/LMS.png" alt="" class="img-fluid"> AIO Learning Management System </a>
 
 
         <nav id="navbar" class="navbar">

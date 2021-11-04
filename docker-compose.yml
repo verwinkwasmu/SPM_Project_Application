@@ -8,8 +8,8 @@ services:
         build: 
             context: ./server/services/userServices
             dockerfile: Dockerfile
-        # volumes:
-        # - ./userServices:/usr/src/app
+        volumes:
+        - ./server/services/userServices:/usr/src/app
         image: weixiangtoh/user_services:spm
         restart: always
         environment:
@@ -25,8 +25,8 @@ services:
         build: 
             context: ./server/services/courseServices
             dockerfile: Dockerfile
-        # volumes:
-        # - ./courseServices:/usr/src/app
+        volumes:
+        - ./server/services/courseServices:/usr/src/app
         image: weixiangtoh/course_services:spm
         restart: always
         environment:
@@ -42,8 +42,8 @@ services:
         build: 
             context: ./server/services/quizServices
             dockerfile: Dockerfile
-        # volumes:
-        # - ./quizServices:/usr/src/app
+        volumes:
+        - ./server/services/quizServices:/usr/src/app
         image: weixiangtoh/quiz_services:spm
         restart: always
         environment:
@@ -59,8 +59,8 @@ services:
         build: 
             context: ./server/services/enrolmentServices
             dockerfile: Dockerfile
-        # volumes:
-        # - ./enrolmentServices:/usr/src/app
+        volumes:
+        - ./server/services/enrolmentServices:/usr/src/app
         image: weixiangtoh/enrolment_services:spm
         restart: always
         environment:
@@ -72,18 +72,20 @@ services:
     ###################################
     # s3Services: s3 Services
     ###################################
-    # s3Services:
-    #     build: 
-    #         context: ./server/services/s3Services
-    #         dockerfile: Dockerfile
-    #     # volumes:
-    #     # - ./s3Services:/usr/src/app
-    #     image: weixiangtoh/s3_services:spm
-    #     restart: always
-    #     environment:
-    #         # dbURL: mysql+mysqlconnector://root:passwd@host.docker.internal:3306/s3Services
-    #         PYTHONUNBUFFERED: 1
-    #         # BUCKET: "spm-grp2-storage"
-    #         # S3_DOMAIN: "http://spm-grp2-storage.s3.amazonaws.com/"
-    #     ports:
-    #     - 5050:5050
+    s3Services:
+        build: 
+            context: ./server/services/s3Services
+            dockerfile: Dockerfile
+        volumes:
+        - ./server/services/s3Services:/usr/src/app
+        image: weixiangtoh/s3_services:spm
+        restart: always
+        environment:
+            # dbURL: mysql+mysqlconnector://root:passwd@host.docker.internal:3306/s3Services
+            PYTHONUNBUFFERED: 1
+            AWS_ACCESS_KEY: "AKIARI6FEUPE7XJKMOLA"
+            AWS_SECRET_ACCESS_KEY: "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"
+            BUCKET: "spm-grp2-storage"
+            S3_DOMAIN: "http://spm-grp2-storage.s3.amazonaws.com/"
+        ports:
+        - 5050:5050

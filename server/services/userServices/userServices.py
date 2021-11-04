@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, current_app as app
+from flask import Flask, json, request, jsonify, current_app as app
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -98,18 +98,16 @@ def login():
     data = request.get_json()
 
     # check if proper data is sent
-    if not all(key in data.keys() for
-               key in ('email', 'password')):
+    if not data['userName']:
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
+
+    # data_userName = data['userName']
     
-    user = User.query.filter_by(email=data['email']).first()
+    user = User.query.filter_by(userName=data['userName']).first()
     
-    # retrieve password
-    password = data['password']
-    
-    if not user or not user.verify_password(password):
+    if not user:
         return jsonify({
             "message": "Person not found."
         }), 404
@@ -118,6 +116,62 @@ def login():
         return jsonify(
             {
                 "data": user.to_dict()
+            }
+        ), 200
+
+# set learner's course material as completed
+@app.route('/setFileCompleted', methods=['POST'])
+def setFileCompleted():
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('learnerId', 'fileId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    file = File(learnerId=data['learnerId'], fileId=data['fileId'], completed=True)
+    
+    try:
+        db.session.add(file)
+        db.session.commit()
+        return jsonify(file.to_dict()), 201
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 500
+        
+@app.route('/getCompletedFiles', methods=['POST'])
+def getCompletedFiles():
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('courseId', 'className', 'sectionName', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    courseId = data['courseId']
+    className = data['className']
+    sectionName = data['sectionName']
+    learnerId = data['learnerId']
+
+    file_path = f"{courseId}/{className}/{sectionName}/"
+    
+    files = File.query.filter(File.fileId.contains(file_path), File.learnerId==learnerId).all()
+
+    if files:
+        return jsonify(
+            {
+                "data": [file.fileId for file in files]
+            }
+        ), 200
+    else:
+        return jsonify(
+            {
+                "data": [],
+                "message": "no files completed yet"
             }
         ), 200
 

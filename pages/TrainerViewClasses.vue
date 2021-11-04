@@ -3,9 +3,16 @@
         <TrainerHeader/>
         <section id="team" class="team section-bg">
         <div class="container" data-aos="fade-up">
+
+          <div class="row pb-5 mb-2 ml-0">
+            <div class="viewClass">
+              <router-link :to="{path: '/TrainerViewCourses'}" class="viewClass-btn">Back to see all Courses</router-link>
+            </div>
+          </div>
+
           <div class="section-title">
               
-            <h2>Fundamentals of Xerox WorkCentre 7845</h2>
+            <h2>{{ course.courseName }}</h2>
             <!-- <div class="createClass">
                 <a href="TrainerViewSection" class="createClass-btn">View Sections</a>
             </div> -->
@@ -19,21 +26,18 @@
                             >
                                 
                         <div class="member-info">
-                           <h4>Fundamentals of Xerox WorkCentre 7845</h4>
-                              Prerequisite Courses: 
-                          <ul>
-                            <li>Fundamentals of Xerox</li>
-                            <li>Fundamentals of Printing</li>
-                          </ul>
-                                
-                          <h4>Maximum Class Size: </h4> <p>30</p> <br>
-                          <h4>Period of Enrollment: </h4> <p>1st July - 30th July</p> <br>
+                          <!-- <h4>{{ course.courseName }}</h4> -->
+                          <h4>Course ID: </h4> 
+                          <p>{{ course.courseId }}</p> <br>
                           <h4>Course Description: </h4>
-                          <p>
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-                              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                          </p>
+                          <p>{{course.courseDescription}}</p> <br>
+                          <h4>Prerequisite Courses:</h4>
+                          <div v-if="course.prerequisites != ''">
+                            <li>{{ course.prerequisites }}</li> <br>
+                          </div>
+                          <ul v-else>
+                            <li> No Prerequisites required</li>
+                          </ul>
                           </div>
                       </div>
                 </div>
@@ -41,89 +45,81 @@
 
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 mt-5" v-for="_class in classes" :key="_class.classId">
               <div
                 class="member d-flex align-items-start"
                 data-aos="zoom-in"
                 data-aos-delay="100"
               >
-                
                 <div class="member-info">
-                  <h4>Class 1</h4>
-                  <span>Professor 1</span>
+                  <h4>{{ _class.classTitle }}</h4>
+                  <p> <b>Current Class Size:</b> {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
+                  <br>
+
                   <p>
-                    Available Slots: 4/30
+                    <b>Start Date:</b> {{_class.startDate}} 
                   </p>
+                  <p>
+                    <b>Start Time:</b> {{_class.startTime}} 
+                  </p>
+
 
                   <br>
 
                   <p>
-                    Start Date: 24 August 2021
+                    <b>End Date:</b> {{_class.endDate}} 
                   </p>
                   <p>
-                    End Date: 12 November 2021
+                    <b>End Time:</b> {{_class.endTime}} 
                   </p>
-
-                  <br>
-
-                  <p>
-                    Start Time: 6.30pm
-                  </p>
-                  <p>
-                    End Time: 9.30pm
-                  </p>
-                  
                 </div>
-                <div class="TrainerViewClass">  
-                    <a href="TrainerViewSection" class="TrainerViewClass-btn">View Sections</a>
+                <div class="viewClass">
+                  <router-link :to="{path: '/TrainerViewSection', query: {classId: _class.classId}}" class="viewClass-btn">View Sections</router-link>
                 </div>
-
               </div>
             </div>
-            
-            <div class="col-lg-6">
-              <div
-                class="member d-flex align-items-start"
-                data-aos="zoom-in"
-                data-aos-delay="100"
-              >
-                
-                <div class="member-info">
-                  <h4>Class 2</h4>
-                  <span>Professor 1</span>
-                  <p>
-                    Available Slots: 4/30
-                  </p>
-
-                  <br>
-
-                  <p>
-                    Start Date: 24 August 2021
-                  </p>
-                  <p>
-                    End Date: 12 November 2021
-                  </p>
-
-                  <br>
-
-                  <p>
-                    Start Time: 6.30pm
-                  </p>
-                  <p>
-                    End Time: 9.30pm
-                  </p>
-                  
-                </div>
-                <div class="TrainerViewClass">  
-                    <a href="TrainerViewSection" class="TrainerViewClass-btn">View Sections</a>
-                </div>
-
-              </div>
-            </div>
-            
-
           </div>
+
         </div>
       </section>
     </div>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  data: () => ({
+    course: {},
+    classes: [],
+    error: false,
+    message: "",
+    enrolment: {},
+    courseId: localStorage.getItem('courseId')
+  }),
+  async mounted() {
+    const apiUrl1 = `http://localhost:5002/getTrainerClasses/13/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
+    const getEnrolmentURL = `http://localhost:5004/enrolment/size/13/${this.courseId}`;
+    try {
+      let response1 = await axios.get(apiUrl1);
+      let response2 = await axios.get(apiUrl2);
+      let response3 = await axios.get(getEnrolmentURL);
+      console.log(response1)
+      console.log(response2)
+      console.log(response3)
+      this.classes = await response1.data.data;
+      this.course = await response2.data;
+      this.enrolment = await response3.data.data;
+  
+      console.log(this.classes);
+      console.log(this.course);
+      console.log(this.enrolment);
+      this.error = false;
+    } catch (err) {
+      console.log(err);
+      this.error = true;
+      this.message = err;
+    }
+  },
+};
+</script>

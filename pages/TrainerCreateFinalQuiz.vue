@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div id="axiosForm">
         <TrainerHeader/>
         <section id="team" class="team section-bg">
             <div class="" data-aos="fade-up">
                 <div class="section-title">
                     <h2>Fundamentals of Xerox WorkCentre 7845 Final Quiz</h2>
                     <h1>Final Quiz questions</h1>
-                    Assume 1 correct answer is 1 mark
+                    Assume 1 question is 1 mark
                 </div>
 
                 <div id="app" class="container">
@@ -59,50 +59,84 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id="addquestion">
                             <button @click="addquestion" type="button" class="btn btn-primary">Add Question</button>
                         </div>
-                        <div class="form-group">
+                         <div class="form-group" id="removequestion">
                             <button @click="removequestion" type="button" class="btn btn-danger">Remove Question</button>
                         </div> 
                         <br>
                         <div class="form-group">
                             <label>Quiz Duration (in minutes): </label>
-                            <div style="padding-right: 1090px">
+                            <div style="padding-right: 1005px">
                               <input type='number' v-model="quizTimer" min=1 max=60 class="form-control">
                             </div>
                         </div>
                     </form>
                   <br>
 
+                   <div class="loader" v-if="loading">
+                      <img class="loaderImg" src="assets/img/ajax-loader.gif">
+                  </div>
+
+                  
                   </div>
                     <div class="buttongroup">
                       <div class="TrainerCreateQuiz">
-                          <button @click="submit" type="button" class="TrainerCreateQuiz-btn">Create Quiz</button>
-                          <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                          Loading... -->
+                          <a @click="submit" class="TrainerCreateQuiz-btn">
+                            Create Quiz</a>
                       </div>
 
                       <div class="cancel">
-                          <a href="TrainerViewSection" class="cancel-btn">Cancel</a>
+                        <a href="TrainerViewSection" class="cancel-btn">Cancel</a>
                       </div>
 
-                              
+                      <div
+                        v-if="success"
+                        class="alert alert-success alert-dismissible fade show"
+                        role="alert"
+                      >
+                        {{ message }}
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="alert"
+                          aria-label="Close"
+                        ></button>
                       </div>
+
+
+                      <div
+                        v-if="error"
+                        class="alert alert-danger alert-dismissible fade show"
+                        role="alert"
+                      >
+                        {{ message }}
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="alert"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                    
+                    </div>
                   </div>
         </section>
     </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  
   name: "App",
-  // components: {
-  //   VueLoadingButton,
-  // },
-  
   data: () => ({
+    success: false,
+    error: false,
+    loading: false,
+    error: null,
+    // data: null,
+
     questions: [
       {
         fullquestion: "",
@@ -111,10 +145,12 @@ export default {
         option3: "",
         option4: "",
         answer: "",
-        explanation: ""
-      },
-    ], 
-    quizTimer: ""
+        explanation: "",
+      }],
+    
+    quizTimer: '',
+    
+
   }),
 
   methods: {
@@ -127,29 +163,52 @@ export default {
         option4: '',
         answer: '',
         explanation: ''
-
       })
     },
 
-     removequestion (){
-        this.questions.pop({
-            fullquestion: '',
-            option1: '',
-            option2: '',
-            option3: '',
-            option4: '',
-            answer: '',
-            explanation: ''
+    removequestion (){
+      this.questions.pop({
+          fullquestion: '',
+          option1: '',
+          option2: '',
+          option3: '',
+          option4: '',
+          answer: '',
+          explanation: ''
         })
     },
 
-    submit () {
-      const data = {
+    submit() {
+      if(!this.questions || !this.quizTimer){
+        this.error = true
+        this.message = "Please make sure Question, Options, Answer, Explanation and Quiz Duration are not empty!"
+        return
+      }
+      const formData = {
         questions: this.questions,
         quizTimer: this.quizTimer
+      };
+      try{
+        this.loading = true
+        axios.post("https://jsonplaceholder.typicode.com/posts", formData)
+        .then(response => {
+            this.reset();
+            this.success = true;
+            this.message = "Quiz successfully created! 😃"
+            console.log('yay')
+        })
+      }catch(error){
+        this.error = true;
+        console.log(error)
       }
-      alert(JSON.stringify(data, null, 2))
+      
     },
+
+    reset(){
+        this.loading= false
+        this.success = false;
+        this.error = false;    
+    }
   }
 };
 </script>

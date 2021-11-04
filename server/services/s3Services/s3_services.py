@@ -4,10 +4,15 @@ import boto3
 from botocore.exceptions import ClientError
 import logging
 import os
+import mimetypes
+from flask_cors import CORS
 
 app = Flask(__name__)
-BUCKET = "spm-grp2-storage"
-S3_DOMAIN = "http://spm-grp2-storage.s3.amazonaws.com/"
+CORS(app)
+
+
+BUCKET = os.getenv('BUCKET')
+S3_DOMAIN = os.getenv('S3_DOMAIN')
 
 s3 = boto3.client(
     "s3",
@@ -22,16 +27,18 @@ def upload():
     className = request.args.get('className')
     sectionName = request.args.get('sectionName')
     file = request.files['file']
-    
-    filename = secure_filename(file.filename)
-    content_type = request.mimetype
 
+    filename = secure_filename(file.filename)
+
+    file_type = mimetypes.guess_type(filename)
+    
     try:
         response = s3.put_object(ACL='public-read',
-                                        Body=file,
-                                        Bucket=BUCKET,
-                                        Key=f'{courseId}/{className}/{sectionName}/' + filename,
-                                        ContentType=content_type)
+                                 Body=file,
+                                 Bucket=BUCKET,
+                                 Key=f'{courseId}/{className}/{sectionName}/' + filename,
+                                 ContentType=file_type[0]
+                                 )
         return response
 
     except ClientError as e:
@@ -54,12 +61,15 @@ def list_files():
     try:
         response = s3.list_objects(
             Bucket=BUCKET, Prefix=f'{courseId}/{className}/{sectionName}/')['Contents']
+            
         for item in response:
             url = S3_DOMAIN + item['Key']
             filename = (item['Key']).split('/')[-1]
 
             result.append({"filename": filename,
                            "url": url,
+                           "completed": False,
+                           "fileId": item['Key']
                            })
         return jsonify(result)
 
@@ -67,6 +77,33 @@ def list_files():
         logging.error(e)
         return jsonify({
             "message": "Unable to get files from s3."
+        }), 500
+
+
+@app.route("/removeFile", methods=['DELETE'])
+def removeFile():
+    data = request.get_json()
+    if not all(key in data.keys() for
+               key in ('courseId', 'className', 'sectionName', 'fileName')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    courseId = data['courseId']
+    className = data['className']
+    sectionName = data['sectionName']
+    fileName = data['fileName']
+
+    try:
+        response = s3.delete_object(
+            Bucket=BUCKET,
+            Key=f'{courseId}/{className}/{sectionName}/' + fileName
+        )
+        return response
+    except ClientError as e:
+        logging.error(e)
+        return jsonify({
+            "message": "Unable to delete file from s3."
         }), 500
 
 

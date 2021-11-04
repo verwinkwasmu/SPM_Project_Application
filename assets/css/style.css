@@ -1328,6 +1328,12 @@ section {
   padding: 0px;  
 }
 
+#login {
+  margin: auto;
+  width: 20%;
+  padding: 0px;  
+}
+
 .cancel .cancel-btn{
   display: inline-block;
   padding: 10px 30px;
@@ -1340,7 +1346,7 @@ section {
   transition: 0.3s;
   border: 1px solid #CA1B10;
   position: absolute;
-  margin-left: 750px;
+  margin-left: 770px;
 }
 
 .cancel .cancel-btn:hover {
@@ -1405,6 +1411,26 @@ section {
   color: #fff;
 }
 
+.approve .approve-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: relative;
+  margin-left: 830px;
+}
+
+.approve .approve-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
 .cancel{
   display: inline-block;
   margin-bottom: 55px;
@@ -1453,6 +1479,29 @@ section {
   background: #CA1B10;
   color: #fff;
 }
+
+
+.reject .reject-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color:#CA1B10;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #CA1B10;
+  position: absolute;
+  margin-left: 810px;
+  /* margin-left: 5px; */
+}
+
+.reject .reject-btn:hover {
+  background: #CA1B10;
+  color: #fff;
+}
+
 
 
 
@@ -1567,6 +1616,34 @@ section {
   color: #fff;
 }
 
+#createSection {
+  margin: auto;
+  width: 70%;
+  padding: 0px;  
+}
+
+
+.viewSection .viewSection-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 30px;
+  /* bottom:15px; */
+}
+
+.viewSection .viewSection-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
 .TrainerCreateFinalQuiz {
   padding-top:15px;
 }
@@ -1630,6 +1707,15 @@ section {
 .quizList .quizList-btn:hover {
   background: #47b2e4;
   color: #fff;
+}
+
+
+#addquestion{
+  display:inline-block;
+}
+
+#removequestion{
+  display:inline-block;
 }
 
 .TrainerCreateQuiz {
@@ -1747,6 +1833,30 @@ section {
   border: 1px solid red;
 }
 
+
+#axiosForm{  /* Components Root Element ID */
+  position: relative;
+}
+.loader{  /* Loader Div Class */
+  /* display: block; */
+  /* margin: 0px; */
+  position: absolute;
+  /* left:50%; */
+  /* bottom: 50%; */
+  top:0px;
+  right:0px;
+  width:100%;
+  height:100%;
+  background-color:#eceaea;
+  background-image: url('assets/img/ajax-loader.gif');
+  background-size: 70px;
+  background-repeat:no-repeat;
+  background-position: bottom;
+  z-index:100;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+
+}
 
 
 /*--------------------------------------------------------------
@@ -2258,4 +2368,220 @@ section {
   #footer .credits {
     padding-top: 4px;
   }
+}
+
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: rgb(228, 228, 228); /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 200px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #000000;
+  background-color: rgb(165, 165, 165);
+}
+
+.content {
+  padding-left: 150px;
+}
+/* Learner */
+
+.LearnerEnrol {
+  padding-bottom:45px;
+}
+.LearnerEnrol .LearnerEnrol-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #409C20;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #409C20;
+  position: absolute;
+  margin-left: 670px;
+}
+
+.LearnerEnrol .LearnerEnrol-btn:hover {
+  background: #409C20;
+  color: #fff;
+}
+
+.LearnerViewClass .LearnerViewClass-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:relative; 
+  margin-left: 200px;
+  /* bottom:15px; */
+}
+
+.LearnerViewClass .LearnerViewClass-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.LearnerWithdraw {
+  padding-top:60px;
+}
+
+.LearnerWithdraw .LearnerWithdraw-btn{
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #9b0101;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #9b0101;
+  position: absolute;
+  margin-left: 670px;
+}
+
+.LearnerWithdraw .LearnerWithdraw-btn:hover {
+  background: #9b0101;
+  color: #fff;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+#takequiz{
+  display:inline-block;
+  /* margin-top: 50px; */
+  margin-left: 1070px;
+}
+
+#quizrbtn {
+  background:transparent;
+  color:black;
+  border-radius:8px;   
+  padding:10px;
+  margin:0px;
+  cursor:pointer;
+  width: 1000px;
+  
+}
+
+#quizrbtn {
+  margin-right:1em;   
+}
+
+.fieldgroup{
+  float: left;
+  width: auto;
+  margin-left: 3em;
+}
+
+/* .optionContainer {
+  margin-top: 12px;
+  flex-grow: 1;
+} */
+.option {
+    border-radius: 8px;
+    /* padding: 9px 18px; */
+    padding:10px;
+
+    margin: 0 18px;
+    margin-bottom: 12px;
+    /* transition: $trans_duration; */
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: transparent 1px solid;
+}
+
+.is-selected {
+  border-color: #209cee;
+  background-color: white;
+}
+
+.option:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* .option:active {
+  transform: scaleX(0.9);
+
+} */
+
+.LearnerEnrolStatus {
+  padding-left: 900px;
+  padding-bottom: 20px;
+}
+
+.timer {
+  padding-left: 970px;
+}
+
+
+#submitquiz{
+  display:inline-block;
+  position:absolute;
+  margin-left: 1155px;
+}
+
+/* HR Approve/Reject */
+
+.approve {
+  padding-right: 100px;
+}
+
+.reject {
+  padding-left: 150px;
+}
+
+
+.approvereject {
+  padding-left: 1px;
+  margin-top: 280px;
+  background-color: #fff;
+}
+.approvereject .approvereject-btn {
+  display: inline-block;
+  padding: 10px 30px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+  position:absolute; 
+  margin-left: 30px;
+  /* bottom:15px; */
+}
+
+.approvereject .approvereject-btn:hover {
+  background: #47b2e4;
+  color: #fff;
 }

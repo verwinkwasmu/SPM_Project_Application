@@ -152,11 +152,11 @@ def assignTrainerClass():
     # retrieved data
     data = request.get_json()
 
-    # if not all(key in data.keys() for
-    #            key in ('classId', 'trainerAssigned, trainerName')):
-    #     return jsonify({
-    #         "message": "Incorrect JSON object provided."
-    #     }), 500
+    if not all(key in data.keys() for
+               key in ('classId', 'trainerAssigned, trainerName')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
     
     classObj = Class.query.filter_by(classId=data['classId']).first()
     # (1): Validate class
@@ -256,7 +256,8 @@ def getTrainerClasses(trainerId, courseId):
         }), 200
     return jsonify(
         {
-            "data": classList
+            "data": [trainerClass.to_dict() for trainerClass in trainerCourseClasses],
+            "classList": classList
         }
     ), 200
 
@@ -286,7 +287,8 @@ def createSection():
 
     section = Section(
             sectionId = data['sectionId'],
-            classId = data['classId']
+            classId = data['classId'],
+            fileName = None
         )
 
     # (4): Commit to DB
@@ -300,6 +302,32 @@ def createSection():
             "message": "Unable to commit to database.",
             "data": str(request.get_data())
         }), 504
+
+# View Section
+@app.route("/viewSections/<string:classId>", methods=['GET'])
+def viewSection(classId):
+    # retrieve data
+    # data = request.get_json()
+
+    # (1): Validate Section
+    checkClass = Class.query.filter(Class.classId == classId).first()
+
+    if not checkClass:
+        return jsonify({
+            "message": "Class does not exist."
+        }), 501
+
+    Sections = Section.query.filter(Section.classId == classId).all()
+
+    try:
+        return jsonify(
+        {
+            "data": [section.to_dict() for section in Sections]
+        }), 200
+    except Exception:
+        return jsonify({
+            "message": "No sections found."
+        }), 404
 
 # View courses available for LEARNER
 @app.route('/viewLearnerCourses', methods=['GET'])
