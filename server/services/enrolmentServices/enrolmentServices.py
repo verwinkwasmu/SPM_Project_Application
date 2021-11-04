@@ -13,6 +13,8 @@ db = SQLAlchemy(app)
 CORS(app)
 
 # get learnerId + learnerName enrolled in a class
+
+
 @app.route("/enrolment/<string:classId>", methods=['GET'])
 def getLearnersInClass(classId):
 
@@ -54,6 +56,8 @@ def getLearnersInClass(classId):
     ), 200
 
 # get number of learners enrolled in a class
+
+
 @app.route("/enrolment/number/<string:classId>", methods=['GET'])
 def getNumberOfLearnersInClass(classId):
     class_existence = Class.query.filter(Class.classId == classId).all()
@@ -78,24 +82,25 @@ def getNumberOfLearnersInClass(classId):
 @app.route("/enrolment/size/<string:trainerId>/<string:courseId>", methods=['GET'])
 def getCurrentClassSizeTrainer(trainerId, courseId):
 
-    trainer_existence = Trainer.query.filter(Trainer.userId==trainerId).all()
-    # check if trainer exists 
+    trainer_existence = Trainer.query.filter(Trainer.userId == trainerId).all()
+    # check if trainer exists
     if not trainer_existence:
         return jsonify({
-            "message": "Trainer not found."    
+            "message": "Trainer not found."
         }), 404
 
-    course_existence = Course.query.filter(Course.courseId==courseId).all()
-    # check if course exists 
+    course_existence = Course.query.filter(Course.courseId == courseId).all()
+    # check if course exists
     if not course_existence:
         return jsonify({
-            "message": "Course not found."    
+            "message": "Course not found."
         }), 405
 
-    trainerCourseClasses = Class.query.filter((Class.trainerAssigned==trainerId) & (Class.courseId==courseId)).all()
+    trainerCourseClasses = Class.query.filter(
+        (Class.trainerAssigned == trainerId) & (Class.courseId == courseId)).all()
 
     classList = []
-    for trainerCourseClass in trainerCourseClasses: 
+    for trainerCourseClass in trainerCourseClasses:
         classList.append(trainerCourseClass.classId)
 
     classDict = {}
@@ -120,20 +125,22 @@ def getCurrentClassSizeTrainer(trainerId, courseId):
     ), 200
 
 # get number of learners enrolled in classes of a course
+
+
 @app.route("/enrolment/size/<string:courseId>", methods=['GET'])
 def getCurrentClassSize(courseId):
 
-    course_existence = Course.query.filter(Course.courseId==courseId).all()
-    # check if course exists 
+    course_existence = Course.query.filter(Course.courseId == courseId).all()
+    # check if course exists
     if not course_existence:
         return jsonify({
-            "message": "Course not found."    
+            "message": "Course not found."
         }), 405
 
-    CourseClasses = Class.query.filter(Class.courseId==courseId).all()
+    CourseClasses = Class.query.filter(Class.courseId == courseId).all()
 
     classList = []
-    for CourseClass in CourseClasses: 
+    for CourseClass in CourseClasses:
         classList.append(CourseClass.classId)
 
     classDict = {}
@@ -150,6 +157,8 @@ def getCurrentClassSize(courseId):
     ), 200
 
 # get learnerId + learnerName of qualified learners to be enrolled into a class
+
+
 @app.route("/enrolment/qualifiedlearners/<string:classId>", methods=['GET'])
 def getQualifiedLearnersOfClass(classId):
     class_existence = Class.query.filter(Class.classId == classId).first()
@@ -206,6 +215,8 @@ def getQualifiedLearnersOfClass(classId):
     ), 200
 
 # enrol learners into class
+
+
 @app.route("/enrolment", methods=['POST'])
 def create_enrolment():
     data = request.get_json()
@@ -334,7 +345,9 @@ def removeLearner():
             "data": str(request.get_data())
         }), 504
 
-#Self-enrolling of learner
+# Self-enrolling of learner
+
+
 @app.route('/enrolLearner', methods=['POST'])
 def enrolLearner():
     data = request.get_json()
@@ -359,7 +372,7 @@ def enrolLearner():
         totalNumSections=numSections,
         status="PENDING"
     )
-    #Commit to DB
+    # Commit to DB
     try:
         db.session.add(enrolment)
         db.session.commit()
@@ -372,30 +385,27 @@ def enrolLearner():
         }), 504
 
 # learner withdraw from course
+
+
 @app.route("/withdrawLearner", methods=['DELETE'])
 def withdrawLearner():
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('classId', 'learnerId')):
+               key in ('courseId', 'learnerId')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
 
-    enrolment = Enrolment.query.filter(
-        Enrolment.classId == data["classId"],
-        Enrolment.learnerId == data['learnerId'],
-        Enrolment.status == "ACCEPTED"
-    ).first()
+    enrolment = db.session.query(Enrolment).filter(Enrolment.learnerId == data['learnerId'], Enrolment.courseId == data["courseId"], Enrolment.status.in_(['PENDING', 'ACCEPTED'])).first()
 
     if not enrolment:
         return jsonify({
             "message": "Enrolment does not exist."
         }), 503
-
+        
     try:
-        db.session.query(Enrolment).filter(
-            Enrolment.classId == data['classId'], Enrolment.learnerId == data['learnerId'], Enrolment.status=="ACCEPTED").delete()
+        db.session.delete(enrolment)
         db.session.commit()
         return jsonify({
             "message": "Learner Withdrawn"
@@ -443,7 +453,7 @@ def updateEnrolmentRequest():
     classId = data['classId']
     status = data['status']
 
-    #update enrolment record
+    # update enrolment record
     enrolmentObj = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.learnerId==learnerId).first()
     enrolmentObj.status = status
 
@@ -564,7 +574,7 @@ def updateCompletionStatus():
     learnerId = data['learnerId']
     classId = data['classId']
 
-    #update enrolment record
+    # update enrolment record
     enrolmentObj = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.learnerId==learnerId).first()
 
     course_id = enrolmentObj.to_dict()['courseId']
@@ -624,5 +634,23 @@ def awardedBadges():
         }
     ), 200
 
+@app.route('/viewUserEnrolmentStatus')
+def viewUserEnrolmentStatus():
+    learnerId = request.args.get('learnerId')
+    courseId = request.args.get('courseId')
+
+    enrolment = Enrolment.query.filter(
+        (Enrolment.learnerId==learnerId) & (Enrolment.courseId==courseId) & ((Enrolment.status=="ACCEPTED") | (Enrolment.status=="PENDING"))).first()
+    if enrolment:
+        return jsonify({
+            "enrolmentStatus": enrolment.status
+        }), 200
+    else:
+        return jsonify({
+            "enrolmentStatus": "NOT ENROLLED"
+        })
+        # num_enrolments = Enrolment.query.filter(
+        #     (Enrolment.classId == classId) & (Enrolment.completedClass == False) & (Enrolment.status == 'ACCEPTED')).count()
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5004, debug=True)

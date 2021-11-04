@@ -45,7 +45,7 @@
               </p>
             </div>      
             <div class="viewClass">
-              <router-link :to="{path: '/EditClass', query: {classId: _class.classId}}" class="viewClass-btn">Join Class</router-link>
+              <button class="viewClass-btn" @click="selfEnrol(_class.classId)">Join Class</button>
             </div>
           </div>
         </div>
@@ -75,17 +75,9 @@ export default {
       let response2 = await axios.get(apiUrl2);
       let response3 = await axios.get(getEnrolmentURL);
 
-      console.log(response1)
-      console.log(response2)
-      console.log(response3)
-
       this.classes = await response1.data.data;
       this.course = await response2.data;
       this.enrolment = await response3.data.data;
-
-      console.log(this.classes);
-      console.log(this.course)
-      console.log(this.enrolment);
 
       this.error = false;
     } catch (err) {
@@ -93,6 +85,27 @@ export default {
       this.error = true;
       this.message = err;
     }
-  },
+  },  
+  methods:{
+      async selfEnrol(classId){
+          const apiUrl = 'http://localhost:5004/enrolLearner';
+          const data = {
+            classId: classId,
+            learnerId: localStorage.getItem('userId')
+          }
+          try {
+            let response = await axios.post(apiUrl, data)
+            if (response.status == 201){
+              alert("Successfully Enrolled!")
+              this.$router.push("/LearnerViewCourseDetails")
+            }
+            else{
+              alert("Please Try Again!")
+            }
+          }catch(err){
+            console.log(err)
+          }
+      }
+  }
 };
 </script>
