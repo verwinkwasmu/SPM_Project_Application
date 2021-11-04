@@ -330,8 +330,8 @@ def viewSection(classId):
         }), 404
 
 # View courses available for LEARNER
-@app.route('/viewLearnerAvailableCourses', methods=['GET'])
-def getLearnerAvailableCourses():
+@app.route('/viewLearnerCourses', methods=['GET'])
+def getLearnerCourses():
     learnerId = request.args.get('learnerId')
     result = []
 
@@ -364,8 +364,8 @@ def checkIfCurrentlyEnrolled(learnerId, courseId):
     return False
 
 # View classes available for LEARNER
-@app.route('/viewLearnerAvailableClasses')
-def getLearnerAvailableClasses():
+@app.route('/viewLearnerClasses')
+def getLearnerClasses():
     courseId = request.args.get('courseId')
     today = date.today()
     current_date = today.strftime("%Y-%m-%d")
