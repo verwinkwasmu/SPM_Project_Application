@@ -1,20 +1,21 @@
 <template>
   <div id="App">
     <LearnerHeader />
+    <Modal v-bind:message="message" />
+
     <main id="main">
       <div class="content">
         <section id="faq" class="faq section-bg">
           <div class="sidenav">
-            <a href="#">Section 1</a>
+            <a href="#">{{ sectionTitle }}</a>
             <a href="#" class="disabled">Section 2</a>
             <a href="#" class="disabled"> Section 3</a>
             <a href="#" class="disabled">Section 4</a>
           </div>
-
           <div class="container" data-aos="fade-up">
             <div class="section-title">
               <h2>{{ courseName }}</h2>
-              <h3>{{sectionName}}</h3>
+              <h3>{{ sectionName }}</h3>
               <p></p>
             </div>
 
@@ -47,14 +48,16 @@
                       ></iframe>
                     </div>
                     <br />
-                    <button v-if="file.completed != true"
+                    <button
+                      v-if="file.completed != true"
                       type="button"
                       @click="setFileCompleted(file.fileId)"
                       class="btn btn-outline-success"
                     >
                       Mark as Complete
                     </button>
-                    <button v-else
+                    <button
+                      v-else
                       type="button"
                       disabled
                       class="btn btn-outline-info"
@@ -65,17 +68,8 @@
                 </li>
               </ul>
             </div>
-            <div
-              class="form-group"
-              id="takequiz"
-              v-if="showQuiz"
-            >
-              <button
-                type="button"
-                class="btn btn-primary"
-              >
-                Take Quiz
-              </button>
+            <div class="form-group" id="takequiz" v-if="showQuiz">
+              <button type="button" class="btn btn-primary">Take Quiz</button>
             </div>
           </div>
         </section>
@@ -100,6 +94,7 @@ export default {
     file_list: [],
     completedFileIdList: [],
     showQuiz: false,
+    message: ""
   }),
   async created() {
     const apiUrl1 = `http://localhost:5050/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
@@ -117,25 +112,26 @@ export default {
       let response2 = await axios.post(apiUrl2, post_data);
       this.file_list = response1.data;
       this.completedFileIdList = response2.data;
-    
-    const file_list = this.file_list
-    const completedFileIdList = this.completedFileIdList.data
 
-    file_list.forEach(element => {
-      if (completedFileIdList.includes(element.fileId)){
-        element.completed = true
-      }
-    });
-      console.log(this.file_list)
+      const file_list = this.file_list;
+      const completedFileIdList = this.completedFileIdList.data;
+
+      file_list.forEach((element) => {
+        if (completedFileIdList.includes(element.fileId)) {
+          element.completed = true;
+        }
+      });
+      console.log(this.file_list);
       if (this.completedFileIdList.data.length == this.file_list.length) {
-        this.showQuiz = true
+        this.showQuiz = true;
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   },
   methods: {
     async setFileCompleted(fileId) {
+      
       const apiUrl = "http://localhost:5001/setFileCompleted";
       const post_data = {
         learnerId: localStorage.getItem("userId"),
@@ -145,14 +141,19 @@ export default {
       try {
         let response = await axios.post(apiUrl, post_data);
         if (response.status == 201) {
-          alert("learning material completed!");
-          window.location.reload()
-        }
-        else{
-          alert("Please try again!")
+          this.message = "learning material completed!";
+          this.$bvModal.show("bv-modal-example");
+          setTimeout(
+            function () {
+              window.location.reload();
+            }.bind(this),
+            2000
+          );
+        } else {
+          alert("Please try again!");
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     },
   },
