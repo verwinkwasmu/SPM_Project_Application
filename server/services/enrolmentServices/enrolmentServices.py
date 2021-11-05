@@ -486,7 +486,7 @@ def getEnrolmentsInProgress():
         }), 404
     
     enrolmentRecords = Enrolment.query.filter((Enrolment.learnerId==learnerId), (Enrolment.completedClass==False), (Enrolment.status=='ACCEPTED')).all()
-    
+
     if len(enrolmentRecords)==0:
         return jsonify(
         {
@@ -494,10 +494,17 @@ def getEnrolmentsInProgress():
             "data": []
         }
     ), 200
+
+    result = [enrolment.to_dict() for enrolment in enrolmentRecords]
+    for element in result:
+        courseId = element["courseId"]
+        courseName = (Course.query.filter_by(courseId=courseId).first()).courseName
+        element["courseName"] = courseName
     
     return jsonify(
         {
-            "data": [enrolmentRecord.to_dict() for enrolmentRecord in enrolmentRecords]
+            "message": "Current enrolments found",
+            "data": result
         }
     ), 200
 
@@ -524,10 +531,17 @@ def getLearnerPendingEnrolments():
             "data": []
         }
     ), 200
-    
+
+    result = [enrolment.to_dict() for enrolment in enrolmentRecords]
+    for element in result:
+        courseId = element["courseId"]
+        courseName = (Course.query.filter_by(courseId=courseId).first()).courseName
+        element["courseName"] = courseName
+
     return jsonify(
         {
-            "data": [enrolmentRecord.to_dict() for enrolmentRecord in enrolmentRecords]
+            "message": "Pending enrolments found",
+            "data": result
         }
     ), 200
 
@@ -554,10 +568,17 @@ def getCompletedEnrolments():
             "data": []
         }
     ), 200
-    
+
+    result = [enrolment.to_dict() for enrolment in enrolmentRecords]
+    for element in result:
+        courseId = element["courseId"]
+        courseName = (Course.query.filter_by(courseId=courseId).first()).courseName
+        element["courseName"] = courseName
+
     return jsonify(
         {
-            "data": [enrolmentRecord.to_dict() for enrolmentRecord in enrolmentRecords]
+            "message": "Pending enrolments found",
+            "data": result
         }
     ), 200
 
