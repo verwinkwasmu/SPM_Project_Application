@@ -11,8 +11,8 @@ app = Flask(__name__)
 CORS(app)
 
 
-BUCKET = os.getenv('BUCKET')
-S3_DOMAIN = os.getenv('S3_DOMAIN')
+BUCKET = "spm-grp2-storage"
+S3_DOMAIN = "http://spm-grp2-storage.s3.amazonaws.com/"
 
 s3 = boto3.client(
     "s3",
@@ -65,11 +65,13 @@ def list_files():
         for item in response:
             url = S3_DOMAIN + item['Key']
             filename = (item['Key']).split('/')[-1]
-
+            betterFileId = ((item['Key']).replace('/', '')).replace('.', "")
+            
             result.append({"filename": filename,
                            "url": url,
                            "completed": False,
-                           "fileId": item['Key']
+                           "fileId": item['Key'],
+                           "betterFileId": betterFileId
                            })
         return jsonify(result)
 
