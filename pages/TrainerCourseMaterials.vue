@@ -1,7 +1,11 @@
 <template>
   <div>
     <TrainerHeader />
+<<<<<<< Updated upstream
 
+=======
+    <Modal :message="message" />
+>>>>>>> Stashed changes
     <section id="team" class="team section-bg">
       <div class="container" data-aos="fade-up">
         <div class="row pb-5 mb-2 ml-0">
@@ -9,7 +13,7 @@
             <router-link
               :to="{
                 path: '/TrainerViewSection',
-                query: { classId: this.$route.query.classId},
+                query: { classId: this.$route.query.classId },
               }"
               class="viewClass-btn"
               >Back to see all Sections</router-link
@@ -88,7 +92,7 @@ export default {
   data() {
     return {
       file: "",
-      courseId: localStorage.getItem('courseId'),
+      courseId: localStorage.getItem("courseId"),
       className: this.$route.query.classTitle.replace(" ", ""),
       sectionName: this.$route.query.sectionId.replace(" ", ""),
       file_list: [],
@@ -122,7 +126,13 @@ export default {
         let response = await axios.put(apiUrl, formData);
         if (response.status == 200) {
           this.error = false;
-          this.message = "File Successfully Uploaded! 😃";
+          this.message = "File Successfully Uploaded 😃 Reloading Page!";
+          setTimeout(
+            function () {
+              window.location.reload();
+            }.bind(this),
+            2000
+          );
         } else {
           this.error = true;
           this.message = "Error! Please try again";
@@ -149,8 +159,14 @@ export default {
       try {
         let response = await axios.delete(apiUrl, { data: file_data });
         if (response.status == 200) {
-          alert("File removed successfully!");
-          window.location.reload();
+          this.message = "File removed successfully 😇 Reloading Page!";
+          this.$bvModal.show("bv-modal-example");
+          setTimeout(
+            function () {
+              window.location.reload();
+            }.bind(this),
+            2000
+          );
         } else {
           alert("Please Try again!");
         }
