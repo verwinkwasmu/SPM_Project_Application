@@ -6,18 +6,54 @@
         <div class="row">
           <div class="col-lg-8" id="createCourse" style="padding-bottom: 50px">
             <div class="addEngineer">
-              <h5>Total List of Engineers:</h5>
+              <h5>Total List of Qualified Engineers:</h5>
             </div>
 
-            <b-table
-              :data="data"
-              :columns="columns"
-              :checked-rows.sync="checkedRows"
-              checkable
-              :checkbox-position="checkboxPosition"
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Learner ID</th>
+                  <th scope="col">Learner Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="learner in learners" :key="learner.learnerId">
+                  <td>{{ learner.learnerId }}</td>
+                  <td>{{ learner.learnerName }}</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        :id="learner.learnerId"
+                        :value="learner.learnerId"
+                        v-model="learnerIds"
+                      />
+                      <label
+                        class="custom-control-label"
+                        :for="learner.learnerId"
+                      ></label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              v-if="error == true"
+              class="alert alert-danger text-center"
+              role="alert"
             >
-            </b-table>
+              {{ message }}
 
+            </div>
+            <div
+              v-else-if="error == false"
+              class="alert alert-success text-center"
+              role="alert"
+            >
+              {{ message }}
+
+            </div>
             <div class="Add">
               <a href="" class="Add-btn" @click="enrolLearners">Add</a>
             </div>
@@ -32,33 +68,17 @@
 <script>
 import axios from "axios";
 export default {
-  data() {
-    const data = [];
-
-    return {
-      data,
-      checkboxPosition: "right",
-      checkedRows: [],
-      columns: [
-        {
-          field: "learnerId",
-          label: "learnerId",
-          width: "40",
-          numeric: true,
-        },
-        {
-          field: "learnerName",
-          label: "learnerName",
-        },
-      ],
-    };
-  },
+  data: () => ({
+    learners: [],
+    learnerIds: [],
+    error: null,
+    message: "",
+  }),
   async mounted() {
-    const apiUrl = `http://localhost:5004/enrolment/qualifiedlearners/${this.$route.query.classId}`;
+    const apiUrl = `http://localhost:5002/enrolment/qualifiedlearners/${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
-      this.data = response.data.data;
-      this.error = false;
+      this.learners = response.data.data;
     } catch (err) {
       console.log(err);
       this.error = true;
@@ -68,26 +88,28 @@ export default {
   methods: {
     async enrolLearners(event) {
       event.preventDefault();
-      const apiUrl = `http://localhost:5004/enrolment`;
-      const learnerIds = [];
-      const checkedRows = this.checkedRows;
+      this.error = null;
 
-      checkedRows.forEach(function (arrayItem) {
-        learnerIds.push(arrayItem.learnerId);
-      });
+      const apiUrl = `http://localhost:5004/enrolment/enrolLearners`;
 
-      const enrolmentData = {
+      const learners_data = {
         classId: this.$route.query.classId,
-        learnerIds: learnerIds,
+        learnerIds: this.learnerIds,
       };
 
       try {
-        let response = await axios.post(apiUrl, enrolmentData);
+        let response = await axios.post(apiUrl, learners_data);
         if (response.status == 201) {
-          alert("Successfully Enrolled!");
-          window.location.reload();
+          this.error = false;
+          this.message = "Learners Enrolled! 😃";
+
+          setTimeout(function(){
+            window.location.reload()
+          }.bind(this), 2000);
+
         } else {
-          alert("Please Try again!");
+          this.error = true;
+          this.message = "Please Try Again!"
         }
       } catch (err) {
         console.log(err);
