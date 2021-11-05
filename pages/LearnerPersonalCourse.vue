@@ -25,7 +25,9 @@
                     path: '/LearnerViewSections',
                     query: {
                       classId: course.classId,
-                      courseName: course.courseName
+                      courseName: course.courseName,
+                      totalNumSections: course.totalNumSections,
+                      sectionName: 'Section 1'
                     },
                   }"
                   class="course-btn"
@@ -59,7 +61,9 @@
                     path: '/LearnerViewSections',
                     query: {
                       classId: course.classId,
-                      courseName: course.courseName
+                      courseName: course.courseName,
+                      totalNumSections: course.totalNumSections,
+                      sectionName: 'Section 1'
                     },
                   }"
                   class="course-btn"

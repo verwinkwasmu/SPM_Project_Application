@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <TrainerHeader />
     <Modal :message="message" />
     <section id="team" class="team section-bg">
