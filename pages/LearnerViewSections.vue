@@ -7,15 +7,14 @@
       <div class="content">
         <section id="faq" class="faq section-bg">
           <div class="sidenav">
-            <a href="#">{{ sectionTitle }}</a>
-            <a href="#" class="disabled">Section 2</a>
-            <a href="#" class="disabled"> Section 3</a>
-            <a href="#" class="disabled">Section 4</a>
+            <a v-for="n in totalNumSections" :key="n" @click="forceRouting(n)"
+              >Section {{ n }}</a
+            >
           </div>
           <div class="container" data-aos="fade-up">
             <div class="section-title">
               <h2>{{ courseName }}</h2>
-              <h3>{{ sectionName }}</h3>
+              <h3>{{ sectionTitle }}</h3>
               <p></p>
             </div>
 
@@ -82,20 +81,22 @@
 import axios from "axios";
 
 export default {
-  data: () => ({
-    courseName: "Fundamentals of XXX",
-    // this.$route.query.courseName,
-    sectionTitle: "Section 1",
-    sectionName: "Section1",
-    // this.$route.query.sectionId.replace(" ", ""),
-    className: "Class2",
-    // this.$route.query.classTitle.replace(" ", ""),
-    courseId: localStorage.getItem("courseId"),
-    file_list: [],
-    completedFileIdList: [],
-    showQuiz: false,
-    message: ""
-  }),
+  data() {
+    return {
+      sectionTitle: this.$route.query.sectionName,
+      sectionName: this.$route.query.sectionName.replace(" ", ""),
+      className:
+        this.$route.query.classId.split(" ")[1] +
+        this.$route.query.classId.split(" ")[2],
+      courseId: this.$route.query.classId.split(" ")[0],
+      file_list: [],
+      completedFileIdList: [],
+      showQuiz: false,
+      message: "",
+      courseName: this.$route.query.courseName,
+      totalNumSections: parseInt(this.$route.query.totalNumSections)
+    };
+  },
   async created() {
     const apiUrl1 = `http://localhost:5050/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
     const apiUrl2 = "http://localhost:5001/getCompletedFiles";
@@ -131,7 +132,6 @@ export default {
   },
   methods: {
     async setFileCompleted(fileId) {
-      
       const apiUrl = "http://localhost:5001/setFileCompleted";
       const post_data = {
         learnerId: localStorage.getItem("userId"),
@@ -155,6 +155,11 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    forceRouting(n) {
+      let section = "Section " + n;
+      let link = `/LearnerViewSections?classId=${this.$route.query.classId}&courseName=${this.courseName}&totalNumSections=${this.totalNumSections}&sectionName=${section}`;
+      window.location.replace(link);
     },
   },
 };
