@@ -53,11 +53,11 @@
                               <template #default="{}">
                                 <p>Do you want to submit your quiz?</p>
                               </template>
-                              <template #modal-footer="{ hide, YesSubmit }">
+                              <template #modal-footer="{ hide, ok }">
                                 <b-button size="sm" variant="danger" @click="hide('forget')">
                                   No
                                 </b-button>
-                                <b-button size="sm" variant="success" @click="YesSubmit()">
+                                <b-button size="sm" variant="success" @click="ok()" href="LearnerViewQuizExplanation">
                                   Yes
                                 </b-button>
                               </template>
@@ -110,9 +110,12 @@
     },
 
 
-      async YesSubmit(event){
-        event.preventDefault();
-        const apiUrl = "";
+      ok() {
+        // event.preventDefault();
+        // window.location.href = "http://www.w3schools.com"
+        // location.href = '`~/LearnerViewQuizExplanation';
+        // const apiUrl = ``;
+        console.log('hi')
       
     },
   

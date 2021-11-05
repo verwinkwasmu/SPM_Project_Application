@@ -34,22 +34,26 @@
                                           {{question.option4}}</label>
                                       </div>
                               </div>
+
                               <div style="margin-left: 25px;" v-if="CorrectAnswer != learnerAnswer">
-                                  <p> Answer is No. Because u gay</p>
+                                  <p style="color:red;"> Answer is incorrect. The correct answer is no because u gay.</p>
                               </div>
                               <div style="margin-left: 25px;" v-if="CorrectAnswer == learnerAnswer">
-                                  <p> Answer is correct.</p>
+                                  <p style="color:green;"> Answer is correct.</p>
                               </div>
                               <hr>
+                              
+                              <div v-if="FinalQuiz">
+                                <div v-if="learnerScore <= 0.85">
+                                  <p> Please reattempt the quiz and study if u r gay</p>
+                                  <!--button to prompt them to redo if they fail or button to see other available if they pass + insert badge -->
+                                </div>
+                              </div>
                         
                           </div>
 
-                        <!-- <div class="form-group" id="submitquiz">
-                            <b-button variant="primary" @click="submitQuiz">Submit Quiz</b-button>
-                        </div> -->
-
                         <div class="form-group" id="submitquiz">
-                          <b-button>Back to course</b-button>
+                          <b-button>Back to Sections</b-button>
                         </div>
 
                         
@@ -72,6 +76,10 @@
     courseName: 'Fundamentals of XXX',
     displayTime: '',
     msgBox: '',
+    learnerAnswer: 'Yes',
+    CorrectAnswer: 'No',
+    FinalQuiz: false,
+    learnerScore: 0.65,
 
     questions: [
       {
@@ -82,17 +90,13 @@
         option4: "Maybe not",
       }],
 
-    learnerAnswer: 'Yes',
-    CorrectAnswer: 'Yes',
+    
+
   }),
 
     methods: {
 
-      async YesSubmit(event){
-        event.preventDefault();
-        const apiUrl = "";
       
-    },
   
   },
 };
