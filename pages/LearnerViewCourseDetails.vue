@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LearnerHeader />
+    <LearnerHeader/>
 
     <section id="team" class="team section-bg">
       <!--box-->
@@ -10,6 +10,9 @@
         </div>
         <div class="LearnerEnrolStatus" v-if="enrolmentStatus == 'PENDING'">
           <span class="badge badge-secondary">Pending Approval</span>
+        </div>
+        <div class="LearnerEnrolStatus" v-if="enrolmentStatus == 'ACCEPTED'">
+          <span class="badge badge-success">Approved! 👍</span>
         </div>
         <div class="row">
           <div class="col-lg-8" id="createCourse" style="padding-bottom: 100px">

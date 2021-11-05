@@ -7,22 +7,14 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li>
-                <a class="nav-link scrollto active" href="/">Home</a>
+                <a class="nav-link" href="LearnerHomePage">Home</a>
             </li>
             
             <li>
                 <a class="nav-link" href="LearnerViewCourse">Enrol</a>
             </li>
-            <li class="dropdown">
-              <a href="TrainerViewCourses"
-                ><span>My courses</span> <i class="bi bi-chevron-down"></i
-              ></a>
-              <ul>
-                <li><a href="#">Course 1</a></li>
-                <li><a href="#">Course 2</a></li>
-                <li><a href="#">Course 3</a></li>
-                <li><a href="#">Course 4</a></li>
-              </ul>
+            <li>
+              <a href="LearnerPersonalCourse">My courses</a>
             </li>
 
             <li class="dropdown">

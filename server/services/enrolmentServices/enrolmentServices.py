@@ -209,7 +209,7 @@ def getQualifiedLearnersOfClass(classId):
 # enrol learners into class
 
 
-@app.route("/enrolment", methods=['POST'])
+@app.route("/enrolment/enrolLearners", methods=['POST'])
 def create_enrolment():
     data = request.get_json()
     if not all(key in data.keys() for

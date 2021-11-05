@@ -12,28 +12,37 @@ SET time_zone = "+00:00";
 
 -- Table structure for table `user`
 
-CREATE TABLE `user` (
-  `userId` int NOT NULL AUTO_INCREMENT,
-  `employeeName` varchar(50) DEFAULT NULL,
-  `userName` varchar(50) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `password` varchar(120) DEFAULT NULL,
-  `userType` varchar(50) DEFAULT NULL,
-  `Designation` varchar(50) DEFAULT NULL,
-  `Department` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+CREATE TABLE `spm_db`.`user` (
+  `userId` INT NOT NULL,
+  `employeeName` VARCHAR(50) NULL DEFAULT NULL,
+  `userName` VARCHAR(50) NULL DEFAULT NULL,
+  `email` VARCHAR(50) NULL DEFAULT NULL,
+  `userType` VARCHAR(50) NULL DEFAULT NULL,
+  `Designation` VARCHAR(50) NULL DEFAULT NULL,
+  `Department` VARCHAR(50) NULL DEFAULT NULL,
+  PRIMARY KEY (`userId`),
+  UNIQUE INDEX `userName_UNIQUE` (`userName` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 51;
 
 -- --------------------------------------------------------
 
-INSERT INTO `user` (`userId`, `employeeName`, `email`, `userType`) VALUES
-(1, 'Phris Coskitt', 'phris@gmail.com', 'Learner'),
-(2, 'Hhris Coskitt', 'hhris@gmail.com', 'Learner'),
-(3, 'Lhris Coskitt', 'lhris@gmail.com', 'Trainer'),
-(4, 'uhris Coskitt', 'uhris@gmail.com', 'Trainer'),
-(5, 'jhris Coskitt', 'jhris@gmail.com', 'Trainer'),
-(6, 'khris Coskitt', 'khris@gmail.com', 'HR'),
-(7, 'ohris Coskitt', 'ohris@gmail.com', 'HR');
+INSERT INTO `user` (`userId`, `employeeName`, `userName`, `email`, `userType`, `Designation`, `Department`) VALUES
+(1, 'Phris Coskitt', 'learner1', 'phris@gmail.com', 'Learner', null, null),
+(2, 'Hhris Coskitt', 'learner2', 'hhris@gmail.com', 'Learner', null, null),
+(3, 'Lhris Coskitt', 'trainer3', 'lhris@gmail.com', 'Trainer', null, null),
+(4, 'uhris Coskitt', 'trainer4', 'uhris@gmail.com', 'Trainer', null, null),
+(5, 'jhris Coskitt', 'trainer5', 'jhris@gmail.com', 'Trainer', null, null),
+(6, 'khris Coskitt', 'hr6', 'khris@gmail.com', 'HR', null, null),
+(7, 'ohris Coskitt', 'hr7', 'ohris@gmail.com', 'HR', null, null),
+(8, 'Ezra', 'trainer8', 'ezra@gmail.com', 'Trainer', null, null),
+(9, 'Fiona', 'trainer9', 'fionz@gmail.com', 'Trainer', null, null),
+(10, 'wx', 'learner10', 'wx@sis.com', 'Learner', null, null),
+(11, 'Wayne', 'learner11', 'wayne@bruce.com', 'Learner', null, null),
+(12, 'Verwin Kwa', 'learner12', 'verwin@gmail.com', 'Learner', null, null),
+(13, 'Verwin Kwaa', 'learner13', 'verwinkwa@gmail.com', 'Learner', null, null),
+(15, 'Sung', 'learner15', 'sung@smu.com', 'Learner', null, null),
+(50, 'Jacob', 'trainer50', 'sunggg@smu.com', 'Learner', null, null);
 
 --
 -- Table structure for table `learner`
@@ -49,7 +58,13 @@ CREATE TABLE `learner` (
 
 INSERT INTO `learner` (`userId`) VALUES
 (1),
-(2);
+(2),
+(10),
+(11),
+(12),
+(13),
+(15),
+(50);
 
 
 CREATE TABLE `trainer` (
@@ -59,7 +74,10 @@ CREATE TABLE `trainer` (
 INSERT INTO `trainer` (`userId`) VALUES
 (3),
 (4),
-(5);
+(5),
+(8),
+(9);
+
 
 CREATE TABLE `hr` (
   `userId` int(11) NOT NULL

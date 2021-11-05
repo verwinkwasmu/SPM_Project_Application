@@ -29,3 +29,19 @@ INSERT INTO `spm_db`.`class`(`classId`,`courseId`,`classSize`,`classTitle`,`star
 ('XRX-101 Class 1', 'XRX-102', 35, 'class1', '12:00', '17:00', '2021-08-30', '2021-12-30', '2021-07-30 to 2021-08-29');
 
 
+1	XRX-101/Class 1/Section 1/hello.png	1
+1	XRX-101/Class2/Section1/Consent_1.pdf	1
+1	XRX-101/Class2/Section1/genx.png	1
+1	XRX-101/Class2/Section1/genz.png	1
+1	XRX-101/Class2/Section1/mili.png	1
+1	XRX-101/Class2/Section1/Project_Instructions.pdf	1
+1	XRX-101/Class2/Section1/TechSeries-Demo.mp4	1
+
+
+INSERT INTO `spm_db`.`file` (`learnerId`, `fileId`, `completed`) VALUES
+('1', 'XRX-101/Class2/Section1/Consent_1.pdf', 1),
+('1', 'XRX-101/Class2/Section1/genx.png', 1),
+('1', 'XRX-101/Class2/Section1/genz.png', 1),
+('1', 'XRX-101/Class2/Section1/mili.png', 1),
+('1', 'XRX-101/Class2/Section1/Project_Instructions.pdf', 1),
+('1', 'XRX-101/Class2/Section1/TechSeries-Demo.mp4', 1);

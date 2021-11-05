@@ -1,11 +1,8 @@
 <template>
   <div>
-    <TrainerHeader />
-<<<<<<< Updated upstream
 
-=======
+    <TrainerHeader />
     <Modal :message="message" />
->>>>>>> Stashed changes
     <section id="team" class="team section-bg">
       <div class="container" data-aos="fade-up">
         <div class="row pb-5 mb-2 ml-0">
