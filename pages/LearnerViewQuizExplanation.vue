@@ -81,6 +81,10 @@
                             <b-button type="button" class="btn btn-secondary" href="LearnerTakeFinalQuiz">Redo Quiz</b-button>
                           </div>
                         </div>
+                        <div v-else style="text-align: center">
+                           <b-button>Back to Sections</b-button>
+                        </div>
+
               </div>
                 
             </div>
@@ -103,7 +107,7 @@
     learnerAnswer: 'Yes',
     CorrectAnswer: 'No',
     FinalQuiz: true,
-    learnerScore: 0.55,
+    learnerScore: 0.95,
 
     questions: [
       {
