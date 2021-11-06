@@ -84,15 +84,15 @@
               <template #default="{}">
                 <p>Do you want to submit your quiz?</p>
               </template>
-              <template #modal-footer="{ hide, ok }">
+              <template #modal-footer="{ hide }">
                 <b-button size="sm" variant="danger" @click="hide('forget')">
                   No
                 </b-button>
                 <b-button
                   size="sm"
                   variant="success"
-                  @click="ok()"
-                  href="LearnerViewQuizExplanation"
+                  @click="submitQuiz"
+                  
                 >
                   Yes
                 </b-button>
@@ -111,13 +111,12 @@ export default {
   name: "App",
   data: () => ({
     courseName: "",
-    time: 1800,
+    time: "-",
     displayTime: "",
     msgBox: "",
     classId: "", // this.$route.query.classId
     sectionId: "",
     questions: [],
-    learnerAnswer: [],
   }),
 
   methods: {
@@ -131,17 +130,18 @@ export default {
       }
     },
 
-    ok() {
+    submitQuiz() {
       // event.preventDefault();
       // window.location.href = "http://www.w3schools.com"
       // location.href = '`~/LearnerViewQuizExplanation';
       // const apiUrl = ``;
-      console.log("hi");
+      localStorage.setItem('learner_answers', JSON.stringify(this.learner_answers))
+      this.$router.push( {path: '/LearnerViewQuizExplanation', query: {courseName : this.courseName, sectionId: this.sectionId, classId: this.classId}})
     },
 
   },
   computed: {
-    user_answers() {
+    learner_answers() {
       return this.questions.map(item => item.value)
     },
     answer_list(){

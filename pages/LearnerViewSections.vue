@@ -78,19 +78,39 @@
                 </li>
               </ul>
             </div>
-            <div class="form-group" id="takequiz" v-if="showQuiz">
+            <div class="form-group" id="takequiz" v-if="showQuiz & sectionsCompleted < sectionNum">
               <router-link
                 :to="{
                   path: '/LearnerTakeQuiz',
                   query: {
                     classId: classId,
                     sectionId: sectionTitle,
-                    courseName: courseName
-            
+                    courseName: courseName,
                   },
-                }" type="button"
+                }"
+                type="button"
                 class="btn btn-primary"
-                >Take {{sectionTitle}} Quiz</router-link
+                >Take {{ sectionTitle }} Quiz</router-link
+              >
+            </div>
+            <div
+              class="form-group"
+              id="takequiz"
+              v-else-if="sectionsCompleted >= sectionNum"
+            >
+              <router-link
+                :to="{
+                  path: '/LearnerViewQuizExplanation',
+                  query: {
+                    classId: classId,
+                    sectionId: sectionTitle,
+                    courseName: courseName,
+                  },
+                }"
+                type="button"
+                class="btn btn-primary"
+                disable
+                >View {{ sectionTitle }} Quiz Attempt!</router-link
               >
             </div>
           </div>
@@ -108,6 +128,7 @@ export default {
     return {
       sectionTitle: this.$route.query.sectionName,
       sectionName: this.$route.query.sectionName.replace(" ", ""),
+      sectionNum: '',
       className:
         this.$route.query.classId.split(" ")[1] +
         this.$route.query.classId.split(" ")[2],
@@ -119,10 +140,11 @@ export default {
       courseName: this.$route.query.courseName,
       totalNumSections: "",
       classId: this.$route.query.classId,
-      sectionsCompleted: "",
+      sectionsCompleted: ""
     };
   },
   async created() {
+    this.sectionNum = this.$route.query.sectionName.split(" ")[1]
     const apiUrl1 = `http://localhost:5050/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
     const apiUrl2 = "http://localhost:5001/getCompletedFiles";
     const apiUrl3 = "http://localhost:5004/getEnrolmentDetails";
