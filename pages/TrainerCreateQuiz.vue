@@ -87,7 +87,7 @@
                       </div>
 
                       <div class="cancel">
-                        <router-link :to="{path: '/TrainerViewSection', query: {sectionId: sectionId, classId: classObj.classId}}"  class="cancel-btn">Cancel</router-link>
+                        <router-link :to="{path: '/TrainerQuizList', query: {sectionId: sectionId, classId: classObj.classId}}"  class="cancel-btn">Cancel</router-link>
                       </div>
 
                       <div
@@ -270,8 +270,23 @@ export default {
     async createQuestion(event, qn, number){
       event.preventDefault();
       const apiUrl = "http://localhost:5003/createQuestion";
-      const option = qn.option1 + ";" + qn.option2 + ";" + qn.option3 + ";" + qn.option4;
-
+      const option = "";
+      if (qn.option1 != ""){
+        option += qn.option1 + ";";
+      }
+      if (qn.option2 != ""){
+        option += qn.option2 + ";";
+      }
+      if (qn.option3 != ""){
+        option += qn.option3 + ";";
+      }
+      if (qn.option4 != ""){
+        option += qn.option4;
+      }
+      else{
+        option = option.slice(0,-1);
+      }
+      
       const question_details = {
         sectionId : this.sectionId,
         classId : this.classObj.classId,
