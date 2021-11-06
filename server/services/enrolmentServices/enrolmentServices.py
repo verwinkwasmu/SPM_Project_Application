@@ -18,7 +18,7 @@ CORS(app)
 def getLearnersInClass(classId):
 
     class_existence = Class.query.filter(Class.classId == classId).all()
-
+    
     # check if class exists
     if not class_existence:
         return jsonify({
@@ -37,9 +37,12 @@ def getLearnersInClass(classId):
     enrolment_list_dic = []
     n = 0
     for enrolment in enrolments:
+        print(enrolment.sectionsCompleted)
         learner_dict = {}
         learner_dict['learnerId'] = enrolment.to_dict()['learnerId']
         learner_dict['learnerName'] = learner_name_list[n]
+        learner_dict['totalNumSections'] = enrolment.totalNumSections
+        learner_dict['sectionsCompleted'] = enrolment.sectionsCompleted
         enrolment_list_dic.append(learner_dict)
         n += 1
 
