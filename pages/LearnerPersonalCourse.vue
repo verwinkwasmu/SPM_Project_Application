@@ -26,7 +26,6 @@
                     query: {
                       classId: course.classId,
                       courseName: course.courseName,
-                      totalNumSections: course.totalNumSections,
                       sectionName: 'Section 1'
                     },
                   }"
@@ -62,7 +61,6 @@
                     query: {
                       classId: course.classId,
                       courseName: course.courseName,
-                      totalNumSections: course.totalNumSections,
                       sectionName: 'Section 1'
                     },
                   }"

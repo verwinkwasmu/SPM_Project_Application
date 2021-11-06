@@ -7,9 +7,20 @@
       <div class="content">
         <section id="faq" class="faq section-bg">
           <div class="sidenav">
-            <a v-for="n in totalNumSections" :key="n" @click="forceRouting(n)"
-              >Section {{ n }}</a
-            >
+            <div v-for="n in totalNumSections + -1" :key="n">
+              <a v-if="n <= sectionsCompleted + 1" @click="forceRouting(n)"
+                >Section {{ n }}</a
+              >
+              <a v-else>Section {{ n }} <b>(LOCKED)</b></a>
+              <br />
+            </div>
+
+            <div v-if="sectionsCompleted == totalNumSections - 1">
+              <a>Final Quiz</a>
+            </div>
+            <div v-else>
+              <a>Final Quiz <b>(LOCKED)</b></a>
+            </div>
           </div>
           <div class="container" data-aos="fade-up">
             <div class="section-title">
@@ -30,7 +41,7 @@
                     data-bs-toggle="collapse"
                     :data-bs-target="'#' + file.betterFileId"
                     class="collapsed"
-                    >Section 1: {{ file.filename }}
+                    >{{ sectionTitle }}: {{ file.filename }}
                     <i class="bx bx-chevron-down icon-show"></i
                     ><i class="bx bx-chevron-up icon-close"></i
                   ></a>
@@ -68,7 +79,18 @@
               </ul>
             </div>
             <div class="form-group" id="takequiz" v-if="showQuiz">
-              <button type="button" class="btn btn-primary">Take Quiz</button>
+              <router-link
+                :to="{
+                  path: '/LearnerTakeQuiz',
+                  query: {
+                    classId: classId,
+                    sectionId: sectionTitle,
+                    quizId: 'Quiz ' + sectionNumber,
+                  },
+                }" type="button"
+                class="btn btn-primary"
+                >Take {{sectionTitle}} Quiz</router-link
+              >
             </div>
           </div>
         </section>
@@ -84,6 +106,7 @@ export default {
   data() {
     return {
       sectionTitle: this.$route.query.sectionName,
+      sectionNumber: this.$route.query.sectionName.split(" ")[1],
       sectionName: this.$route.query.sectionName.replace(" ", ""),
       className:
         this.$route.query.classId.split(" ")[1] +
@@ -94,25 +117,34 @@ export default {
       showQuiz: false,
       message: "",
       courseName: this.$route.query.courseName,
-      totalNumSections: parseInt(this.$route.query.totalNumSections)
+      totalNumSections: "",
+      classId: this.$route.query.classId,
+      sectionsCompleted: "",
     };
   },
   async created() {
     const apiUrl1 = `http://localhost:5050/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
     const apiUrl2 = "http://localhost:5001/getCompletedFiles";
-
-    const post_data = {
+    const apiUrl3 = "http://localhost:5004/getEnrolmentDetails";
+    alert(this.sectionNumber)
+    const apiUrl2_data = {
       courseId: this.courseId,
       className: this.className,
       sectionName: this.sectionName,
       learnerId: localStorage.getItem("userId"),
     };
-
+    const apiUrl3_data = {
+      classId: this.classId,
+      learnerId: localStorage.getItem("userId"),
+    };
     try {
       let response1 = await axios.get(apiUrl1);
-      let response2 = await axios.post(apiUrl2, post_data);
+      let response2 = await axios.post(apiUrl2, apiUrl2_data);
+      let response3 = await axios.post(apiUrl3, apiUrl3_data);
       this.file_list = response1.data;
       this.completedFileIdList = response2.data;
+      this.totalNumSections = parseInt(response3.data.totalNumSections);
+      this.sectionsCompleted = response3.data.sectionsCompleted;
 
       const file_list = this.file_list;
       const completedFileIdList = this.completedFileIdList.data;
@@ -158,7 +190,7 @@ export default {
     },
     forceRouting(n) {
       let section = "Section " + n;
-      let link = `/LearnerViewSections?classId=${this.$route.query.classId}&courseName=${this.courseName}&totalNumSections=${this.totalNumSections}&sectionName=${section}`;
+      let link = `/LearnerViewSections?classId=${this.$route.query.classId}&courseName=${this.courseName}&sectionName=${section}`;
       window.location.replace(link);
     },
   },
