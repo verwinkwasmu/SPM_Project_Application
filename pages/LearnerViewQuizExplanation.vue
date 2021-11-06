@@ -156,12 +156,9 @@
                 >Redo Quiz</b-button
               >
             </div>
-          </div>
           <div v-else style="text-align: center">
             <b-button>Back to Sections</b-button>
           </div>
-        </div>
-      </div>
     </section>
   </div>
 </template>
