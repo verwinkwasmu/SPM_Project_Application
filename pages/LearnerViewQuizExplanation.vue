@@ -82,7 +82,8 @@
                           </div>
                         </div>
                         <div v-else style="text-align: center">
-                           <b-button>Back to Sections</b-button>
+                           <h4 style="text-align:center; color: green; padding-bottom: 10px;"> You have completed this section, please proceed to the next section!</h4>
+                           <b-button href="LearnerViewSections">Proceed to next section</b-button>
                         </div>
 
               </div>
@@ -106,8 +107,8 @@
     msgBox: '',
     learnerAnswer: 'Yes',
     CorrectAnswer: 'No',
-    FinalQuiz: true,
-    learnerScore: 0.95,
+    FinalQuiz: false,
+    learnerScore: 0.55,
 
     questions: [
       {
