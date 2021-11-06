@@ -70,7 +70,7 @@ def learnerSubmitQuiz():
             "message": "Incorrect JSON object provided."
         }), 501
 
-    # (1): Validate Section
+    # (1): Validate userquiz
     checkUserQuiz = UserQuiz.query.filter(
                             UserQuiz.sectionId == data["sectionId"], 
                             UserQuiz.classId == data['classId'],
@@ -103,6 +103,44 @@ def learnerSubmitQuiz():
             "data": str(request.get_data())
         }), 500
 
+# Update a specific record in userquiz
+@app.route("/updateUserQuiz", methods=['PUT'])
+def updateUserQuiz():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('sectionId', 'classId', 'learnerId', 'option', 'grade')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    userQuiz = UserQuiz.query.filter(
+                            UserQuiz.sectionId == data["sectionId"], 
+                            UserQuiz.classId == data['classId'],
+                            UserQuiz.learnerId == data['learnerId'],
+                        ).first()
+
+    if not userQuiz:
+        return jsonify({
+            "message": "Learner has not attempted Quiz."
+        }), 500
+
+    userQuiz.option = data['option']
+    userQuiz.grade = data['grade']
+        
+    # (4): Commit to DB
+    try:
+        db.session.merge(userQuiz)
+        db.session.commit()
+        return jsonify({
+            "data": userQuiz.to_dict(),
+            "message": "Question updated"
+        }), 200
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database."
+        }), 503
 
 # create quiz in a section
 @app.route("/createQuiz", methods=['POST'])
