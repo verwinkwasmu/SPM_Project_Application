@@ -1,7 +1,7 @@
 <template>
   <div>
     <LearnerHeader/>
-
+    <Modal :message="message"/>
     <section id="team" class="team section-bg">
       <!--box-->
       <div class="container" data-aos="fade-up">
@@ -116,8 +116,14 @@ export default {
       try {
         let response = await axios.delete(apiUrl, { data: data });
         if (response.status == 200) {
-          alert(response.data.message);
-          window.location.reload()
+          this.message = response.data.message;
+          this.$bvModal.show("bv-modal-example");
+          setTimeout(
+            function () {
+              window.location.reload();
+            }.bind(this),
+            2000
+          );
         } else {
           alert("Please Try again!");
         }
