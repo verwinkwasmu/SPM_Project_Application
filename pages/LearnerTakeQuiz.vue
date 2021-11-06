@@ -1,134 +1,170 @@
 <template>
   <div id="axiosForm">
-      <LearnerHeader/>
-      <section id="team" class="team section-bg">
-          <div class="" data-aos="fade-up">
-              <div id='App' class="container">
-                <div class="section-title">
-                  <h2>{{courseName}}</h2>
-                  <h3> Section 1 Quiz </h3>
-                </div>
-                        <div class="timer">Time Remaining: <strong>{{ displayTime }} </strong></div>
+    <LearnerHeader />
+    <section id="team" class="team section-bg">
+      <div class="" data-aos="fade-up">
+        <div id="App" class="container">
+          <div class="section-title">
+            <h2>{{ courseName }}</h2>
+            <h3>{{ sectionId }} Quiz</h3>
+          </div>
+          <div class="timer">
+            Time Remaining: <strong>{{ displayTime }} </strong>
+          </div>
 
-                          <div class="" v-for="(question, index) in questions" :key="index">
-                              <h4>{{index+1}}. {{question.fullquestion}}</h4>
-                              <br>
-                              
-                              <div class="optionContainer">
-                                      <div class="option" >
-                                          <label id="quizrbtn"><input type="radio" :value="question.option1" name="optradio" v-model="learnerAnswer">    
-                                          {{question.option1}}</label>
-                                      </div>
-      
-                                      <div class="option" >
-                                          <label id="quizrbtn"><input type="radio" :value="question.option2" name="optradio" v-model="learnerAnswer">     
-                                          {{question.option2}}</label>
-                                      </div>
-                                      
-                                      <div class="option">
-                                          <label id="quizrbtn"><input type="radio" :value="question.option3" name="optradio" v-model="learnerAnswer" :class="'is-selected'">     
-                                          {{question.option3}}</label>
-                                      </div>
-      
-                                      <div class="option">
-                                          <label id="quizrbtn"><input type="radio" :value="question.option4" name="optradio" v-model="learnerAnswer" :class="'is-selected'">     
-                                          {{question.option4}}</label>
-                                      </div>
-                              </div>
-                             
-                              <hr>
-                        
-                          </div>
+          <div class="" v-for="(question, index) in questions" :key="index">
+            <h4>{{ index + 1 }}. {{ question.question }}</h4>
+            <br />
 
-                        <!-- <div class="form-group" id="submitquiz">
+            <div class="optionContainer">
+              <div class="option">
+                <label id="quizrbtn"
+                  ><input
+                    type="radio"
+                    :value="question.option[0]"
+                    :name="question.questionId"
+                    v-model="question.value"
+                  />
+                  {{ question.option[0] }}</label
+                >
+              </div>
+
+              <div class="option">
+                <label id="quizrbtn"
+                  ><input
+                    type="radio"
+                    :value="question.option[1]"
+                    :name="question.questionId"
+                    v-model="question.value"
+                  />
+                  {{ question.option[1] }}</label
+                >
+              </div>
+
+              <div class="option" v-if="question.option[2] != ''">
+                <label id="quizrbtn"
+                  ><input
+                    type="radio"
+                    :value="question.option[2]"
+                    :name="question.questionId"
+                    v-model="question.value"
+                  />
+                  {{ question.option[2] }}</label
+                >
+              </div>
+
+              <div class="option" v-if="question.option[3] != ''">
+                <label id="quizrbtn"
+                  ><input
+                    type="radio"
+                    :value="question.option[3]"
+                    :name="question.questionId"
+                    v-model="question.value"
+                  />
+                  {{ question.option[3] }}</label
+                >
+              </div>
+            </div>
+
+            <hr />
+          </div>
+
+          <!-- <div class="form-group" id="submitquiz">
                             <b-button variant="primary" @click="submitQuiz">Submit Quiz</b-button>
                         </div> -->
 
-                        <div class="form-group" id="submitquiz">
-                          <b-button variant="primary" @click="$bvModal.show('modal-scoped')">Submit Quiz</b-button>
-                            <b-modal id="modal-scoped">
-                              <template #modal-header="{}">
-                                <h5>Submit Quiz</h5>
-                              </template>
-                              <template #default="{}">
-                                <p>Do you want to submit your quiz?</p>
-                              </template>
-                              <template #modal-footer="{ hide, ok }">
-                                <b-button size="sm" variant="danger" @click="hide('forget')">
-                                  No
-                                </b-button>
-                                <b-button size="sm" variant="success" @click="ok()" href="LearnerViewQuizExplanation">
-                                  Yes
-                                </b-button>
-                              </template>
-                            </b-modal>
-                        </div>
-
-                        
-              </div>
-                
-              </div>
-              
-      </section> 
-      
+          <div class="form-group" id="submitquiz">
+            <b-button variant="primary" @click="$bvModal.show('modal-scoped')"
+              >Submit Quiz</b-button
+            >
+            <b-modal id="modal-scoped">
+              <template #modal-header="{}">
+                <h5>Submit Quiz</h5>
+              </template>
+              <template #default="{}">
+                <p>Do you want to submit your quiz?</p>
+              </template>
+              <template #modal-footer="{ hide, ok }">
+                <b-button size="sm" variant="danger" @click="hide('forget')">
+                  No
+                </b-button>
+                <b-button
+                  size="sm"
+                  variant="success"
+                  @click="ok()"
+                  href="LearnerViewQuizExplanation"
+                >
+                  Yes
+                </b-button>
+              </template>
+            </b-modal>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-
- 
 </template>
 
 <script>
-  import axios from "axios";
-  export default {
+import axios from "axios";
+export default {
   name: "App",
   data: () => ({
-    courseName: 'Fundamentals of XXX',
+    courseName: "",
     time: 1800,
-    displayTime: '',
-    msgBox: '',
-
-    questions: [
-      {
-        fullquestion: "Are you gay?",
-        option1: "Yes",
-        option2: "No",
-        option3: "Maybe",
-        option4: "Maybe not",
-      }],
-
-    learnerAnswer: ''
+    displayTime: "",
+    msgBox: "",
+    classId: "", // this.$route.query.classId
+    sectionId: "",
+    questions: [],
+    learnerAnswer: [],
   }),
 
-    methods: {
-      countdown() {
-        this.time--;
-        let minuteTime = parseInt(this.time / 60, 10);
-        let secondTime = parseInt(this.time % 60, 10);
-        this.displayTime = minuteTime + " minutes " + secondTime + " seconds";
-        if (this.time === 0) {
-          clearInterval(this.timer);
-        }
+  methods: {
+    countdown() {
+      this.time--;
+      let minuteTime = parseInt(this.time / 60, 10);
+      let secondTime = parseInt(this.time % 60, 10);
+      this.displayTime = minuteTime + " minutes " + secondTime + " seconds";
+      if (this.time === 0) {
+        clearInterval(this.timer);
+      }
     },
 
-
-      ok() {
-        // event.preventDefault();
-        // window.location.href = "http://www.w3schools.com"
-        // location.href = '`~/LearnerViewQuizExplanation';
-        // const apiUrl = ``;
-        console.log('hi')
-      
+    ok() {
+      // event.preventDefault();
+      // window.location.href = "http://www.w3schools.com"
+      // location.href = '`~/LearnerViewQuizExplanation';
+      // const apiUrl = ``;
+      console.log("hi");
     },
-  
+
   },
-
-  mounted() {
-      this.timer = setInterval(this.countdown, 1000);
+  computed: {
+    user_answers() {
+      return this.questions.map(item => item.value)
     },
+    answer_list(){
+      return this.questions.map(item => item.answer)
+    }
+  },
+  async mounted() {
+    this.sectionId = this.$route.query.sectionId
+    this.classId = this.$route.query.classId
+    this.courseName = this.$route.query.courseName
+    this.timer = setInterval(this.countdown, 1000);
+    const apiUrl = `http://localhost:5003/quiz/${this.classId}/${this.sectionId}`;
+
+    try {
+      let response = await axios.get(apiUrl);
+      this.time = response.data.time * 60;
+      this.questions = response.data.questions;
+    } catch (err) {
+      console.log(err);
+    }
+  },
   beforeDestroy() {
-      clearInterval(this.timer);
-    },
-
-  
-
+    clearInterval(this.timer);
+  },
 };
 </script>

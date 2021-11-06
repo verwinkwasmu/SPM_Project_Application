@@ -85,7 +85,8 @@
                   query: {
                     classId: classId,
                     sectionId: sectionTitle,
-                    quizId: 'Quiz ' + sectionNumber,
+                    courseName: courseName
+            
                   },
                 }" type="button"
                 class="btn btn-primary"
@@ -106,7 +107,6 @@ export default {
   data() {
     return {
       sectionTitle: this.$route.query.sectionName,
-      sectionNumber: this.$route.query.sectionName.split(" ")[1],
       sectionName: this.$route.query.sectionName.replace(" ", ""),
       className:
         this.$route.query.classId.split(" ")[1] +
@@ -126,7 +126,6 @@ export default {
     const apiUrl1 = `http://localhost:5050/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
     const apiUrl2 = "http://localhost:5001/getCompletedFiles";
     const apiUrl3 = "http://localhost:5004/getEnrolmentDetails";
-    alert(this.sectionNumber)
     const apiUrl2_data = {
       courseId: this.courseId,
       className: this.className,

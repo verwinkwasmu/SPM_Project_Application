@@ -45,9 +45,13 @@ def getAllQuestions(classId, sectionId):
             "message": "No questions found."
         }), 204
 
+    result = [question.to_dict() for question in questions]
+    for element in result:
+        element['value'] = ''
+
     return jsonify(
         {
-            "questions": [question.to_dict() for question in questions],
+            "questions": result,
             "time": quiz.get_time(),
             "quiz": quiz.to_dict()
         }
@@ -56,7 +60,7 @@ def getAllQuestions(classId, sectionId):
 
 # create quiz in a section
 @app.route("/learnerSubmitQuiz", methods=['POST'])
-def createQuiz():
+def learnerSubmitQuiz():
     # retrieve data
     data = request.get_json()
 
