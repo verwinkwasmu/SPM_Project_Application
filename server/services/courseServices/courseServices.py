@@ -6,7 +6,9 @@ from datetime import date
 # from sqlalchemy.sql import select
 
 app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database-new.clbmqgt8dbzr.us-east-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
 #                                            'pool_recycle': 280}
@@ -131,18 +133,28 @@ def getClass(classId):
 # get classes based on specific courseId
 @app.route("/getClasses/<string:courseId>", methods=['GET'])
 def getClasses(courseId):
-    
+
+    today = date.today()    
+    current_date = today.strftime("%Y-%m-%d")
+
     classes = Class.query.filter_by(courseId=courseId).all()
     
-    # check if user exists and validate password
     if not classes:
         return jsonify({
             "message": "No classes found."
         }), 404
-    
+
+    result = [_class.to_dict() for _class in classes]
+    for element in result:
+        if element["enrolmentStartDate"] <= current_date <= element["enrolmentEndDate"]:
+            element["ableToEnrol"] = True
+        else:
+            element["ableToEnrol"] = False
+
     return jsonify(
         {
-            "data": [_class.to_dict() for _class in classes]
+            "message": "Classes found",
+            "data": result
         }
     ), 200
 
@@ -371,7 +383,6 @@ def getLearnerClasses():
     current_date = today.strftime("%Y-%m-%d")
 
     class_list = Class.query.filter(Class.courseId==courseId, current_date <= Class.enrolmentEndDate).all()
-
     return jsonify({
         "data": [_class.to_dict() for _class in class_list]
     })
