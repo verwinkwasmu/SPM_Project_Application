@@ -301,4 +301,44 @@ class Question(db.Model):
                 
         return result
 
+class UserQuiz(db.Model):
+    __tablename__ = 'userquiz'
+
+    sectionId = db.Column(db.String(50), db.ForeignKey('quiz.sectionId'), primary_key=True)
+    classId = db.Column(db.String(50), db.ForeignKey('quiz.classId'), primary_key=True)
+    quizId = db.Column(db.String(50), db.ForeignKey('quiz.quizId'), primary_key=True)
+    learnerId = db.Column(db.String(50), db.ForeignKey('learner.userId'), primary_key=True)
+    option = db.Column(db.String(500))
+    grade = db.Column(db.String(500))
+
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'userquiz'
+    }
+
+    def __init__(self, sectionId, classId, quizId, learnerId, option, grade):
+        self.sectionId = sectionId
+        self.classId = classId
+        self.quizId = quizId
+        self.learnerId = learnerId
+        self.option = option
+        self.grade = grade
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+
+            # convert string to list for option
+            if column == "option":
+                option_str = result["option"]
+                result["option"] = list(option_str.split(";"))
+                
+        return result
+
 db.create_all()

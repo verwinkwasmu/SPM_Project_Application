@@ -53,6 +53,53 @@ def getAllQuestions(classId, sectionId):
         }
     ), 200
 
+
+# create quiz in a section
+@app.route("/learnerSubmitQuiz", methods=['POST'])
+def createQuiz():
+    # retrieve data
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('sectionId', 'classId', 'option', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 501
+
+    # (1): Validate Section
+    checkUserQuiz = UserQuiz.query.filter(
+                            UserQuiz.sectionId == data["sectionId"], 
+                            UserQuiz.classId == data['classId'],
+                            UserQuiz.learnerId == data['learnerId'],
+                        ).first()
+
+    if not checkUserQuiz:
+        return jsonify({
+            "message": "Learner has not attempted Quiz."
+        }), 203
+
+    UserQuiz = UserQuiz(
+            sectionId = data['sectionId'],
+            classId = data['classId'],
+            quizId = checkUserQuiz.quizId,
+            learnerId = data['learnerId'],
+            option = data['option'],
+            grade = None
+        )
+
+    # (4): Commit to DB
+    try:
+        db.session.add(userQuiz)
+        db.session.commit()
+        return jsonify(userQuiz.to_dict()), 201
+
+    except Exception:
+        return jsonify({
+            "message": "Unable to commit to database.",
+            "data": str(request.get_data())
+        }), 500
+
+
 # create quiz in a section
 @app.route("/createQuiz", methods=['POST'])
 def createQuiz():
