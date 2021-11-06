@@ -65,7 +65,7 @@ def learnerSubmitQuiz():
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('sectionId', 'classId', 'option', 'learnerId')):
+               key in ('sectionId', 'classId', 'option', 'learnerId', 'grade')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 501
@@ -82,13 +82,13 @@ def learnerSubmitQuiz():
             "message": "Learner has not attempted Quiz."
         }), 203
 
-    UserQuiz = UserQuiz(
+    userQuiz = UserQuiz(
             sectionId = data['sectionId'],
             classId = data['classId'],
             quizId = checkUserQuiz.quizId,
             learnerId = data['learnerId'],
             option = data['option'],
-            grade = None
+            grade = data['grade']
         )
 
     # (4): Commit to DB
