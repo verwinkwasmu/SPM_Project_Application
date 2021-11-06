@@ -126,11 +126,24 @@
           <!-- <div class="form-group" id="submitquiz">
                           <b-button>Back to Sections</b-button>
                         </div> -->
-          <div v-if="FinalQuiz">
-            <div v-if="learnerScore >= 0.85" style="text-align: center">
-              <b-button href="LearnerViewCourse"
-                >View other available courses</b-button
-              >
+
+                        <div v-if="FinalQuiz">
+                          <div v-if="learnerScore >= 0.85" style="text-align: center">
+                            <b-button href="LearnerViewCourse">View other available courses</b-button>
+                          </div>
+                          <div v-if="learnerScore <= 0.85" style="text-align: center">
+                            <h4 style="text-align:center; color: red; padding-bottom: 10px;"> Please reattempt the quiz and study if u r gay</h4>
+                            <b-button type="button" class="btn btn-secondary" href="LearnerTakeFinalQuiz">Redo Quiz</b-button>
+                          </div>
+                        </div>
+                        <div v-else style="text-align: center">
+                           <h4 style="text-align:center; color: green; padding-bottom: 10px;"> You have completed this section, please proceed to the next section!</h4>
+                           <b-button href="LearnerViewSections">Proceed to next section</b-button>
+                        </div>
+
+              </div>
+                
+
             </div>
             <div v-if="learnerScore <= 0.85" style="text-align: center">
               <h4 style="text-align: center; color: red; padding-bottom: 10px">
@@ -158,6 +171,7 @@ import axios from "axios";
 export default {
   name: "App",
   data: () => ({
+
     courseName: "",
     displayTime: "",
     msgBox: "",
@@ -169,6 +183,7 @@ export default {
     sectionId: '',
     learner_answers: '',
     questions: [],
+
   }),
 
   methods: {
