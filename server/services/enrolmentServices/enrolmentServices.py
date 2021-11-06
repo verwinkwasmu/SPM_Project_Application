@@ -675,6 +675,27 @@ def viewUserEnrolmentStatus():
         })
         # num_enrolments = Enrolment.query.filter(
         #     (Enrolment.classId == classId) & (Enrolment.completedClass == False) & (Enrolment.status == 'ACCEPTED')).count()
-        
+
+@app.route('/getEnrolmentDetails', methods=['POST'])
+def getEnrolmentDetails():
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('classId', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    classId = data['classId']
+    learnerId = data['learnerId']
+    
+    enrolment = Enrolment.query.filter(Enrolment.classId==classId, Enrolment.learnerId==learnerId).first()
+
+    if enrolment:
+        return jsonify(enrolment.to_dict()), 200
+    else:
+        return jsonify({
+            "message": "no enrolment"
+        })
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5004, debug=True)

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <LearnerHeader/>
+    <LearnerHeader />
+    <Modal :message="message"/>
     <section id="team" class="team section-bg">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
@@ -12,7 +13,11 @@
       </div>
 
       <div class="row">
-        <div class="col-lg-6 mt-5" v-for="_class in classes" :key="_class.classId">
+        <div
+          class="col-lg-6 mt-5"
+          v-for="_class in classes"
+          :key="_class.classId"
+        >
           <div
             class="member d-flex align-items-start"
             data-aos="zoom-in"
@@ -24,28 +29,38 @@
               <!-- <p> Maximum Class Capacity: {{_class.classSize}} </p> -->
               <!-- </div> -->
               <!-- <div class="member-info"> -->
-              <p> <b> Current Class Size: </b> {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
-              <br>
               <p>
-                <b>Enrolment Period: </b> {{_class.enrolmentStartDate}} to {{_class.enrolmentEndDate}}
+                <b> Current Class Size: </b> {{ enrolment[_class.classId] }} /
+                {{ _class.classSize }}
               </p>
-              <br>
+              <br />
               <p>
-                <b>Start Date: </b>{{_class.startDate}} 
+                <b>Enrolment Period: </b> {{ _class.enrolmentStartDate }} to
+                {{ _class.enrolmentEndDate }}
               </p>
-              <p>
-                <b>Start Time: </b>{{_class.startTime}} 
-              </p>
-              <br>
-              <p>
-                <b>End Date: </b>{{_class.endDate}} 
-              </p>
-              <p>
-                <b>End Time: </b>{{_class.endTime}} 
-              </p>
-            </div>      
+              <br />
+              <p><b>Start Date: </b>{{ _class.startDate }}</p>
+              <p><b>Start Time: </b>{{ _class.startTime }}</p>
+              <br />
+              <p><b>End Date: </b>{{ _class.endDate }}</p>
+              <p><b>End Time: </b>{{ _class.endTime }}</p>
+            </div>
             <div class="viewClass">
-              <button class="viewClass-btn" @click="selfEnrol(_class.classId)">Join Class</button>
+              <button
+                v-if="_class.ableToEnrol"
+                class="viewClass-btn"
+                @click="selfEnrol(_class.classId)"
+              >
+                Join Class
+              </button>
+              <button
+                v-else
+                class="LearnerWithdraw-btn"
+                @click="selfEnrol(_class.classId)"
+                disabled
+              >
+                Enrolment currently closed
+              </button>
             </div>
           </div>
         </div>
@@ -64,7 +79,7 @@ export default {
     error: false,
     message: "",
     enrolment: {},
-    courseId: localStorage.getItem('courseId')
+    courseId: localStorage.getItem("courseId"),
   }),
   async mounted() {
     const apiUrl1 = `http://localhost:5002/getClasses/${this.courseId}`;
@@ -85,27 +100,32 @@ export default {
       this.error = true;
       this.message = err;
     }
-  },  
-  methods:{
-      async selfEnrol(classId){
-          const apiUrl = 'http://localhost:5004/enrolLearner';
-          const data = {
-            classId: classId,
-            learnerId: localStorage.getItem('userId')
-          }
-          try {
-            let response = await axios.post(apiUrl, data)
-            if (response.status == 201){
-              alert("Successfully Enrolled!")
-              this.$router.push("/LearnerViewCourseDetails")
-            }
-            else{
-              alert("Please Try Again!")
-            }
-          }catch(err){
-            console.log(err)
-          }
+  },
+  methods: {
+    async selfEnrol(classId) {
+      const apiUrl = "http://localhost:5004/enrolLearner";
+      const data = {
+        classId: classId,
+        learnerId: localStorage.getItem("userId"),
+      };
+      try {
+        let response = await axios.post(apiUrl, data);
+        if (response.status == 201) {
+          this.message = "Successfully Enrolled! 😄";
+          this.$bvModal.show("bv-modal-example");
+          setTimeout(
+            function () {
+              this.$router.push("/LearnerViewCourseDetails");
+            }.bind(this),
+            2000
+          );
+        } else {
+          alert("Please Try Again!");
+        }
+      } catch (err) {
+        console.log(err);
       }
-  }
+    },
+  },
 };
 </script>
