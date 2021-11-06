@@ -6,7 +6,7 @@
               <div id='App' class="container">
                 <div class="section-title">
                   <h2>{{courseName}}</h2>
-                  <h3> Section 1 Quiz </h3>
+                  <h3> Final Quiz </h3>
                 </div>
                         <div class="timer">Time Remaining: <strong>{{ displayTime }} </strong></div>
 
@@ -26,12 +26,12 @@
                                       </div>
                                       
                                       <div class="option">
-                                          <label id="quizrbtn"><input type="radio" :value="question.option3" name="optradio" v-model="learnerAnswer" :class="'is-selected'">     
+                                          <label id="quizrbtn"><input type="radio" :value="question.option3" name="optradio" v-model="learnerAnswer">     
                                           {{question.option3}}</label>
                                       </div>
       
                                       <div class="option">
-                                          <label id="quizrbtn"><input type="radio" :value="question.option4" name="optradio" v-model="learnerAnswer" :class="'is-selected'">     
+                                          <label id="quizrbtn"><input type="radio" :value="question.option4" name="optradio" v-model="learnerAnswer">     
                                           {{question.option4}}</label>
                                       </div>
                               </div>
@@ -39,10 +39,6 @@
                               <hr>
                         
                           </div>
-
-                        <!-- <div class="form-group" id="submitquiz">
-                            <b-button variant="primary" @click="submitQuiz">Submit Quiz</b-button>
-                        </div> -->
 
                         <div class="form-group" id="submitquiz">
                           <b-button variant="primary" @click="$bvModal.show('modal-scoped')">Submit Quiz</b-button>
@@ -95,7 +91,8 @@
         option4: "Maybe not",
       }],
 
-    learnerAnswer: ''
+    learnerScore: 0.85,
+    // CorrectAnswer: 'No',
   }),
 
     methods: {
@@ -107,16 +104,6 @@
         if (this.time === 0) {
           clearInterval(this.timer);
         }
-    },
-
-
-      ok() {
-        // event.preventDefault();
-        // window.location.href = "http://www.w3schools.com"
-        // location.href = '`~/LearnerViewQuizExplanation';
-        // const apiUrl = ``;
-        console.log('hi')
-      
     },
   
   },
