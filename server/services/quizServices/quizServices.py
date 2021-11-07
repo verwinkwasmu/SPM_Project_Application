@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, json, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from allClasses import *
@@ -19,26 +19,26 @@ CORS(app)
 @app.route("/quiz/<string:classId>/<string:sectionId>", methods=['GET'])
 def getAllQuestions(classId, sectionId):
     quiz = Quiz.query.filter(
-                                Quiz.sectionId == sectionId, 
-                                Quiz.classId == classId,
-                            ).first()
-    
-    # check if class exists 
+        Quiz.sectionId == sectionId,
+        Quiz.classId == classId,
+    ).first()
+
+    # check if class exists
     if not quiz:
         return jsonify({
-            "message": "No quiz found."    
+            "message": "No quiz found."
         }), 203
 
     questions = Question.query.filter(
-                                        Question.sectionId == sectionId, 
-                                        Question.classId == classId,
-                                        Question.quizId == quiz.quizId
-                                    ).all()
+        Question.sectionId == sectionId,
+        Question.classId == classId,
+        Question.quizId == quiz.quizId
+    ).all()
     quiz = Quiz.query.filter(
-                            Quiz.sectionId == sectionId, 
-                            Quiz.classId == classId,
-                            Quiz.quizId == quiz.quizId
-                        ).first()
+        Quiz.sectionId == sectionId,
+        Quiz.classId == classId,
+        Quiz.quizId == quiz.quizId
+    ).first()
 
     if not questions:
         return jsonify({
@@ -72,28 +72,36 @@ def learnerSubmitQuiz():
 
     # (1): Validate userquiz
     checkUserQuiz = UserQuiz.query.filter(
-                            UserQuiz.sectionId == data["sectionId"], 
-                            UserQuiz.classId == data['classId'],
-                            UserQuiz.learnerId == data['learnerId'],
-                        ).first()
+        UserQuiz.sectionId == data["sectionId"],
+        UserQuiz.classId == data['classId'],
+        UserQuiz.learnerId == data['learnerId'],
+    ).first()
 
-    if not checkUserQuiz:
+    if checkUserQuiz:
         return jsonify({
-            "message": "Learner has not attempted Quiz."
+            "message": "Learner has already attempted Quiz."
         }), 203
 
+    sectionId = data['sectionId']
+    quizId = sectionId.replace("Section", 'Quiz')
+
+    user_enrolment = Enrolment.query.filter(
+        Enrolment.classId == data['classId'], Enrolment.learnerId == data['learnerId']).first()
+    user_enrolment.sectionsCompleted += 1
+
     userQuiz = UserQuiz(
-            sectionId = data['sectionId'],
-            classId = data['classId'],
-            quizId = checkUserQuiz.quizId,
-            learnerId = data['learnerId'],
-            option = data['option'],
-            grade = data['grade']
-        )
+        sectionId=sectionId,
+        classId=data['classId'],
+        quizId=quizId,
+        learnerId=data['learnerId'],
+        option=data['option'],
+        grade=data['grade']
+    )
 
     # (4): Commit to DB
     try:
         db.session.add(userQuiz)
+        db.session.merge(user_enrolment)
         db.session.commit()
         return jsonify(userQuiz.to_dict()), 201
 
@@ -116,10 +124,10 @@ def updateUserQuiz():
         }), 500
 
     userQuiz = UserQuiz.query.filter(
-                            UserQuiz.sectionId == data["sectionId"], 
-                            UserQuiz.classId == data['classId'],
-                            UserQuiz.learnerId == data['learnerId'],
-                        ).first()
+        UserQuiz.sectionId == data["sectionId"],
+        UserQuiz.classId == data['classId'],
+        UserQuiz.learnerId == data['learnerId'],
+    ).first()
 
     if not userQuiz:
         return jsonify({
@@ -128,7 +136,7 @@ def updateUserQuiz():
 
     userQuiz.option = data['option']
     userQuiz.grade = data['grade']
-        
+
     # (4): Commit to DB
     try:
         db.session.merge(userQuiz)
@@ -141,6 +149,32 @@ def updateUserQuiz():
         return jsonify({
             "message": "Unable to commit to database."
         }), 503
+
+# retrieve stored answers for a particular quiz
+@app.route("/retrieveLearnerQuizAnswers", methods=['POST'])
+def retrieveLearnerQuizAnswers():
+    data = request.get_json()
+
+    if not all(key in data.keys() for
+               key in ('sectionId', 'classId', 'learnerId')):
+        return jsonify({
+            "message": "Incorrect JSON object provided."
+        }), 500
+
+    userQuiz = UserQuiz.query.filter(
+        UserQuiz.sectionId == data["sectionId"],
+        UserQuiz.classId == data['classId'],
+        UserQuiz.learnerId == data['learnerId'],
+    ).first()
+
+    if not userQuiz:
+        return jsonify({
+            "message": "Learner has not attempted Quiz."
+        }), 500
+
+    option = userQuiz.option
+
+    return jsonify({"data": option}), 200
 
 # create quiz in a section
 @app.route("/createQuiz", methods=['POST'])
@@ -156,25 +190,23 @@ def createQuiz():
 
     # (1): Validate Section
     checkQuiz = Quiz.query.filter(
-                            Quiz.sectionId == data["sectionId"], 
-                            Quiz.classId == data['classId'],
-                            Quiz.quizId == data['quizId'],
-                            Quiz.time == data['time'],
-                        ).first()
-
+        Quiz.sectionId == data["sectionId"],
+        Quiz.classId == data['classId'],
+        Quiz.quizId == data['quizId'],
+        Quiz.time == data['time'],
+    ).first()
 
     if checkQuiz:
         return jsonify({
             "message": "Quiz already exists."
         }), 501
 
-
     quiz = Quiz(
-            sectionId = data['sectionId'],
-            classId = data['classId'],
-            quizId = data['quizId'],
-            time = data['time']
-        )
+        sectionId=data['sectionId'],
+        classId=data['classId'],
+        quizId=data['quizId'],
+        time=data['time']
+    )
 
     # (4): Commit to DB
     try:
@@ -193,16 +225,16 @@ def createQuiz():
 def getQuestion(classId, sectionId, quizId, questionId):
 
     question = Question.query.filter(
-                                Question.sectionId == sectionId, 
-                                Question.classId == classId,
-                                Question.quizId == quizId,
-                                Question.questionId == questionId
-                            ).first()
-    
-    # check if question exists 
+        Question.sectionId == sectionId,
+        Question.classId == classId,
+        Question.quizId == quizId,
+        Question.questionId == questionId
+    ).first()
+
+    # check if question exists
     if not question:
         return jsonify({
-            "message": "No question found."    
+            "message": "No question found."
         }), 404
 
     return jsonify(question.to_dict()), 200
@@ -221,28 +253,27 @@ def createQuestion():
 
     # (1): Validate Section
     checkQuestion = Question.query.filter(
-                                Question.sectionId == data["sectionId"], 
-                                Question.classId == data['classId'],
-                                Question.quizId == data['quizId'],
-                                Question.questionId == data['questionId']
-                            ).first()
+        Question.sectionId == data["sectionId"],
+        Question.classId == data['classId'],
+        Question.quizId == data['quizId'],
+        Question.questionId == data['questionId']
+    ).first()
 
     if checkQuestion:
         return jsonify({
             "message": "Question already exists"
         }), 501
 
-
     question = Question(
-            sectionId = data['sectionId'],
-            classId = data['classId'],
-            quizId = data['quizId'],
-            questionId = data['questionId'],
-            question = data['question'],
-            option = data['option'],
-            answer = data['answer'],
-            explanation = data['explanation']
-        )
+        sectionId=data['sectionId'],
+        classId=data['classId'],
+        quizId=data['quizId'],
+        questionId=data['questionId'],
+        question=data['question'],
+        option=data['option'],
+        answer=data['answer'],
+        explanation=data['explanation']
+    )
     print(question.to_dict())
 
     # (4): Commit to DB
@@ -271,17 +302,17 @@ def updateQuestion():
 
     # (1): Validate Section
     question = Question.query.filter(
-                                Question.sectionId == data["sectionId"], 
-                                Question.classId == data['classId'],
-                                Question.quizId == data['quizId'],
-                                Question.questionId == data['questionId']
-                            ).first()
+        Question.sectionId == data["sectionId"],
+        Question.classId == data['classId'],
+        Question.quizId == data['quizId'],
+        Question.questionId == data['questionId']
+    ).first()
 
     if not question:
         return jsonify({
             "message": "Question is not valid"
         }), 501
-    
+
     # (3): Update Class DB record
     if 'question' in data:
         question.question = data['question']
@@ -291,7 +322,7 @@ def updateQuestion():
         question.answer = data['answer']
     if 'explanation' in data:
         question.explanation = data['explanation']
-        
+
     # (4): Commit to DB
     try:
         db.session.merge(question)
@@ -320,11 +351,11 @@ def removeQuestion():
 
     # (1): Validate class
     question = Question.query.filter(
-                                Question.sectionId == data["sectionId"], 
-                                Question.classId == data['classId'],
-                                Question.quizId == data['quizId'],
-                                Question.questionId == data['questionId']
-                            ).first()
+        Question.sectionId == data["sectionId"],
+        Question.classId == data['classId'],
+        Question.quizId == data['quizId'],
+        Question.questionId == data['questionId']
+    ).first()
 
     if not question:
         return jsonify({
@@ -334,7 +365,7 @@ def removeQuestion():
     # Commit to DB
     try:
         db.session.query(Question).filter(
-            Question.sectionId == data["sectionId"], 
+            Question.sectionId == data["sectionId"],
             Question.classId == data['classId'],
             Question.quizId == data['quizId'],
             Question.questionId == data['questionId']).delete()

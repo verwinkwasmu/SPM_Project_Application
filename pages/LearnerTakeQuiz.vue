@@ -114,7 +114,7 @@ export default {
     time: "-",
     displayTime: "",
     msgBox: "",
-    classId: "", // this.$route.query.classId
+    classId: "",
     sectionId: "",
     questions: [],
   }),
@@ -130,13 +130,26 @@ export default {
       }
     },
 
-    submitQuiz() {
-      // event.preventDefault();
-      // window.location.href = "http://www.w3schools.com"
-      // location.href = '`~/LearnerViewQuizExplanation';
-      // const apiUrl = ``;
-      localStorage.setItem('learner_answers', JSON.stringify(this.learner_answers))
-      this.$router.push( {path: '/LearnerViewQuizExplanation', query: {courseName : this.courseName, sectionId: this.sectionId, classId: this.classId}})
+    async submitQuiz() {
+
+      const apiUrl = 'http://localhost:5003/learnerSubmitQuiz'
+      const post_data = {
+        sectionId: this.sectionId,
+        classId: this.classId,
+        option: JSON.stringify(this.learner_answers),
+        learnerId: localStorage.getItem('userId'),
+        grade: null
+      }
+      try{
+        let response = await axios.post(apiUrl, post_data)
+        console.log(response)
+        if (response.status == 201){
+          this.$router.push( {path: '/LearnerViewQuizExplanation', query: {courseName : this.courseName, sectionId: this.sectionId, classId: this.classId}})
+        }
+      }catch(err){
+        console.log(err)
+      }
+      
     },
 
   },

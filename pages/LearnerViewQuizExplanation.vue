@@ -138,16 +138,17 @@
                         </div>
                         <div v-else style="text-align: center">
                            <h4 style="text-align:center; color: green; padding-bottom: 10px;"> You have completed this section, please proceed to the next section!</h4>
-                           <b-button href="LearnerViewSections">Proceed to next section</b-button>
+                          <router-link class="btn btn-secondary" :to="{path: '/LearnerViewSections', query: {courseName: this.courseName, sectionName: this.sectionId, classId: this.classId}}" href="">View Next Section</router-link>
                         </div>
 
               </div>
                 
-
+  <br>
+  <br>
             </div>
             <div v-if="learnerScore <= 0.85" style="text-align: center">
               <h4 style="text-align: center; color: red; padding-bottom: 10px">
-                Please reattempt the quiz and study if u r gay
+                Please reattempt the quiz and study
               </h4>
               <b-button
                 type="button"
@@ -157,7 +158,7 @@
               >
             </div>
           <div v-else style="text-align: center">
-            <b-button>Back to Sections</b-button>
+            <router-link class="btn btn-secondary" :to="{path: '/LearnerViewSections', query: {courseName: this.courseName, sectionName: this.sectionId, classId: this.classId}}" href="">Back to Sections</router-link>
           </div>
     </section>
   </div>
@@ -195,12 +196,21 @@ export default {
     this.courseName = this.$route.query.courseName;
     this.sectionId = this.$route.query.sectionId;
     this.classId = this.$route.query.classId;
-    this.learner_answers = JSON.parse(localStorage.getItem('learner_answers'))
 
-    const apiUrl = `http://localhost:5003/quiz/${this.classId}/${this.sectionId}`
+    const apiUrl1 = `http://localhost:5003/quiz/${this.classId}/${this.sectionId}`;
+    const apiUrl2 = 'http://localhost:5003/retrieveLearnerQuizAnswers';
+
+    const post_data = {
+      "sectionId": this.sectionId,
+      "classId": this.classId,
+      "learnerId": localStorage.getItem('userId')
+    }
     try{
-      let response = await axios.get(apiUrl)
-      this.questions = response.data.questions
+      let response1 = await axios.get(apiUrl1)
+      let response2 = await axios.post(apiUrl2, post_data)
+      this.questions = response1.data.questions
+      this.learner_answers = JSON.parse(response2.data.data)
+
       const questions = this.questions
 
       for (let i=0; i<questions.length; i++){
