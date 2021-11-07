@@ -19,7 +19,12 @@
               <h4>
                 <a href="">{{ course.courseName }}</a>
               </h4>
-              <div class="course">
+              <div class="course" v-if="isPastDate(course.enrolmentStartDate,course.enrolmentEndDate)">
+                <button disabled
+                  class="course-btn"
+                  >View Materials</button>
+              </div>
+              <div class="course" v-else>
                 <router-link
                   :to="{
                     path: '/LearnerViewSections',
@@ -30,8 +35,7 @@
                     },
                   }"
                   class="course-btn"
-                  >View Materials</router-link
-                >
+                  >View Materials</router-link>
               </div>
             </div>
           </div>
@@ -128,9 +132,9 @@ export default {
     const apiUrl1 = `http://localhost:5004/getEnrolmentsInProgress?learnerId=${this.learnerId}`;
     const apiUrl2 = `http://localhost:5004/getLearnerPendingEnrolments?learnerId=${this.learnerId}`;
     const apiUrl3 = `http://localhost:5004/getCompletedEnrolments?learnerId=${this.learnerId}`;
-    const requestOne = axios.get(apiUrl1);
-    const requestTwo = axios.get(apiUrl2);
-    const requestThree = axios.get(apiUrl3);
+    const requestOne = await axios.get(apiUrl1);
+    const requestTwo = await axios.get(apiUrl2);
+    const requestThree = await axios.get(apiUrl3);
 
     await axios
       .all([requestOne, requestTwo, requestThree])
@@ -152,5 +156,16 @@ export default {
         console.log(errors);
       });
   },
+  methods: {
+    isPastDate(enrolmentStartDate, enrolmentEndDate) {
+      var today = new Date();
+      var startDate = new Date(enrolmentStartDate);
+      var endDate = new Date(enrolmentEndDate);
+      if (today<startDate || today>endDate){
+        return true;
+      }
+      return false;
+    }
+  }
 };
 </script>
