@@ -20,8 +20,8 @@
             <div class="TrainerCreateSection">
               <router-link :to="{path: '/TrainerCreateSection', query: {classId: classObj.classId}}" class="TrainerCreateSection-btn">Create Section</router-link>
             </div>
-            <div class="TrainerCreateFinalQuiz ">
-              <router-link :to="{path: '/TrainerCreateFinalQuiz', query: {classId: classObj.classId}}" class="TrainerCreateFinalQuiz-btn">Create Final Quiz</router-link>
+            <div v-if="finalQuizExist==false" class="TrainerCreateFinalQuiz">
+              <router-link :to="{path: '/TrainerCreateFinalQuiz', query: {classId: classObj.classId, classTitle : classObj.classTitle}}" class="TrainerCreateFinalQuiz-btn">Create Final Quiz</router-link>
             </div>
             
           </div>
@@ -75,7 +75,8 @@ export default {
     error: false,
     message: "",
     enrolment: {},
-    courseId: localStorage.getItem('courseId')
+    courseId: localStorage.getItem('courseId'),
+    finalQuizExist: false
   }),
   async mounted() {
     const apiUrl1 = `http://localhost:5002/viewSections/${this.$route.query.classId}`;
@@ -86,18 +87,24 @@ export default {
       let response2 = await axios.get(apiUrl2);
       let response3 = await axios.get(apiUrl3);
 
-      console.log(response1)
-      console.log(response2)
-      console.log(response3)
+      // console.log(response1)
+      // console.log(response2)
+      // console.log(response3)
 
       this.sections = await response1.data.data;
       this.course = await response2.data;
       this.classObj = await response3.data;
   
-      console.log(this.classObj);
-      console.log(this.course);
-      console.log(this.sections);
+      // console.log(this.classObj);
+      // console.log(this.course);
+      // console.log(this.sections);
       
+      for (var i=0; i<this.sections.length; i++){
+        // console.log(this.sections[i].sectionId);
+        if (this.sections[i].sectionId == "Final Quiz"){
+          this.finalQuizExist = true;
+        }
+      }
 
       this.error = false;
     } catch (err) {
