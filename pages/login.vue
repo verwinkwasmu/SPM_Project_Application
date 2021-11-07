@@ -71,10 +71,8 @@ export default {
       };
       try{
         let response = await axios.post(apiUrl, login_details)
-        console.log(response)
         if (response.status == 200) {
               this.data = response.data;
-              console.log(this.data.data.userType)
               this.error = false;
               if (this.data.data.userType == 'HR'){
                 localStorage.setItem('userId', this.data.data.userId)

@@ -1,21 +1,21 @@
 <template>
   <div>
     <Header />
-
-    <!--<Homepage/>
-       -->
+    <Modal :message="message" />
 
     <section id="team" class="team section-bg">
       <!--box-->
       <div class="container block" data-aos="fade-up">
         <div class="row pb-5 mb-2">
           <div class="viewClass">
-            <router-link :to="{path: '/ViewClasses'}" class="viewClass-btn">Back to see all Classes</router-link>
+            <router-link :to="{ path: '/ViewClasses' }" class="viewClass-btn"
+              >Back to see all Classes</router-link
+            >
           </div>
         </div>
         <div class="section-title">
-          <h2>{{myClass.classId}}</h2>
-          <h3>{{course.courseName}}</h3>
+          <h2>{{ myClass.classId }}</h2>
+          <h3>{{ course.courseName }}</h3>
         </div>
         <div class="row">
           <div class="col-lg-8" id="createCourse" style="padding-bottom: 50px">
@@ -25,10 +25,12 @@
               data-aos-delay="100"
             >
               <div class="member-info">
-                <h4>Course ID: </h4> 
-                <p>{{ course.courseId }}</p> <br>
+                <h4>Course ID:</h4>
+                <p>{{ course.courseId }}</p>
+                <br />
                 <h4>Course Description:</h4>
-                <p>{{ course.courseDescription }}</p> <br>
+                <p>{{ course.courseDescription }}</p>
+                <br />
                 <h4>Prerequisite Courses:</h4>
                 <ul v-if="course.prerequisites == ''">
                   <li>No Prerequisites</li>
@@ -43,11 +45,14 @@
                 <p>{{ learners.length }}</p>
                 <br />
                 <h4>Period of Enrollment:</h4>
-                <p>{{ myClass.enrolmentStartDate }} to {{myClass.enrolmentEndDate}}</p>
+                <p>
+                  {{ myClass.enrolmentStartDate }} to
+                  {{ myClass.enrolmentEndDate }}
+                </p>
                 <br />
                 <h4>Period of Class:</h4>
                 <p>
-                  {{ myClass.startDate }}, {{ myClass.startTime }}  <b>to</b>
+                  {{ myClass.startDate }}, {{ myClass.startTime }} <b>to</b>
                   {{ myClass.endDate }}, {{ myClass.endTime }}
                 </p>
                 <br />
@@ -131,7 +136,9 @@
             </section>
             <div class="buttongroup">
               <div class="classCreate">
-                <router-link class="classCreate-btn" :to="{
+                <router-link
+                  class="classCreate-btn"
+                  :to="{
                     path: '/AddEngineer',
                     query: {
                       classId: this.$route.query.classId,
@@ -144,7 +151,7 @@
                 <router-link
                   class="cancel-btn"
                   :to="{
-                    path: '/ViewClasses'
+                    path: '/ViewClasses',
                   }"
                   >Cancel</router-link
                 >
@@ -162,7 +169,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
-    courseId: localStorage.getItem('courseId'),
+    courseId: localStorage.getItem("courseId"),
     course: {},
     myClass: {},
     trainers: [],
@@ -212,14 +219,9 @@ export default {
         trainerAssigned: this.selectedTrainer.userId,
         trainerName: this.selectedTrainer.employeeName,
       };
-
       try {
         let response = await axios.put(apiUrl, trainerData);
         if (response.status == 200) {
-          console.log(trainerData.trainerName);
-          // console.log(this.selectedTrainer);
-          console.log(trainerData.trainerAssigned);
-          console.log(trainerData.classId);
           this.data = response.data;
           this.error = false;
           this.message = "Trainer Successfully Assigned! 😃";
@@ -234,7 +236,6 @@ export default {
       }
     },
     async removeLearner(learnerId) {
-      alert(learnerId);
       const apiUrl = `http://localhost:5004/removeLearner`;
       const learnerData = {
         classId: this.$route.query.classId,
@@ -243,8 +244,14 @@ export default {
       try {
         let response = await axios.delete(apiUrl, { data: learnerData });
         if (response.status == 200) {
-          alert(response.data.message);
-          window.location.reload();
+          this.message = response.data.message;
+          this.$bvModal.show("bv-modal-example");
+          setTimeout(
+            function () {
+              window.location.reload();
+            }.bind(this),
+            2000
+          );
         } else {
           alert("Please Try again!");
         }

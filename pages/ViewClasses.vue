@@ -112,17 +112,9 @@ export default {
       let response2 = await axios.get(apiUrl2);
       let response3 = await axios.get(getEnrolmentURL);
 
-      console.log(response1)
-      console.log(response2)
-      console.log(response3)
-
       this.classes = await response1.data.data;
       this.course = await response2.data;
       this.enrolment = await response3.data.data;
-
-      console.log(this.classes);
-      console.log(this.course)
-      console.log(this.enrolment);
 
       this.error = false;
     } catch (err) {
