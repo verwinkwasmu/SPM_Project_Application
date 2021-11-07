@@ -112,13 +112,13 @@ def learnerSubmitQuiz():
         }), 500
 
 # Update a specific record in userquiz
-@app.route("/updateUserQuiz", methods=['PUT'])
-def updateUserQuiz():
+@app.route("/submitFinalQuiz", methods=['PUT'])
+def submitFinalQuiz():
     # retrieve data
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('sectionId', 'classId', 'learnerId', 'option', 'grade')):
+               key in ('sectionId', 'classId', 'learnerId', 'option', 'grade', 'quizId')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -128,27 +128,59 @@ def updateUserQuiz():
         UserQuiz.classId == data['classId'],
         UserQuiz.learnerId == data['learnerId'],
     ).first()
+    
+    grade = ''
+    if float(data['grade']) >= 85:
+        grade = "Pass"
+    else:
+        grade = "Fail"
 
     if not userQuiz:
-        return jsonify({
-            "message": "Learner has not attempted Quiz."
-        }), 500
+        sectionId = data['sectionId']
+        quizId = sectionId.replace("Section", 'Quiz')
 
-    userQuiz.option = data['option']
-    userQuiz.grade = data['grade']
+        user_enrolment = Enrolment.query.filter(
+            Enrolment.classId == data['classId'], Enrolment.learnerId == data['learnerId']).first()
+        user_enrolment.sectionsCompleted += 1
 
-    # (4): Commit to DB
-    try:
-        db.session.merge(userQuiz)
-        db.session.commit()
-        return jsonify({
-            "data": userQuiz.to_dict(),
-            "message": "Question updated"
-        }), 200
-    except Exception:
-        return jsonify({
-            "message": "Unable to commit to database."
-        }), 503
+        
+        userQuiz = UserQuiz(
+            sectionId = data['sectionId'],
+            classId = data['classId'],
+            quizId = quizId,
+            learnerId = data['learnerId'],
+            option = data['option'],
+            grade = grade
+        )
+
+        # (4): Commit to DB
+        try:
+            db.session.add(userQuiz)
+            db.session.commit()
+            return jsonify(userQuiz.to_dict()), 201
+
+        except Exception:
+            return jsonify({
+                "message": "Unable to commit to database.",
+                "data": str(request.get_data())
+            }), 500
+
+    else:
+        userQuiz.option = data['option']
+        userQuiz.grade = grade
+            
+        # (4): Commit to DB
+        try:
+            db.session.merge(userQuiz)
+            db.session.commit()
+            return jsonify({
+                "data": userQuiz.to_dict(),
+                "message": "Question updated"
+            }), 200
+        except Exception:
+            return jsonify({
+                "message": "Unable to commit to database."
+            }), 503
 
 # retrieve stored answers for a particular quiz
 @app.route("/retrieveLearnerQuizAnswers", methods=['POST'])
