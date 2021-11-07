@@ -16,7 +16,10 @@
             </div>
 
             <div v-if="sectionsCompleted == totalNumSections - 1">
-              <a>Final Quiz</a>
+              <router-link :to="{path: '/LearnerTakeFinalQuiz', query: {sectionId: 'Final Quiz', classId: classId, courseName: courseName}}"><b> Final Quiz </b> </router-link>
+            </div>
+            <div v-else-if="sectionsCompleted == totalNumSections">
+              <a>Final Quiz <b>(COMPLETED!)</b></a>
             </div>
             <div v-else>
               <a>Final Quiz <b>(LOCKED)</b></a>
