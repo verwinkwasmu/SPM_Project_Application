@@ -4,7 +4,7 @@
         <section id="team" class="team section-bg">
             <div class="" data-aos="fade-up">
                 <div class="section-title">
-                    <h2>Fundamentals of Xerox WorkCentre 7845 Final Quiz</h2>
+                    <h2>{{classObj.classId}}</h2>
                     <h1>Final Quiz questions</h1>
                     Assume 1 question is 1 mark
                 </div>
@@ -39,10 +39,10 @@
                                   <label>Answer: </label>
                                   <b-select v-model="question.answer">
                                     <option disabled value="">Please select one</option>
-                                      <option>Option 1</option>
-                                      <option>Option 2</option>
-                                      <option>Option 3</option>
-                                      <option>Option 4</option>
+                                      <option v-if="question.option1!=''">{{question.option1}}</option>
+                                      <option v-if="question.option2!=''">{{question.option2}}</option>
+                                      <option v-if="question.option3!=''">{{question.option3}}</option>
+                                      <option v-if="question.option4!=''">{{question.option4}}</option>
                                   </b-select>
                               </div>
                               
@@ -88,7 +88,7 @@
                       </div>
 
                       <div class="cancel">
-                        <a href="TrainerViewSection" class="cancel-btn">Cancel</a>
+                         <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="cancel-btn">Cancel</router-link>
                       </div>
 
                       <div
@@ -135,6 +135,11 @@ export default {
     error: false,
     loading: false,
     error: null,
+    classObj: {},
+    sectionId:"Final Quiz",
+    quizId: "Final Quiz",
+    course: {},
+    courseId: localStorage.getItem('courseId'),
     // data: null,
 
     questions: [
@@ -149,9 +154,29 @@ export default {
       }],
     
     quizTimer: '',
-    
+    quizexist: false,
+    questionNum: 1,
 
   }),
+  async mounted() {
+    const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
+    try {
+      let response1 = await axios.get(apiUrl1);
+      let response2 = await axios.get(apiUrl2);
+
+      this.course = await response1.data;
+      console.log(this.course);
+      this.classObj = await response2.data;
+      console.log(this.classObj);
+
+      this.error = false;
+    } catch (err) {
+      console.log(err);
+      this.error = true;
+      this.message = err;
+    }
+  },
 
   methods: {
     addquestion () {
@@ -178,37 +203,150 @@ export default {
         })
     },
 
-    submit() {
+    reset(){
+        this.loading= false
+        this.success = false;
+        this.error = false;    
+    }, 
+
+    async submit(event) {
+      event.preventDefault();
+      // form validation
       if(!this.questions || !this.quizTimer){
         this.error = true
         this.message = "Please make sure Question, Options, Answer, Explanation and Quiz Duration are not empty!"
         return
       }
-      const formData = {
-        questions: this.questions,
-        quizTimer: this.quizTimer
-      };
-      try{
-        this.loading = true
-        axios.post("https://jsonplaceholder.typicode.com/posts", formData)
-        .then(response => {
-            this.reset();
-            this.success = true;
-            this.message = "Quiz successfully created! 😃"
-            console.log('yay')
-        })
-      }catch(error){
-        this.error = true;
-        console.log(error)
+
+      // create section
+      await this.createSection(event);
+
+      // create quiz
+      await this.createQuiz(event);
+
+      // create questions
+      for (let i = 0; i<this.questions.length; i++){
+        console.log(this.questions[i]);
+        await this.createQuestion(event, this.questions[i], this.questionNum);
+        this.questionNum++;
       }
+
+      if (!this.error){
+        setTimeout(function(){ 
+          this.$router.push({path: '/TrainerViewSection', query: {classId: this.classObj.classId}});
+        }.bind(this), 1000);
+      }
+     
+    },
+    
+    async createSection(event) {
+      event.preventDefault();
       
+      const apiUrl = "http://localhost:5002/createSection";
+      const section_details = {
+        sectionId: this.sectionId,
+        classId: this.classObj.classId,
+        fileName: ""
+      };
+      console.log(this.sectionId);
+      console.log(this.classObj.classId);
+      try{
+        let response = await axios.post(apiUrl, section_details)
+        console.log(response)
+        if (response.status == 201) {
+              this.data = response.data;
+              this.error = false;
+              this.message = "Section Successfully Created! 😃";
+            } else {
+              this.error = true;
+              this.message = "Section already exists!";
+            }
+      }catch(err){
+        console.log(err)
+        this.error = true;
+        this.message = err
+      }
     },
 
-    reset(){
-        this.loading= false
-        this.success = false;
-        this.error = false;    
-    }
+    async createQuiz(event){
+      event.preventDefault();
+      const apiUrl = "http://localhost:5003/createQuiz";
+      const quiz_details = {
+        sectionId: this.sectionId,
+        classId: this.classObj.classId,
+        quizId: this.quizId,
+        time: this.quizTimer
+      };
+      this.loading = true
+      try{
+        let response = await axios.post(apiUrl, quiz_details)
+        console.log(response)
+        if (response.status == 201) {
+          this.reset();
+          this.data = response.data;
+          // alert("Quiz Successfully Created! 😃");
+        } else {
+          this.error = true;
+          alert("Quiz already exists!");
+        }
+      }catch(err){
+        console.log(err)
+        this.error = true;
+        this.message = err
+      }
+    },
+
+
+    async createQuestion(event, qn, number){
+      event.preventDefault();
+      const apiUrl = "http://localhost:5003/createQuestion";
+      var option = "";
+      if (qn.option1 != ""){
+        option += qn.option1 + ";";
+      }
+      if (qn.option2 != ""){
+        option += qn.option2 + ";";
+      }
+      if (qn.option3 != ""){
+        option += qn.option3 + ";";
+      }
+      if (qn.option4 != ""){
+        option += qn.option4;
+      }
+      else{
+        option = option.slice(0,-1);
+      }
+      
+      const question_details = {
+        sectionId : this.sectionId,
+        classId : this.classObj.classId,
+        quizId : this.quizId,
+        questionId : "Question " + number.toString(),
+        question : qn.fullquestion,
+        option : option,
+        answer : qn.answer,
+        explanation : qn.explanation
+      };
+      this.loading = true
+      try{
+        let response = await axios.post(apiUrl, question_details)
+        console.log(response)
+        if (response.status == 201) {
+          this.reset();
+          this.success = true;
+          this.message = "Questions successfully created! 😃"
+          console.log(response.status)
+          this.error = false;
+        } else {
+          this.error = true;
+          alert("Question already exists!");
+        }
+      }catch(err){
+        console.log(err)
+        this.error = true;
+        this.message = err
+      }
+    },
   }
 };
 </script>
