@@ -504,6 +504,12 @@ def getEnrolmentsInProgress():
         courseId = element["courseId"]
         courseName = (Course.query.filter_by(courseId=courseId).first()).courseName
         element["courseName"] = courseName
+
+        # get enorlment start and end date
+        classObj = Class.query.filter(Class.classId == element["classId"]).first()
+        element["enrolmentStartDate"] = classObj.enrolmentStartDate
+        element["enrolmentEndDate"] = classObj.enrolmentEndDate
+
     
     return jsonify(
         {
