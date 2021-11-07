@@ -128,34 +128,34 @@ def submitFinalQuiz():
         UserQuiz.classId == data['classId'],
         UserQuiz.learnerId == data['learnerId'],
     ).first()
+
+    user_enrolment = Enrolment.query.filter(
+        Enrolment.classId == data['classId'], Enrolment.learnerId == data['learnerId']).first()
     
     grade = ''
-    if float(data['grade']) >= 85:
+    
+    if float(data['grade']) >= 0.85:
         grade = "Pass"
+        user_enrolment.sectionsCompleted += 1
+        user_enrolment.completedClass = True
+
     else:
         grade = "Fail"
 
     if not userQuiz:
-        sectionId = data['sectionId']
-        quizId = sectionId.replace("Section", 'Quiz')
-
-        user_enrolment = Enrolment.query.filter(
-            Enrolment.classId == data['classId'], Enrolment.learnerId == data['learnerId']).first()
-        user_enrolment.sectionsCompleted += 1
-
-        
         userQuiz = UserQuiz(
-            sectionId = data['sectionId'],
-            classId = data['classId'],
-            quizId = quizId,
-            learnerId = data['learnerId'],
-            option = data['option'],
-            grade = grade
+            sectionId=data['sectionId'],
+            classId=data['classId'],
+            quizId=data['sectionId'],
+            learnerId=data['learnerId'],
+            option=data['option'],
+            grade=grade
         )
 
         # (4): Commit to DB
         try:
             db.session.add(userQuiz)
+            db.session.merge(user_enrolment)
             db.session.commit()
             return jsonify(userQuiz.to_dict()), 201
 
@@ -168,10 +168,11 @@ def submitFinalQuiz():
     else:
         userQuiz.option = data['option']
         userQuiz.grade = grade
-            
+
         # (4): Commit to DB
         try:
             db.session.merge(userQuiz)
+            db.session.merge(user_enrolment)
             db.session.commit()
             return jsonify({
                 "data": userQuiz.to_dict(),
@@ -205,8 +206,11 @@ def retrieveLearnerQuizAnswers():
         }), 500
 
     option = userQuiz.option
+    grade = userQuiz.grade
 
-    return jsonify({"data": option}), 200
+    return jsonify({"data": option,
+                    "grade": grade
+                    }), 200
 
 # create quiz in a section
 @app.route("/createQuiz", methods=['POST'])
