@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from allClasses import *
 from datetime import date
-# from sqlalchemy.sql import select
 
 app = Flask(__name__)
 
@@ -12,8 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@s
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-#                                            'pool_recycle': 280}
+
 db = SQLAlchemy(app)
 
 CORS(app)
@@ -165,12 +163,6 @@ def getClasses(courseId):
 def assignTrainerClass():
     # retrieved data
     data = request.get_json()
-
-    if not all(key in data.keys() for
-               key in ('classId', 'trainerAssigned, trainerName')):
-        return jsonify({
-            "message": "Incorrect JSON object provided."
-        }), 500
     
     classObj = Class.query.filter_by(classId=data['classId']).first()
     # (1): Validate class

@@ -75,7 +75,7 @@ export default {
     message: "",
   }),
   async mounted() {
-    const apiUrl = `http://localhost:5002/enrolment/qualifiedlearners/${this.$route.query.classId}`;
+    const apiUrl = `http://localhost:5004/enrolment/qualifiedlearners/${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
       this.learners = response.data.data;

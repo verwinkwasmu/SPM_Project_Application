@@ -162,7 +162,7 @@ def getQualifiedLearnersOfClass(classId):
     if not class_existence:
         return jsonify({
             "message": "No class found."
-        }), 404
+        }), 200
     courseId = class_existence.courseId
 
     # create list of userid of those who are already enrolled
