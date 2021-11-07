@@ -36,6 +36,22 @@
             </div>
           </div>
         </div>
+         <div style="padding-top: 10px; width: 25.5%;" class="row">
+           <div>
+           <div  
+           v-for="course in currentCourses"
+            :key="course.courseId"
+            data-aos="zoom-in"
+            data-aos-delay="100">
+
+           <b-progress  :max="course.totalNumSections"
+                    show-progress
+                    animated>
+              <b-progress-bar :value="course.sectionsCompleted" :label="`${((course.sectionsCompleted / course.totalNumSections) * 100).toFixed(2)}%`"></b-progress-bar>
+           </b-progress>
+           </div>
+          </div>
+         </div>
       </div>
       <div class="container" data-aos="fade-up" style="padding-top: 60px">
         <div class="section-title">
@@ -103,6 +119,10 @@ export default {
     pendingCourses: [],
     completedCourses: [],
     learnerId: localStorage.getItem("userId"),
+    max: 100,
+    learner: {
+      progress: 50,
+    }
   }),
   async created() {
     const apiUrl1 = `http://localhost:5004/getEnrolmentsInProgress?learnerId=${this.learnerId}`;
