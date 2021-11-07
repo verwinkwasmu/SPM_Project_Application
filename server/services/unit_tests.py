@@ -1,5 +1,4 @@
 import unittest
-
 from allClasses import *
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -7,10 +6,12 @@ class TestUser(unittest.TestCase):
     def setUp(self):
         self.pw = generate_password_hash("admin123")
         self.user = User(userId=1, 
+                        employeeName="Jacbo",
                         userName="test1",
                         email="test1@email.com",
-                        password=self.pw,
-                        userType="HR"
+                        userType="HR",
+                        designation=None,
+                        department=None
                     )
 
     def tearDown(self):
@@ -19,70 +20,79 @@ class TestUser(unittest.TestCase):
     def test_to_dict(self):
         self.assertEqual(self.user.to_dict(), {
                 "userId":1, 
+                "employeeName": "Jacbo",
                 "userName":"test1",
                 "email":"test1@email.com",
-                "password":self.pw,
-                "userType":"HR"
+                "userType":"HR",
+                "designation": None,
+                "department": None
             }
         )
     
-    def test_verify_password_pass(self):
-        self.assertEqual(self.user.verify_password("admin123"), True)
-        
-    def test_verify_password_fail(self):
-        self.assertEqual(self.user.verify_password("12345"), False)
 
 class TestLearner(unittest.TestCase):
     def test_to_dict(self):
         l1 = Learner(userId=1, 
+                    employeeName="Jacbo",
                     userName="test1",
                     email="test1@email.com",
-                    password="admin123",
-                    userType="Learner"
+                    userType="Learner",
+                    designation=None,
+                    department=None
                     )
 
         self.assertEqual(l1.to_dict(), {
                 "userId":1, 
+                "employeeName": "Jacbo",
                 "userName":"test1",
                 "email":"test1@email.com",
-                "password":"admin123",
-                "userType":"Learner"
+                "userType":"Learner",
+                "designation": None,
+                "department": None
             }
         )
 
 class TestTrainer(unittest.TestCase):
     def test_to_dict(self):
         t1 = Trainer(userId=1, 
+                    employeeName="Jacbo",
                     userName="test1",
                     email="test1@email.com",
-                    password="admin123",
-                    userType="Trainer"
+                    userType="Trainer",
+                    designation=None,
+                    department=None
                     )
 
         self.assertEqual(t1.to_dict(), {
                 "userId":1, 
+                "employeeName": "Jacbo",
                 "userName":"test1",
                 "email":"test1@email.com",
-                "password":"admin123",
-                "userType":"Trainer"
+                "userType":"Trainer",
+                "designation": None,
+                "department": None
             }
         )
 
 class TestHR(unittest.TestCase):
     def test_to_dict(self):
         h1 = Hr(userId=1, 
+                employeeName="Jacbo",
                 userName="test1",
                 email="test1@email.com",
-                password="admin123",
-                userType="HR"
+                userType="HR",
+                designation=None,
+                department=None
             )
 
         self.assertEqual(h1.to_dict(), {
                 "userId":1, 
+                "employeeName": "Jacbo",
                 "userName":"test1",
                 "email":"test1@email.com",
-                "password":"admin123",
-                "userType":"HR"
+                "userType":"HR",
+                "designation": None,
+                "department": None
             }
         )
 
@@ -135,19 +145,24 @@ class TestClass(unittest.TestCase):
 
 class TestEnrolment(unittest.TestCase):
     def test_to_dict(self):
-        e1 = Enrolment(classId="XRX-101 Class 1",
+        e1 = Enrolment(
+                        courseId="XRX-101",
+                        classId="XRX-101 Class 1",
                         learnerId=13,
                         totalNumSections = 10,
                         sectionsCompleted = 2,
-                        completedClass = False
+                        completedClass = False,
+                        status="PENDING"
                     )
 
         self.assertEqual(e1.to_dict(), {
+                "courseId": "XRX-101",
                 "classId":"XRX-101 Class 1",
                 "learnerId":13,
                 "totalNumSections" : 10,
                 "sectionsCompleted" : 2,
-                "completedClass" : False
+                "completedClass" : False,
+                "status": "PENDING"
             }
         )
 
@@ -169,13 +184,15 @@ class TestQuiz(unittest.TestCase):
     def test_to_dict(self):
         q1 = Quiz(classId="XRX-101 Class 1",
                     sectionId="Section 1",
-                    quizId = "Quiz 1"
+                    quizId = "Quiz 1",
+                    time= 30
                     )
 
         self.assertEqual(q1.to_dict(), {
                 "classId":"XRX-101 Class 1",
                 "sectionId":"Section 1",
-                "quizId" : "Quiz 1"
+                "quizId" : "Quiz 1",
+                "time": 30
             }
         )
 
@@ -187,7 +204,9 @@ class TestQuestion(unittest.TestCase):
                         questionId = "Question 1",
                         question = "What's is your mother's name?",
                         option = "Mary;Laobu;Karen;Ni Mama",
-                        answer = "Ni Mama"
+                        answer = "Ni Mama",
+                        explanation="Your mother is a lovely women"
+                        
                     )
 
         self.assertEqual(q1.to_dict(), {
@@ -202,9 +221,46 @@ class TestQuestion(unittest.TestCase):
                     "Karen",
                     "Ni Mama"
                 ],
-                "answer": "Ni Mama"
+                "answer": "Ni Mama",
+                "explanation": "Your mother is a lovely women"
             }
         )
 
+class TestUserQuiz(unittest.TestCase):
+    def test_to_dict(self):
+        uq1 = UserQuiz(sectionId="Section 1",
+                    classId="XRX-101 Class 1",
+                    quizId="Quiz 1",
+                    learnerId= 1,
+                    option="Hi;hey;ho;woo",
+                    grade="Pass"
+                    )
+        self.assertEqual(uq1.to_dict(), {
+                "sectionId": "Section 1",
+                "classId": "XRX-101 Class 1",
+                "quizId": "Quiz 1",
+                "learnerId": 1,
+                "option": [
+                    "Hi",
+                    "hey",
+                    "ho",
+                    "woo"
+                ],
+                "grade": "Pass"
+            }
+        )
+
+class TestFile(unittest.TestCase):
+    def test_to_dict(self):
+        file1 = File(learnerId=1,
+                    fileId="XRX-101/Class1/Section1/Hello.png",
+                    completed=True
+                    )
+        self.assertEqual(file1.to_dict(),{
+            "learnerId": 1,
+            "fileId": "XRX-101/Class1/Section1/Hello.png",
+            "completed": True
+        })
+        
 if __name__ == "__main__":
     unittest.main()
