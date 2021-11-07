@@ -76,6 +76,9 @@
                 <div class="viewClass">
                   <router-link :to="{path: '/TrainerViewSection', query: {classId: _class.classId}}" class="viewClass-btn">View Sections</router-link>
                 </div>
+                <div class="viewClass" style="padding-top:50px;">
+                  <router-link :to="{path: '/TrainerViewLearnerProgress', query: {classId: _class.classId}}" class="viewClass-btn">Learner Progress</router-link>
+                </div>
               </div>
             </div>
           </div>
