@@ -8,8 +8,7 @@ stages {
             source env/bin/activate
             pip install -r requirements.txt
             pwd
-            python /var/lib/jenkins/workspace/TDD_PIPELINES_SPM_BRANCH/server/services/unit_tests.py
-
+            python server/services/unit_tests.py
             '''
         }
     }
