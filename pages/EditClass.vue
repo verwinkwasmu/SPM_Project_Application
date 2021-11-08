@@ -179,10 +179,10 @@ export default {
     selectedTrainer: "",
   }),
   mounted() {
-    const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const apiUrl2 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
-    const apiUrl3 = `http://localhost:5001/getTrainers`;
-    const apiUrl4 = `http://localhost:5004/enrolment/${this.$route.query.classId}`;
+    const apiUrl1 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
+    const apiUrl2 = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
+    const apiUrl3 = `https://spm-flask.herokuapp.com/getTrainers`;
+    const apiUrl4 = `https://spm-flask.herokuapp.com/enrolment/${this.$route.query.classId}`;
     const requestOne = axios.get(apiUrl1);
     const requestTwo = axios.get(apiUrl2);
     const requestThree = axios.get(apiUrl3);
