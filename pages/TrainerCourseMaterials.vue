@@ -106,8 +106,8 @@ export default {
       this.file_list = response.data;
     } catch (err) {
       console.log(err);
-      this.error = true;
-      this.message = err;
+      // this.error = true;
+      // this.message = err;
     }
   },
   methods: {
