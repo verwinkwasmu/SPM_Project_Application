@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from allClasses import *
+# from allClasses import *
 from datetime import date
 from sqlalchemy.sql import select
 from werkzeug.utils import secure_filename

@@ -1,7 +1,7 @@
 import unittest
 import flask_testing
 import json
-from allClasses import *
+# from allClasses import *
 from app import app, db, Course, User, Learner, Trainer, Hr, Class, Enrolment, Section, Quiz, Question, UserQuiz
 
 
