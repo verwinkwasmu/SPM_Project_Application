@@ -269,7 +269,7 @@ export default {
     async createQuestion(event, qn, number){
       event.preventDefault();
       const apiUrl = "https://spm-flask.herokuapp.com/createQuestion";
-      const option = "";
+      var option = "";
       if (qn.option1 != ""){
         option += qn.option1 + ";";
       }
