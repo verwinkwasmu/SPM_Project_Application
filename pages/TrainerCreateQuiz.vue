@@ -268,7 +268,6 @@ export default {
 
     async createQuestion(event, qn, number){
       event.preventDefault();
-      const apiUrl = "http://localhost:5000/createQuestion";
       var option = "";
       if (qn.option1 != ""){
         option += qn.option1 + ";";
