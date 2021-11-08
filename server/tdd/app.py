@@ -513,12 +513,6 @@ def assignTrainerClass():
     # retrieved data
     data = request.get_json()
 
-    if not all(key in data.keys() for
-               key in ('classId', 'trainerAssigned, trainerName')):
-        return jsonify({
-            "message": "Incorrect JSON object provided."
-        }), 500
-    
     classObj = Class.query.filter_by(classId=data['classId']).first()
     # (1): Validate class
     if not classObj:
