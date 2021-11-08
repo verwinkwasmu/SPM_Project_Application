@@ -1128,7 +1128,7 @@ def withdrawLearner():
             "data": str(request.get_data())
         }), 504
 
-# VIEW ALL ENROLMENT BASED ON STATUS
+# VIEW Pending Enrolments
 @app.route('/viewPendingEnrolments')
 def getPendingEnrolments():
     classId = request.args.get('classId')        
@@ -1306,7 +1306,7 @@ def getCompletedEnrolments():
 
     return jsonify(
         {
-            "message": "Pending enrolments found",
+            "message": "Completed enrolments found",
             "data": result
         }
     ), 200
@@ -1742,7 +1742,7 @@ def updateQuestion():
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('sectionId', 'classId', 'quizId', 'questionId')):
+               key in ('sectionId', 'classId', 'quizId', 'questionId', 'question', 'option', 'answer', 'explanation')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500

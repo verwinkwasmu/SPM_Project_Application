@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from allClasses import *
+from datetime import date
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database-new.clbmqgt8dbzr.us-east-1.rds.amazonaws.com:3306/spm_db'
@@ -211,8 +212,6 @@ def getQualifiedLearnersOfClass(classId):
     ), 200
 
 # enrol learners into class
-
-
 @app.route("/enrolment/enrolLearners", methods=['POST'])
 def create_enrolment():
     data = request.get_json()
@@ -379,8 +378,6 @@ def enrolLearner():
         }), 504
 
 # learner withdraw from course
-
-
 @app.route("/withdrawLearner", methods=['DELETE'])
 def withdrawLearner():
     data = request.get_json()
@@ -391,7 +388,9 @@ def withdrawLearner():
             "message": "Incorrect JSON object provided."
         }), 500
 
+
     enrolment = db.session.query(Enrolment).filter(Enrolment.learnerId == data['learnerId'], Enrolment.courseId == data["courseId"], Enrolment.status.in_(['PENDING', 'ACCEPTED'])).first()
+
 
     if not enrolment:
         return jsonify({
@@ -411,7 +410,7 @@ def withdrawLearner():
             "data": str(request.get_data())
         }), 504
 
-# VIEW ALL ENROLMENT BASED ON STATUS
+# VIEW PENDING ENROLMENTS
 @app.route('/viewPendingEnrolments')
 def getPendingEnrolments():
     classId = request.args.get('classId')        
