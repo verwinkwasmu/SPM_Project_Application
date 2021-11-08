@@ -184,8 +184,8 @@ export default {
     this.sectionId = this.$route.query.sectionId;
     this.classId = this.$route.query.classId;
 
-    const apiUrl1 = `http://localhost:5003/quiz/${this.classId}/${this.sectionId}`;
-    const apiUrl2 = "http://localhost:5003/retrieveLearnerQuizAnswers";
+    const apiUrl1 = `https://spm-flask.herokuapp.com/quiz/${this.classId}/${this.sectionId}`;
+    const apiUrl2 = "https://spm-flask.herokuapp.com/retrieveLearnerQuizAnswers";
 
     const post_data = {
       sectionId: this.sectionId,
@@ -210,14 +210,6 @@ export default {
     } catch (err) {
       console.log(err);
     }
-  },
-    methods: {
-    // showModal() {
-    //   this.$refs["my-modal"].show();
-    // },
-    // hideModal() {
-    //   this.$refs["my-modal"].hide();
-    // },
-  },
+  }
 };
 </script>

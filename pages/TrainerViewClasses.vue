@@ -13,9 +13,7 @@
           <div class="section-title">
               
             <h2>{{ course.courseName }}</h2>
-            <!-- <div class="createClass">
-                <a href="TrainerViewSection" class="createClass-btn">View Sections</a>
-            </div> -->
+
           </div>
               
          <div class="row">
@@ -101,23 +99,18 @@ export default {
     trainerId: localStorage.getItem('userId')
   }),
   async mounted() {
-    const apiUrl1 = `http://localhost:5002/getTrainerClasses/${this.trainerId}/${this.courseId}`;
-    const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const getEnrolmentURL = `http://localhost:5004/enrolment/size/${this.trainerId}/${this.courseId}`;
+    const apiUrl1 = `https://spm-flask.herokuapp.com/getTrainerClasses/${this.trainerId}/${this.courseId}`;
+    const apiUrl2 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
+    const getEnrolmentURL = `https://spm-flask.herokuapp.com/enrolment/size/${this.trainerId}/${this.courseId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
       let response3 = await axios.get(getEnrolmentURL);
-      console.log(response1)
-      console.log(response2)
-      console.log(response3)
+
       this.classes = await response1.data.data;
       this.course = await response2.data;
       this.enrolment = await response3.data.data;
   
-      console.log(this.classes);
-      console.log(this.course);
-      console.log(this.enrolment);
       this.error = false;
     } catch (err) {
       console.log(err);

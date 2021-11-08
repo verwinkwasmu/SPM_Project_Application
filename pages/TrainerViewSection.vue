@@ -11,9 +11,7 @@
           </div>
 
           <div class="section-title">
-              <!--<div class="createClass">
-                  <a href="createClass" class="createClass-btn">Create Class</a>
-              </div>-->
+
             <h2>{{classObj.classId}}</h2>
             <h3>{{course.courseName}}</h3>
 
@@ -79,28 +77,21 @@ export default {
     finalQuizExist: false
   }),
   async mounted() {
-    const apiUrl1 = `http://localhost:5002/viewSections/${this.$route.query.classId}`;
-    const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const apiUrl3 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
+    const apiUrl1 = `https://spm-flask.herokuapp.com/viewSections/${this.$route.query.classId}`;
+    const apiUrl2 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
+    const apiUrl3 = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
       let response3 = await axios.get(apiUrl3);
 
-      // console.log(response1)
-      // console.log(response2)
-      // console.log(response3)
-
       this.sections = await response1.data.data;
       this.course = await response2.data;
       this.classObj = await response3.data;
   
-      // console.log(this.classObj);
-      // console.log(this.course);
-      // console.log(this.sections);
       
       for (var i=0; i<this.sections.length; i++){
-        // console.log(this.sections[i].sectionId);
+        
         if (this.sections[i].sectionId == "Final Quiz"){
           this.finalQuizExist = true;
         }

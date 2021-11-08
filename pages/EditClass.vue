@@ -212,7 +212,7 @@ export default {
     async assignTrainer(event) {
       event.preventDefault();
 
-      const apiUrl = "http://localhost:5002/assignTrainerClass";
+      const apiUrl = "https://spm-flask.herokuapp.com/assignTrainerClass";
 
       const trainerData = {
         classId: this.myClass.classId,
@@ -236,7 +236,7 @@ export default {
       }
     },
     async removeLearner(learnerId) {
-      const apiUrl = `http://localhost:5004/removeLearner`;
+      const apiUrl = `https://spm-flask.herokuapp.com/removeLearner`;
       const learnerData = {
         classId: this.$route.query.classId,
         learnerId: learnerId,

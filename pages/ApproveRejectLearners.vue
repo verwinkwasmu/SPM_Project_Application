@@ -82,7 +82,7 @@ export default {
   }),
 
   async created() {
-    const apiUrl = `http://localhost:5004/viewPendingEnrolments?classId=${this.$route.query.classId}`;
+    const apiUrl = `https://spm-flask.herokuapp.com/viewPendingEnrolments?classId=${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
       this.learners = response.data.data;
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     async updateEnrolment(status) {
-      const apiUrl = "http://localhost:5004/updateEnrolmentRequests";
+      const apiUrl = "https://spm-flask.herokuapp.com/updateEnrolmentRequests";
 
       const pending_data = {
         classId: this.$route.query.classId,

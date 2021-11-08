@@ -38,25 +38,14 @@ import axios from 'axios';
       name: "App",
       
   data: () => ({
-    course1: 
-      {
-        badgeName: "Hi please answer the question",
-        courseName: "SPM GOOOOO",
-      },
-      course2: 
-      {
-        badgeName: "Hi please answer the question",
-        courseName: "SPM NOOOOO",
-      },
       badges: [],
       learnerId: localStorage.getItem('userId')
   }),
   async created(){
-    const apiUrl = `http://localhost:5004/awardedBadges?learnerId=${this.learnerId}`
+    const apiUrl = `https://spm-flask.herokuapp.com/awardedBadges?learnerId=${this.learnerId}`
     try{
       let response = await axios.get(apiUrl);
       this.badges = response.data.data
-      console.log(this.badges)
     }catch(err){
       console.log(err)
     }

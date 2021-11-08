@@ -9,9 +9,7 @@
           </div>
         </div>
         <div class="section-title">
-          <!--<div class="createClass">
-                  <a href="createClass" class="createClass-btn">Create Class</a>
-              </div>-->
+
           <h2>{{ course.courseName }}</h2>
           <div class="createClass">
             <router-link  :to="{path: '/CreateClass', query: {courseName: course.courseName}}" class="createClass-btn">Create Class</router-link>
@@ -26,7 +24,7 @@
                   >
         
               <div class="member-info">
-                <!-- <h4>{{ course.courseName }}</h4> -->
+                
                 <h4>Course ID: </h4> 
                 <p>{{ course.courseId }}</p> <br>
                 <h4>Course Description: </h4>
@@ -53,9 +51,7 @@
               <div class="member-info">
                 <h4>{{ _class.classTitle }}</h4>
                 <span>{{ _class.trainerName }}</span>
-                <!-- <p> Maximum Class Capacity: {{_class.classSize}} </p> -->
-              <!-- </div> -->
-              <!-- <div class="member-info"> -->
+
               <p> <b> Current Class Size: </b> {{ enrolment[_class.classId] }} / {{_class.classSize}} </p>
                   <br>
                   <p>
@@ -104,9 +100,9 @@ export default {
     courseId: localStorage.getItem('courseId')
   }),
   async mounted() {
-    const apiUrl1 = `http://localhost:5002/getClasses/${this.courseId}`;
-    const apiUrl2 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const getEnrolmentURL = `http://localhost:5004/enrolment/size/${this.courseId}`;
+    const apiUrl1 = `https://spm-flask.herokuapp.com/getClasses/${this.courseId}`;
+    const apiUrl2 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
+    const getEnrolmentURL = `https://spm-flask.herokuapp.com/enrolment/size/${this.courseId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);

@@ -62,10 +62,6 @@
                 </ul>
               </div>
             </div>
-
-            <!-- <div class="LearnerWithdraw">  
-                                <a href="" class="LearnerWithdraw-btn">Withdraw from Course</a>
-                            </div>  -->
           </div>
         </div>
       </div>
@@ -88,13 +84,12 @@ export default {
     enrolmentStatus: "",
   }),
   async mounted() {
-    const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const apiUrl2 = `http://localhost:5004/viewUserEnrolmentStatus?learnerId=${this.learnerId}&courseId=${this.courseId}`;
+    const apiUrl1 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
+    const apiUrl2 = `https://spm-flask.herokuapp.com/viewUserEnrolmentStatus?learnerId=${this.learnerId}&courseId=${this.courseId}`;
 
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
-      console.log(response2.data)
       this.course = response1.data;
 
       this.enrolmentStatus = response2.data.enrolmentStatus;
@@ -107,7 +102,7 @@ export default {
   },
   methods: {
     async withdraw(courseId) {
-      const apiUrl = "http://localhost:5004/withdrawLearner";
+      const apiUrl = "https://spm-flask.herokuapp.com/withdrawLearner";
       const data = {
         courseId: courseId,
         learnerId: localStorage.getItem("userId"),

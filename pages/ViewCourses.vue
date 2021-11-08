@@ -50,7 +50,7 @@ export default {
     message: "",
   }),
   async mounted() {
-    const apiUrl = "http://localhost:5002/getCourses";
+    const apiUrl = "https://spm-flask.herokuapp.com/getCourses";
     try {
       let response = await axios.get(apiUrl);
       this.courses = response.data.data;

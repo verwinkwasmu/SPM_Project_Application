@@ -230,7 +230,7 @@ export default {
       //     "Please make sure Course Name, Course Description and Course ID are not empty!";
       //   return;
       // }
-      const apiUrl = "http://localhost:5002/createClass";
+      const apiUrl = "https://spm-flask.herokuapp.com/createClass";
 
       const class_details = {
         classId: this.courseId + " " + this.classTitle,

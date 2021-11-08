@@ -65,7 +65,7 @@ export default {
         this.message = "Please make sure userName is not empty!"
         return
       }
-      const apiUrl = "http://localhost:5001/login";
+      const apiUrl = "https://spm-flask.herokuapp.com/login";
       const login_details = {
         userName: this.userName
       };
@@ -88,14 +88,13 @@ export default {
               }
         } else {
               this.error = true;
-              // this.message = "Login Error. Please try again.";
+              this.message = "Login Error. Please try again.";
         }
       }catch(err){
         console.log(err)
         this.error = true;
         this.message = "Login Error. Please try again."
       } 
-      // console.log(this.data.data.userName)
       
     },
   },

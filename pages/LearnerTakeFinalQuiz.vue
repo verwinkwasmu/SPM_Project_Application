@@ -119,7 +119,7 @@ export default {
     this.courseName = this.$route.query.courseName;
     this.timer = setInterval(this.countdown, 1000);
 
-    const apiUrl = `http://localhost:5003/quiz/${this.classId}/${this.sectionId}`;
+    const apiUrl = `https://spm-flask.herokuapp.com/quiz/${this.classId}/${this.sectionId}`;
 
     try {
       let response = await axios.get(apiUrl);
@@ -140,7 +140,7 @@ export default {
       }
     },
     async submitQuiz() {
-      const apiUrl = "http://localhost:5003/submitFinalQuiz";
+      const apiUrl = "https://spm-flask.herokuapp.com/submitFinalQuiz";
       let grade = this.computeGrade()
       
       const post_data = {

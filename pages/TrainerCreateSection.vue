@@ -102,7 +102,7 @@ export default {
     data: null,
   }),
   async mounted() {
-    const apiUrl = `http://localhost:5002/getClass/${this.$route.query.classId}`;
+    const apiUrl = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
 
@@ -128,7 +128,7 @@ export default {
 		  this.message = "Please make sure Section ID is not empty!"
 		  return
 	  }
-      const apiUrl = "http://localhost:5002/createSection";
+      const apiUrl = "https://spm-flask.herokuapp.com/createSection";
       const section_details = {
         sectionId: this.sectionId,
         classId: this.classObj.classId,

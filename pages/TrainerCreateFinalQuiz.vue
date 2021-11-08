@@ -140,7 +140,7 @@ export default {
     quizId: "Final Quiz",
     course: {},
     courseId: localStorage.getItem('courseId'),
-    // data: null,
+    
 
     questions: [
       {
@@ -159,16 +159,14 @@ export default {
 
   }),
   async mounted() {
-    const apiUrl1 = `http://localhost:5002/getCourse/${this.courseId}`;
-    const apiUrl2 = `http://localhost:5002/getClass/${this.$route.query.classId}`;
+    const apiUrl1 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
+    const apiUrl2 = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
 
       this.course = await response1.data;
-      console.log(this.course);
       this.classObj = await response2.data;
-      console.log(this.classObj);
 
       this.error = false;
     } catch (err) {
@@ -242,7 +240,7 @@ export default {
     async createSection(event) {
       event.preventDefault();
       
-      const apiUrl = "http://localhost:5002/createSection";
+      const apiUrl = "https://spm-flask.herokuapp.com/createSection";
       const section_details = {
         sectionId: this.sectionId,
         classId: this.classObj.classId,
@@ -270,7 +268,7 @@ export default {
 
     async createQuiz(event){
       event.preventDefault();
-      const apiUrl = "http://localhost:5003/createQuiz";
+      const apiUrl = "https://spm-flask.herokuapp.com/createQuiz";
       const quiz_details = {
         sectionId: this.sectionId,
         classId: this.classObj.classId,
@@ -284,7 +282,7 @@ export default {
         if (response.status == 201) {
           this.reset();
           this.data = response.data;
-          // alert("Quiz Successfully Created! 😃");
+          
         } else {
           this.error = true;
           alert("Quiz already exists!");
@@ -299,7 +297,7 @@ export default {
 
     async createQuestion(event, qn, number){
       event.preventDefault();
-      const apiUrl = "http://localhost:5003/createQuestion";
+      const apiUrl = "https://spm-flask.herokuapp.com/createQuestion";
       var option = "";
       if (qn.option1 != ""){
         option += qn.option1 + ";";
@@ -335,7 +333,7 @@ export default {
           this.reset();
           this.success = true;
           this.message = "Questions successfully created! 😃"
-          console.log(response.status)
+          
           this.error = false;
         } else {
           this.error = true;

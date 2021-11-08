@@ -99,7 +99,7 @@ export default {
   async mounted() {
     this.error = null;
 
-    const apiUrl = `http://localhost:5050/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
+    const apiUrl = `https://spm-flask.herokuapp.com/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
 
     try {
       let response = await axios.get(apiUrl);
@@ -113,7 +113,7 @@ export default {
   methods: {
     async uploadFile() {
       this.error = null;
-      const apiUrl = `http://localhost:5050/upload?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
+      const apiUrl = `https://spm-flask.herokuapp.com/upload?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
 
       let formData = new FormData();
       formData.append("file", this.file);
@@ -143,7 +143,7 @@ export default {
       this.file = this.$refs.file.files[0];
     },
     async removeFile(filename) {
-      const apiUrl = "http://localhost:5050/removeFile";
+      const apiUrl = "https://spm-flask.herokuapp.com/removeFile";
 
       const file_data = {
         courseId: this.courseId,
