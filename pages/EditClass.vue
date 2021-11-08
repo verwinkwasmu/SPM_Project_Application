@@ -179,10 +179,10 @@ export default {
     selectedTrainer: "",
   }),
   mounted() {
-    const apiUrl1 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
-    const apiUrl2 = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
-    const apiUrl3 = `https://spm-flask.herokuapp.com/getTrainers`;
-    const apiUrl4 = `https://spm-flask.herokuapp.com/enrolment/${this.$route.query.classId}`;
+    const apiUrl1 = `http://localhost:5000/getCourse/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5000/getClass/${this.$route.query.classId}`;
+    const apiUrl3 = `http://localhost:5000/getTrainers`;
+    const apiUrl4 = `http://localhost:5000/enrolment/${this.$route.query.classId}`;
     const requestOne = axios.get(apiUrl1);
     const requestTwo = axios.get(apiUrl2);
     const requestThree = axios.get(apiUrl3);
@@ -212,7 +212,7 @@ export default {
     async assignTrainer(event) {
       event.preventDefault();
 
-      const apiUrl = "https://spm-flask.herokuapp.com/assignTrainerClass";
+      const apiUrl = "http://localhost:5000/assignTrainerClass";
 
       const trainerData = {
         classId: this.myClass.classId,
@@ -236,7 +236,7 @@ export default {
       }
     },
     async removeLearner(learnerId) {
-      const apiUrl = `https://spm-flask.herokuapp.com/removeLearner`;
+      const apiUrl = `http://localhost:5000/removeLearner`;
       const learnerData = {
         classId: this.$route.query.classId,
         learnerId: learnerId,

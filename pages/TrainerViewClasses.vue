@@ -97,9 +97,9 @@ export default {
     trainerId: localStorage.getItem('userId')
   }),
   async mounted() {
-    const apiUrl1 = `https://spm-flask.herokuapp.com/getTrainerClasses/${this.trainerId}/${this.courseId}`;
-    const apiUrl2 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
-    const getEnrolmentURL = `https://spm-flask.herokuapp.com/enrolment/size/${this.trainerId}/${this.courseId}`;
+    const apiUrl1 = `http://localhost:5000/getTrainerClasses/${this.trainerId}/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5000/getCourse/${this.courseId}`;
+    const getEnrolmentURL = `http://localhost:5000/enrolment/size/${this.trainerId}/${this.courseId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);

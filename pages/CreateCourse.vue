@@ -130,7 +130,7 @@ export default {
 		  this.message = "Please make sure Course Name, Course Description and Course ID are not empty!"
 		  return
 	  }
-      const apiUrl = "https://spm-flask.herokuapp.com/createCourse";
+      const apiUrl = "http://localhost:5000/createCourse";
       const course_details = {
         courseId: this.courseId,
         courseName: this.courseName,

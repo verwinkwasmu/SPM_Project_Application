@@ -6,7 +6,7 @@
 
         <div class="row pb-5 mb-2 ml-0">
           <div class="viewClass">
-            <router-link :to="{path: '/EditClass'}" class="btn btn-primary" >Back to edit Classes</router-link>
+            <router-link :to="{path: '/EditClass', query: {classId: this.$route.query.classId}}" class="btn btn-primary" >Back to edit Classes</router-link>
           </div>
         </div>
 
@@ -85,7 +85,7 @@ export default {
     message: "",
   }),
   async mounted() {
-    const apiUrl = `https://spm-flask.herokuapp.com/enrolment/qualifiedlearners/${this.$route.query.classId}`;
+    const apiUrl = `http://localhost:5000/enrolment/qualifiedlearners/${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
       this.learners = response.data.data;
@@ -100,7 +100,7 @@ export default {
       event.preventDefault();
       this.error = null;
 
-      const apiUrl = `https://spm-flask.herokuapp.com/enrolment/enrolLearners`;
+      const apiUrl = `http://localhost:5000/enrolment/enrolLearners`;
 
       const learners_data = {
         classId: this.$route.query.classId,

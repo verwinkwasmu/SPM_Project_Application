@@ -119,9 +119,9 @@ export default {
     }
   }),
   async created() {
-    const apiUrl1 = `https://spm-flask.herokuapp.com/getEnrolmentsInProgress?learnerId=${this.learnerId}`;
-    const apiUrl2 = `https://spm-flask.herokuapp.com/getLearnerPendingEnrolments?learnerId=${this.learnerId}`;
-    const apiUrl3 = `https://spm-flask.herokuapp.com/getCompletedEnrolments?learnerId=${this.learnerId}`;
+    const apiUrl1 = `http://localhost:5000/getEnrolmentsInProgress?learnerId=${this.learnerId}`;
+    const apiUrl2 = `http://localhost:5000/getLearnerPendingEnrolments?learnerId=${this.learnerId}`;
+    const apiUrl3 = `http://localhost:5000/getCompletedEnrolments?learnerId=${this.learnerId}`;
     const requestOne = await axios.get(apiUrl1);
     const requestTwo = await axios.get(apiUrl2);
     const requestThree = await axios.get(apiUrl3);

@@ -41,7 +41,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[2] != ''">
+              <div class="option" v-if="question.option[2]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -53,7 +53,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[3] != ''">
+              <div class="option" v-if="question.option[3]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -129,7 +129,7 @@ export default {
 
     async submitQuiz() {
 
-      const apiUrl = 'https://spm-flask.herokuapp.com/learnerSubmitQuiz'
+      const apiUrl = 'http://localhost:5000/learnerSubmitQuiz'
       const post_data = {
         sectionId: this.sectionId,
         classId: this.classId,
@@ -163,12 +163,13 @@ export default {
     this.classId = this.$route.query.classId
     this.courseName = this.$route.query.courseName
     this.timer = setInterval(this.countdown, 1000);
-    const apiUrl = `https://spm-flask.herokuapp.com/quiz/${this.classId}/${this.sectionId}`;
+    const apiUrl = `http://localhost:5000/quiz/${this.classId}/${this.sectionId}`;
 
     try {
       let response = await axios.get(apiUrl);
       this.time = response.data.time * 60;
       this.questions = response.data.questions;
+      console.log(this.questions)
     } catch (err) {
       console.log(err);
     }

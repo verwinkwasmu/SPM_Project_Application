@@ -160,8 +160,8 @@ export default {
 
   }),
   async mounted() {
-    const apiUrl1 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
-    const apiUrl2 = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
+    const apiUrl1 = `http://localhost:5000/getCourse/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5000/getClass/${this.$route.query.classId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
@@ -241,7 +241,7 @@ export default {
     async createSection(event) {
       event.preventDefault();
       
-      const apiUrl = "https://spm-flask.herokuapp.com/createSection";
+      const apiUrl = "http://localhost:5000/createSection";
       const section_details = {
         sectionId: this.sectionId,
         classId: this.classObj.classId,
@@ -269,7 +269,7 @@ export default {
 
     async createQuiz(event){
       event.preventDefault();
-      const apiUrl = "https://spm-flask.herokuapp.com/createQuiz";
+      const apiUrl = "http://localhost:5000/createQuiz";
       const quiz_details = {
         sectionId: this.sectionId,
         classId: this.classObj.classId,
@@ -298,7 +298,7 @@ export default {
 
     async createQuestion(event, qn, number){
       event.preventDefault();
-      const apiUrl = "https://spm-flask.herokuapp.com/createQuestion";
+      const apiUrl = "http://localhost:5000/createQuestion";
       var option = "";
       if (qn.option1 != ""){
         option += qn.option1 + ";";

@@ -148,9 +148,9 @@ export default {
   },
   async created() {
     this.sectionNum = this.$route.query.sectionName.split(" ")[1]
-    const apiUrl1 = `https://spm-flask.herokuapp.com/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
-    const apiUrl2 = "https://spm-flask.herokuapp.com/getCompletedFiles";
-    const apiUrl3 = "https://spm-flask.herokuapp.com/getEnrolmentDetails";
+    const apiUrl1 = `http://localhost:5000/getFiles?courseId=${this.courseId}&className=${this.className}&sectionName=${this.sectionName}`;
+    const apiUrl2 = "http://localhost:5000/getCompletedFiles";
+    const apiUrl3 = "http://localhost:5000/getEnrolmentDetails";
     const apiUrl2_data = {
       courseId: this.courseId,
       className: this.className,
@@ -188,7 +188,7 @@ export default {
   },
   methods: {
     async setFileCompleted(fileId) {
-      const apiUrl = "https://spm-flask.herokuapp.com/setFileCompleted";
+      const apiUrl = "http://localhost:5000/setFileCompleted";
       const post_data = {
         learnerId: localStorage.getItem("userId"),
         fileId: fileId,

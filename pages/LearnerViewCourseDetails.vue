@@ -84,8 +84,8 @@ export default {
     enrolmentStatus: "",
   }),
   async mounted() {
-    const apiUrl1 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
-    const apiUrl2 = `https://spm-flask.herokuapp.com/viewUserEnrolmentStatus?learnerId=${this.learnerId}&courseId=${this.courseId}`;
+    const apiUrl1 = `http://localhost:5000/getCourse/${this.courseId}`;
+    const apiUrl2 = `http://localhost:5000/viewUserEnrolmentStatus?learnerId=${this.learnerId}&courseId=${this.courseId}`;
 
     try {
       let response1 = await axios.get(apiUrl1);
@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     async withdraw(courseId) {
-      const apiUrl = "https://spm-flask.herokuapp.com/withdrawLearner";
+      const apiUrl = "http://localhost:5000/withdrawLearner";
       const data = {
         courseId: courseId,
         learnerId: localStorage.getItem("userId"),
