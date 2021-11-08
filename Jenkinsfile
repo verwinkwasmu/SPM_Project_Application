@@ -3,8 +3,7 @@ agent any
 stages {
     stage ('Test'){
         steps {
-            sh 
-            '''
+            sh '''
             python3 -m venv env
             source env/bin/activate
             pip install -r requirements.txt
