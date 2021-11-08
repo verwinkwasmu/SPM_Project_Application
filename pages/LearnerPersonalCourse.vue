@@ -34,7 +34,7 @@
                       sectionName: 'Section 1'
                     },
                   }"
-                  class="course-btn"
+                  class="btn btn-outline-dark"
                   >View Materials</router-link>
               </div>
             </div>
@@ -84,7 +84,7 @@
                       sectionName: 'Section 1'
                     },
                   }"
-                  class="course-btn"
+                  class="btn btn-outline-dark"
                   >View Materials</router-link
                 >
               </div>

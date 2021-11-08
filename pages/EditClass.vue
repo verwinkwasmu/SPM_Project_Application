@@ -8,7 +8,7 @@
       <div class="container block" data-aos="fade-up">
         <div class="row pb-5 mb-2">
           <div class="viewClass">
-            <router-link :to="{ path: '/ViewClasses' }" class="viewClass-btn"
+            <router-link :to="{ path: '/ViewClasses' }" class="btn btn-primary"
               >Back to see all Classes</router-link
             >
           </div>
@@ -100,7 +100,7 @@
                 ></button>
               </div>
               <div class="addEngineer mt-5">
-                <a href="" class="addEngineer-btn" @click="assignTrainer"
+                <a href="" class="btn btn-success" @click="assignTrainer"
                   >Assign Trainer</a
                 >
               </div>
@@ -137,7 +137,7 @@
             <div class="buttongroup">
               <div class="classCreate">
                 <router-link
-                  class="classCreate-btn"
+                class="btn btn-success"
                   :to="{
                     path: '/AddEngineer',
                     query: {
@@ -149,7 +149,7 @@
               </div>
               <div class="cancel">
                 <router-link
-                  class="cancel-btn"
+                class="btn btn-danger"
                   :to="{
                     path: '/ViewClasses',
                   }"

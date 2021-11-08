@@ -21,30 +21,7 @@
               data-aos="zoom-in"
               data-aos-delay="100"
             >
-              <div
-                class="LearnerEnrol"
-                v-if="enrolmentStatus == 'NOT ENROLLED'"
-              >
-                <router-link
-                  :to="{ path: '/LearnerViewClass' }"
-                  class="LearnerEnrol-btn"
-                  >Enrol into Course</router-link
-                >
-              </div>
-              <div
-                class="LearnerWithdraw"
-                v-if="
-                  enrolmentStatus == 'PENDING' || enrolmentStatus == 'ACCEPTED'
-                "
-              >
-                <button
-                  class="LearnerWithdraw-btn"
-                  @click="withdraw(course.courseId)"
-                >
-                  Withdraw from Course
-                </button>
-              </div>
-
+              
               <div class="member-info">
                 <!-- <h4>{{ course.courseName }}</h4> -->
                 <h4>Course ID:</h4>
@@ -60,6 +37,29 @@
                 <ul v-else>
                   <li>No prerequisites required</li>
                 </ul>
+              </div>
+              <div
+                class="LearnerEnrol"
+                v-if="enrolmentStatus == 'NOT ENROLLED'"
+              >
+                <router-link
+                  :to="{ path: '/LearnerViewClass' }"
+                  class="btn btn-outline-success"
+                  >Enrol into Course</router-link
+                >
+              </div>
+              <div
+                class="LearnerWithdraw"
+                v-if="
+                  enrolmentStatus == 'PENDING' || enrolmentStatus == 'ACCEPTED'
+                "
+              >
+                <button
+                  class="btn btn-outline-danger"
+                  @click="withdraw(course.courseId)"
+                >
+                  Withdraw from Course
+                </button>
               </div>
             </div>
           </div>

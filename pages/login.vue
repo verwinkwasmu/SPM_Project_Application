@@ -76,7 +76,7 @@ export default {
               this.error = false;
               if (this.data.data.userType == 'HR'){
                 localStorage.setItem('userId', this.data.data.userId)
-                this.$router.push('/ViewCourses')
+                this.$router.push('/HRHomePage')
               }
               else if (this.data.data.userType == 'Learner'){
                 localStorage.setItem('userId', this.data.data.userId)

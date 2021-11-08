@@ -1278,6 +1278,10 @@ section {
   bottom:15px;
 }
 
+.viewClass:hover {
+  color: white;
+}
+
 .viewClass .viewClass-btn {
   display: inline-block;
   padding: 10px 30px;
@@ -1431,6 +1435,8 @@ section {
   background: #409C20;
   color: #fff;
 }
+
+
 
 .cancel{
   display: inline-block;

@@ -1,9 +1,7 @@
-<template>
+'<template>
   <div>
     <Header />
 
-    <!--<Homepage/>
-       -->
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
@@ -64,54 +62,8 @@
                 <br />
                 <br />
 
-                <!-- <div class="form-group">
-                    <label for="name">Trainer Assigned</label>
-                    <input
-                      type="dropdown"
-                      class="form-control"
-                      name="email"
-                      id="email"
-                      required
-                    />
-
-                  <br>
-
-                    <label for="cars">Assign a Trainer:</label>
-                      <select name="cars" id="cars">
-                        <optgroup label="Sales Department">
-                          <option value="Halim">Halim</option>
-                          <option value="Mark">Mark</option>
-                        </optgroup>
-                        <optgroup label="Leasing Department">
-                          <option value="Bob">Bob</option>
-                          <option value="Ali">Ali</option>
-                        </optgroup>
-                      </select>
-                    
-                  
-                    
-                  </div> -->
               </div>
 
-              <!-- <div class="form-group">
-                  <label for="name">Message</label>
-                  <textarea
-                    class="form-control"
-                    name="message"
-                    rows="10"
-                    required
-                  ></textarea>
-                </div>
-                <div class="my-3">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">
-                    Your message has been sent. Thank you!
-                  </div>
-                </div>
-                <div class="text-center">
-                  <button type="submit">Send Message</button>
-                </div> -->
             </form>
           </div>
           <div class="col-lg-6 d-flex align-items-stretch">
@@ -190,14 +142,14 @@
       </div>
     </section>
 
-    <div class="buttongroup">
+    <div class="buttongroup" style="margin-left: 45%;">
       <div class="classCreate">
-        <a href="#" class="classCreate-btn" @click="createClass"
+        <a href="#" class="btn btn-success" @click="createClass"
           >Create Class</a
         >
       </div>
       <div class="cancel">
-        <router-link class="cancel-btn" :to="{path: '/ViewClasses'}">Cancel</router-link>
+        <router-link class="btn btn-danger" :to="{path: '/ViewClasses'}">Cancel</router-link>
       </div>
     </div>
   </div>
@@ -224,12 +176,12 @@ export default {
     async createClass(event) {
       event.preventDefault();
       
-      // if (!this.courseName || !this.courseDescription || !this.courseId) {
-      //   this.error = true;
-      //   this.message =
-      //     "Please make sure Course Name, Course Description and Course ID are not empty!";
-      //   return;
-      // }
+      if (!this.courseName || !this.courseDescription || !this.courseId) {
+        this.error = true;
+        this.message =
+          "Please make sure Course Name, Course Description and Course ID are not empty!";
+        return;
+      }
       const apiUrl = "https://spm-flask.herokuapp.com/createClass";
 
       const class_details = {

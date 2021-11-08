@@ -11,7 +11,7 @@
                 path: '/TrainerViewSection',
                 query: { classId: this.$route.query.classId },
               }"
-              class="viewClass-btn"
+              class="btn btn-primary"
               >Back to see all Sections</router-link
             >
           </div>

@@ -76,22 +76,25 @@
                   <br>
 
                    <div class="loader" v-if="loading">
-                      <img class="loaderImg" src="assets/img/ajax-loader.gif">
+                      <img class="loaderImg" src="/assets/img/ajax-loader.gif">
                   </div>
 
                   
                   </div>
-                    <div class="buttongroup">
+                    <div class="buttongroup" style="margin-left: 45%">
                       <div class="TrainerCreateQuiz">
-                          <a @click="submit" class="TrainerCreateQuiz-btn">
+                          <a @click="submit" class="btn btn-success">
                             Create Quiz</a>
                       </div>
 
                       <div class="cancel">
-                         <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="cancel-btn">Cancel</router-link>
+                         <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="btn btn-danger">Cancel</router-link>
                       </div>
 
-                      <div
+             
+                    
+                    </div>
+                             <div
                         v-if="success"
                         class="alert alert-success alert-dismissible fade show"
                         role="alert"
@@ -119,8 +122,6 @@
                           aria-label="Close"
                         ></button>
                       </div>
-                    
-                    </div>
                   </div>
         </section>
     </div>

@@ -6,7 +6,7 @@
 
           <div class="row pb-5 mb-2 ml-0">
             <div class="viewClass">
-              <router-link :to="{path: '/TrainerViewCourses'}" class="viewClass-btn">Back to see all Courses</router-link>
+              <router-link :to="{path: '/TrainerViewCourses'}" class="btn btn-primary">Back to see all Courses</router-link>
             </div>
           </div>
 
@@ -71,11 +71,9 @@
                     <b>End Time:</b> {{_class.endTime}} 
                   </p>
                 </div>
-                <div class="viewClass">
-                  <router-link :to="{path: '/TrainerViewSection', query: {classId: _class.classId}}" class="viewClass-btn">View Sections</router-link>
-                </div>
-                <div class="viewClass" style="padding-top:50px;">
-                  <router-link :to="{path: '/TrainerViewLearnerProgress', query: {classId: _class.classId}}" class="viewClass-btn">Learner Progress</router-link>
+                <div class="viewClass" style="margin-left: 70px;">
+                  <router-link :to="{path: '/TrainerViewSection', query: {classId: _class.classId}}" class="btn btn-outline-dark">View Sections</router-link>
+                  <router-link :to="{path: '/TrainerViewLearnerProgress', query: {classId: _class.classId}}" class="btn btn-outline-dark">Learner Progress</router-link>
                 </div>
               </div>
             </div>

@@ -5,14 +5,14 @@
       <div class="container" data-aos="fade-up">
         <div class="row pb-5 mb-2 ml-0">
           <div class="viewClass">
-            <router-link :to="{path: '/ViewCourses'}" class="viewClass-btn">Back to see all Courses</router-link>
+            <router-link :to="{path: '/ViewCourses'}" class="btn btn-primary">Back to see all Courses</router-link>
           </div>
         </div>
         <div class="section-title">
 
           <h2>{{ course.courseName }}</h2>
           <div class="createClass">
-            <router-link  :to="{path: '/CreateClass', query: {courseName: course.courseName}}" class="createClass-btn">Create Class</router-link>
+            <router-link  :to="{path: '/CreateClass', query: {courseName: course.courseName}}" class="btn btn-success">Create Class</router-link>
           </div>
         </div>
         
@@ -73,16 +73,16 @@
                   </p>
             </div>    
               <div class="viewClass">
-                <router-link :to="{path: '/EditClass', query: {classId: _class.classId}}" class="viewClass-btn">Edit Class</router-link>
+                <router-link :to="{path: '/EditClass', query: {classId: _class.classId}}" class="btn btn-outline-dark" style="width:100px; margin-right: -300px;">Edit Class</router-link>
               </div>
               <div class="approvereject">
-                <router-link :to="{path: '/ApproveRejectLearners', query: {classId: _class.classId}}" class="approvereject-btn">Approve/Reject Learners</router-link>
+                <router-link :to="{path: '/ApproveRejectLearners', query: {classId: _class.classId}}" class="btn btn-outline-dark">Approve/Reject Learners</router-link>
                 <!-- routes to ApproveRejectLearners.vue -->
-              </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> 
+    </div>
     </section>
   </div>
 </template>

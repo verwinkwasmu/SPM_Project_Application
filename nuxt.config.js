@@ -20,37 +20,37 @@ export default {
     script: [
       {
         type: 'text/javascript',
-        src: 'js/aos.js',
+        src: '/js/aos.js',
         body: true
       },
       {
         type: 'text/javascript',
-        src: 'js/bootstrap.bundle.min.js',
+        src: '/js/bootstrap.bundle.min.js',
         body: true
       },
       {
         type: 'text/javascript',
-        src: 'js/glightbox.min.js',
+        src: '/js/glightbox.min.js',
         body: true
       },
       {
         type: 'text/javascript',
-        src: 'js/isotope.pkgd.min.js',
+        src: '/js/isotope.pkgd.min.js',
         body: true
       },
       {
         type: 'text/javascript',
-        src: 'js/swiper-bundle.min.js',
+        src: '/js/swiper-bundle.min.js',
         body: true
       },
       {
         type: 'text/javascript',
-        src: 'js/noframework.waypoints.js',
+        src: '/js/noframework.waypoints.js',
         body: true
       },
       {
         type: 'text/javascript',
-        src: 'js/main.js',
+        src: '/js/main.js',
         body: true
       }
     ]

@@ -1,4 +1,3 @@
-<!-- Please remove this file from your project -->
 <template>
   <div>
     <LearnerHeader/>
@@ -38,11 +37,9 @@
         </div>
       </div>
     </section>
-    <!-- End Hero -->
+    
     <main id="main">
 
-      
-      
       <section id="services" class="services section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
@@ -66,7 +63,7 @@
               </h4>
               <div class="course" v-if="isPastDate(course.enrolmentStartDate,course.enrolmentEndDate)">
                 <button disabled
-                  class="course-btn"
+                class="btn btn-outline-dark"
                   >View Materials</button>
               </div>
               <div class="course" v-else>
@@ -79,7 +76,7 @@
                       sectionName: 'Section 1'
                     },
                   }"
-                  class="course-btn"
+                  class="btn btn-outline-dark"
                   >View Materials</router-link>
               </div>
             </div>

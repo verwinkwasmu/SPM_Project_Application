@@ -24,7 +24,7 @@
                 <div class="icon"><i class="bx bxl-dribbble"></i></div>
                 <h4><a href="">{{ course.courseName }}</a></h4>
                 <div class="viewClass">
-                  <a class="viewClass-btn" @click="setCourseIdSession(course.courseId)">View Classes</a>
+                  <a class="btn btn-outline-dark" @click="setCourseIdSession(course.courseId)">View Classes</a>
                 </div>
               </div>
             </div>
