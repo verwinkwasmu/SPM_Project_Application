@@ -65,7 +65,7 @@ export default {
         this.message = "Please make sure userName is not empty!"
         return
       }
-      const apiUrl = "https://spm-flask.herokuapp.com/login";
+      const apiUrl = "http://localhost:5000/login";
       const login_details = {
         userName: this.userName
       };

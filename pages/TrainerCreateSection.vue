@@ -103,7 +103,7 @@ export default {
     data: null,
   }),
   async mounted() {
-    const apiUrl = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
+    const apiUrl = `http://localhost:5000/getClass/${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
 
@@ -111,9 +111,6 @@ export default {
 
       this.classObj = await response.data;
   
-      console.log(this.classObj);
-
-      this.error = false;
     } catch (err) {
       console.log(err);
       this.error = true;
@@ -124,12 +121,13 @@ export default {
   methods: {
     async createSection(event) {
       event.preventDefault();
+      this.error = null;
 	  if (!this.sectionId){
 		  this.error = true;
 		  this.message = "Please make sure Section ID is not empty!"
 		  return
 	  }
-      const apiUrl = "https://spm-flask.herokuapp.com/createSection";
+      const apiUrl = "http://localhost:5000/createSection";
       const section_details = {
         sectionId: this.sectionId,
         classId: this.classObj.classId,

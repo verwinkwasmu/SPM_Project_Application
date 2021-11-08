@@ -88,7 +88,7 @@ export default {
   }),
   async mounted() {
     console.log(this.trainerId)
-    const apiUrl = `https://spm-flask.herokuapp.com/getTrainerCourses/${this.trainerId}`;
+    const apiUrl = `http://localhost:5000/getTrainerCourses/${this.trainerId}`;
     try {
       let response = await axios.get(apiUrl);
       this.courses = response.data.data;

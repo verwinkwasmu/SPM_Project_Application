@@ -77,9 +77,9 @@ export default {
     finalQuizExist: false
   }),
   async mounted() {
-    const apiUrl1 = `https://spm-flask.herokuapp.com/viewSections/${this.$route.query.classId}`;
-    const apiUrl2 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
-    const apiUrl3 = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
+    const apiUrl1 = `http://localhost:5000/viewSections/${this.$route.query.classId}`;
+    const apiUrl2 = `http://localhost:5000/getCourse/${this.courseId}`;
+    const apiUrl3 = `http://localhost:5000/getClass/${this.$route.query.classId}`;
     try {
       let response1 = await axios.get(apiUrl1);
       let response2 = await axios.get(apiUrl2);
