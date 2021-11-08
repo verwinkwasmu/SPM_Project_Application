@@ -19,10 +19,11 @@
               <h4>
                 <a href="">{{ course.courseName }}</a>
               </h4>
-              <div class="course" v-if="isPastDate(course.enrolmentStartDate,course.enrolmentEndDate)">
-                <button disabled
-                  class="course-btn"
-                  >View Materials</button>
+              <div v-if="isBeforeDate(course.startDate,course.startTime)">
+                <div class="p-3 mt-3 bg-warning text-black text-center font-weight-bold">Course has not started yet!<br/> Stay Tune!</div>
+              </div>
+              <div class="course" v-else-if="isPastDate(course.endDate, course.endTime)">
+                <div class="p-3 mt-3 bg-danger text-white text-center font-weight-bold">Course is no longer available!<br/> Please contact admin</div>
               </div>
               <div class="course" v-else>
                 <router-link
@@ -155,11 +156,18 @@ export default {
       });
   },
   methods: {
-    isPastDate(enrolmentStartDate, enrolmentEndDate) {
+    isBeforeDate(startDateStr, startTimeStr) {
       var today = new Date();
-      var startDate = new Date(enrolmentStartDate);
-      var endDate = new Date(enrolmentEndDate);
-      if (today<startDate || today>endDate){
+      var startDate = new Date(startDateStr + " " + startTimeStr);
+      if (today<startDate){
+        return true;
+      }
+      return false;
+    },
+    isPastDate(endDateStr, endTimeStr) {
+      var today = new Date();
+      var startDate = new Date(endDateStr + " " + endTimeStr);
+      if (today>endDate){
         return true;
       }
       return false;

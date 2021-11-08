@@ -507,8 +507,10 @@ def getEnrolmentsInProgress():
 
         # get enorlment start and end date
         classObj = Class.query.filter(Class.classId == element["classId"]).first()
-        element["enrolmentStartDate"] = classObj.enrolmentStartDate
-        element["enrolmentEndDate"] = classObj.enrolmentEndDate
+        element["startDate"] = classObj.startDate
+        element["startTime"] = classObj.startTime
+        element["endDate"] = classObj.endDate
+        element["endTime"] = classObj.endTime
 
     
     return jsonify(
