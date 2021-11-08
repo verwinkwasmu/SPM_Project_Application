@@ -2,8 +2,6 @@
   <div>
     <Header />
 
-    <!--<Homepage/>
-       -->
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
@@ -99,14 +97,14 @@
       </div>
     </section>
 
-    <div class="buttongroup">
+    <div class="buttongroup" style="margin-left: 45%;">
       <div class="classCreate">
-        <a href="#" class="classCreate-btn" @click="createCourse"
+        <a href="#" class="btn btn-success" @click="createCourse"
           >Create Course</a
         >
       </div>
       <div class="cancel">
-        <a href="ViewCourse" class="cancel-btn">Cancel</a>
+        <a href="/ViewCourses" class="btn btn-danger">Cancel</a>
       </div>
     </div>
   </div>

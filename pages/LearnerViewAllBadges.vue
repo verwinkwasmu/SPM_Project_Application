@@ -13,7 +13,7 @@
                       img-alt="Image"
                       img-top
                       tag="article"
-                      style="max-width: 20rem;"
+                      style="max-width: 15rem;"
                       class="mb-1"
                       :id="badge.courseId"
                     >

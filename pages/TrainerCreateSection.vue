@@ -8,7 +8,7 @@
         
         <div class="row pb-5 mb-2 ml-0">
             <div class="viewSection">
-              <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="viewSection-btn">Back to see all Sections</router-link>
+              <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="btn btn-primary">Back to see all Sections</router-link>
             </div>
           </div>
 
@@ -41,6 +41,9 @@
               </div>
             
             </form>
+          
+            
+          </div>
             <div
               v-if="error == true"
               class="alert alert-danger alert-dismissible fade show"
@@ -67,8 +70,6 @@
                 aria-label="Close"
               ></button>
             </div>
-            
-          </div>
 
 
           
@@ -79,7 +80,7 @@
 
     <div class="buttongroup">
       <div class="TrainerCreateSection">
-        <a href="#" class="TrainerCreateSection-btn" style="margin-left: 1010px" @click="createSection">Create Section</a>
+        <a href="#" class="btn btn-success" style="margin-left: 1010px" @click="createSection">Create Section</a>
       </div>
      
     </div>

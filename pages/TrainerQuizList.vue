@@ -6,7 +6,7 @@
             <div class="container" data-aos="fade-up">
                 <div class="row pb-5 mb-2 ml-0">
                     <div class="viewClass">
-                        <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="viewClass-btn">Back to see all Classes</router-link>
+                        <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="btn btn-primary">Back to see all Classes</router-link>
                     </div>
                 </div>
                 <div class="section-title">
@@ -32,7 +32,7 @@
 
 
                     <div class="TrainerCreateSection">
-                        <router-link :to="{path: '/TrainerCreateQuiz', query: {sectionId: sectionId, classId: classObj.classId}}"  class="TrainerCreateSection-btn">
+                        <router-link :to="{path: '/TrainerCreateQuiz', query: {sectionId: sectionId, classId: classObj.classId}}"  class="btn btn-success">
                         <span v-if="quizExist==false">Create Quiz</span>
                         <span v-else>Add Questions</span>
                         </router-link>

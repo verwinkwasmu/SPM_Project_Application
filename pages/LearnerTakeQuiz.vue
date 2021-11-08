@@ -69,9 +69,6 @@
             <hr />
           </div>
 
-          <!-- <div class="form-group" id="submitquiz">
-                            <b-button variant="primary" @click="submitQuiz">Submit Quiz</b-button>
-                        </div> -->
 
           <div class="form-group" id="submitquiz">
             <b-button variant="primary" @click="$bvModal.show('modal-scoped')"

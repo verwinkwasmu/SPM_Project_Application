@@ -48,14 +48,14 @@
             <div class="viewClass">
               <button
                 v-if="_class.ableToEnrol"
-                class="viewClass-btn"
+                class="btn btn-outline-dark"
                 @click="selfEnrol(_class.classId)"
               >
                 Join Class
               </button>
               <button
                 v-else
-                class="LearnerWithdraw-btn"
+                class="btn btn-outline-dark"
                 @click="selfEnrol(_class.classId)"
                 disabled
               >

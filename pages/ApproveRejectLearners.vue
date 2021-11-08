@@ -4,6 +4,13 @@
     <Modal :message="message" />
     <section id="team" class="team section-bg">
       <div class="container" data-aos="fade-up">
+
+        <div class="row pb-5 mb-2 ml-0">
+          <div class="viewClass">
+            <router-link :to="{path: '/EditClass'}" class="btn btn-primary" >Back to edit Classes</router-link>
+          </div>
+        </div>
+        
         <div class="row">
           <div class="col-lg-8" id="createCourse" style="padding-bottom: 50px">
             <div class="addEngineer">
@@ -42,23 +49,22 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="ApproveRejectPage">
-                  <div class="approve">
+                <div class="buttongroup">
+                  <div class="classCreate">
                     <button
                       @click="updateEnrolment('ACCEPTED')"
-                      class="approve-btn"
+                      class="btn btn-success"
                     >
                       Approve
                     </button>
-                  </div>
-                  <div class="reject">
                     <button
                       @click="updateEnrolment('REJECTED')"
-                      class="reject-btn"
+                      class="btn btn-danger"
                     >
                       Reject
                     </button>
                   </div>
+                 
                   <!-- Link to DB to refresh page with updated list-->
                 </div>
               </div>

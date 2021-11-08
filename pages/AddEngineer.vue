@@ -3,11 +3,21 @@
     <Header />
     <section id="team" class="team section-bg">
       <div class="container" data-aos="fade-up">
+
+        <div class="row pb-5 mb-2 ml-0">
+          <div class="viewClass">
+            <router-link :to="{path: '/EditClass'}" class="btn btn-primary" >Back to edit Classes</router-link>
+          </div>
+        </div>
+
         <div class="row">
+
           <div class="col-lg-8" id="createCourse" style="padding-bottom: 50px">
             <div class="addEngineer">
               <h5>Total List of Qualified Engineers:</h5>
             </div>
+
+
 
             <table class="table table-bordered">
               <thead>
@@ -55,7 +65,7 @@
 
             </div>
             <div class="Add">
-              <a href="" class="Add-btn" @click="enrolLearners">Add</a>
+              <a href="" class="btn btn-success" @click="enrolLearners">Add</a>
             </div>
             <!-- Link to DB to refresh page with updated list-->
           </div>

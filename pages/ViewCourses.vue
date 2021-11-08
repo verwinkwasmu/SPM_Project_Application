@@ -7,7 +7,7 @@
           <h2>Courses</h2>
           <p></p>
           <div class="createClass">
-            <a href="CreateCourse" class="createClass-btn">Create Course</a>
+            <a href="/CreateCourse" class="btn btn-success">Create Course</a>
           </div>
         </div>
 
@@ -29,8 +29,8 @@
               <h4>
                 <a href="">{{ course.courseName }}</a>
               </h4>
-              <div class="viewClass">
-                <a class="viewClass-btn" @click="setCourseIdSession(course.courseId)">View Classes</a>
+              <div class="viewclass">
+                <button class="btn btn-outline-dark" @click="setCourseIdSession(course.courseId)">View Classes</button>
               </div>
             </div>
           </div>
