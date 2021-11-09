@@ -99,7 +99,7 @@
 
           <div v-if="sectionId == 'Final Quiz'">
             <div v-if="learnerGrade == 'Pass'" style="text-align: center">
-              <b-button href="LearnerViewCourse"
+              <b-button href="/LearnerViewCourse"
                 >View other available courses</b-button
               >
             </div>

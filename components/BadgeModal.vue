@@ -17,7 +17,7 @@
       class="mt-2"
       variant="outline-success"
       block
-      href="LearnerViewCourse"
+      href="/LearnerViewCourse"
       >View other available courses</b-button
     >
   </b-modal>
