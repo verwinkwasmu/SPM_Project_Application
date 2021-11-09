@@ -48,65 +48,30 @@
             <p>
             </p>
           </div>
-
           <div class="row">
-            <div
-              class="col-xl-3 col-md-6 d-flex align-items-stretch"
-              data-aos="zoom-in"
-              data-aos-delay="100"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                <h4><a href="">Fundamentals of Xerox WorkCentre 7845</a></h4>
-                <div class="course">
-                  <a href="ViewClasses" class="btn btn-outline-dark">View Classes</a>
-                </div>
-              </div>
-            </div>
+          <div v-if="error" class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
 
-            <div
-              class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0"
-              data-aos="zoom-in"
-              data-aos-delay="200"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-file"></i></div>
-                <h4><a href="">Programming for Xerox WorkCentre with Card Access and Integration</a></h4>
-                <div class="course">  
-                  <a href="#" class="course-btn">View Classes</a>
-                </div>             
-               </div>
-            </div>
-
-            <div
-              class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
-              data-aos="zoom-in"
-              data-aos-delay="300"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-tachometer"></i></div>
-                <h4><a href="">Advanced Xerox WorkCentre 7900</a></h4>
-                <div class="course">
-                  <a href="#" class="course-btn">View Classes</a>
-                </div>
+          <div
+            v-for="course in courses"
+            :key="course.courseId"
+            class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
+            data-aos="zoom-in"
+            data-aos-delay="400"
+            style="padding-bottom: 30px;"
+          >
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-layer"></i></div>
+              <h4>
+                <a href="">{{ course.courseName }}</a>
+              </h4>
+              <div class="viewclass">
+                <button class="btn btn-outline-dark" @click="setCourseIdSession(course.courseId)">View Classes</button>
               </div>
-            </div>
-
-            <div
-              class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0"
-              data-aos="zoom-in"
-              data-aos-delay="400"
-            >
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-layer"></i></div>
-                <h4><a href="">Final Xerox WorkCentre 7900</a></h4>
-                <div class="course">
-                  <a href="#" class="course-btn">View Classes</a>
-                </div>
-              </div>
-              
             </div>
           </div>
+        </div>
         </div>
       </section>
      
@@ -114,3 +79,37 @@
     </main>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data: () => ({
+    courses: [],
+    error: false,
+    message: "",
+  }),
+  async mounted() {
+    const apiUrl = "https://spm-flask.herokuapp.com/getCourses";
+    try {
+      let response = await axios.get(apiUrl);
+      this.courses = response.data.data;
+      console.log(this.courses)
+      this.error = false;
+    } catch (err) {
+      console.log(err);
+      this.error = true;
+      this.message = err;
+    }
+  },
+  methods: {
+    setCourseIdSession(courseId){
+      localStorage.removeItem('courseId')
+      localStorage.setItem('courseId', courseId)
+      this.$router.push('/ViewClasses')
+    }
+  }
+  
+  
+};
+</script>
