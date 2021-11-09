@@ -54,6 +54,7 @@ export default {
     try {
       let response = await axios.get(apiUrl);
       this.courses = response.data.data;
+      console.log(this.courses)
       this.error = false;
     } catch (err) {
       console.log(err);

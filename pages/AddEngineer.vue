@@ -6,7 +6,7 @@
 
         <div class="row pb-5 mb-2 ml-0">
           <div class="viewClass">
-            <router-link :to="{path: '/EditClass'}" class="btn btn-primary" >Back to edit Classes</router-link>
+            <router-link :to="{path: '/EditClass/', query: {classId: this.$route.query.classId}}" class="btn btn-primary" >Back to edit Classes</router-link>
           </div>
         </div>
 

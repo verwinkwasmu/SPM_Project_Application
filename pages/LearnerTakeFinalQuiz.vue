@@ -41,7 +41,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[2] != ''">
+              <div class="option" v-if="question.option[2]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -53,7 +53,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[3] != ''">
+              <div class="option" v-if="question.option[3]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -157,7 +157,7 @@ export default {
         console.log(response);
         if (response.status == 201) {
           this.$router.push({
-            path: "/LearnerViewQuizExplanation",
+            path: "/LearnerViewQuizExplanation/",
             query: {
               courseName: this.courseName,
               sectionId: this.sectionId,

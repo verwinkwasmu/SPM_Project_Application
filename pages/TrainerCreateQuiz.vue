@@ -87,7 +87,7 @@
                       </div>
 
                       <div class="cancel">
-                        <router-link :to="{path: '/TrainerQuizList', query: {sectionId: sectionId, classId: classObj.classId}}"  class="btn btn-danger">Cancel</router-link>
+                        <router-link :to="{path: '/TrainerQuizList/', query: {sectionId: sectionId, classId: classObj.classId}}"  class="btn btn-danger">Cancel</router-link>
                       </div>
             
                     </div>
@@ -231,7 +231,7 @@ export default {
 
       if (!this.error){
         setTimeout(function(){ 
-          this.$router.push({path: '/TrainerViewSection', query: {sectionId: this.sectionId, classId: this.classObj.classId}});
+          this.$router.push({path: '/TrainerViewSection/', query: {sectionId: this.sectionId, classId: this.classObj.classId}});
         }.bind(this), 1000);
       }
      
@@ -269,7 +269,7 @@ export default {
     async createQuestion(event, qn, number){
       event.preventDefault();
       const apiUrl = "https://spm-flask.herokuapp.com/createQuestion";
-      const option = "";
+      var option = "";
       if (qn.option1 != ""){
         option += qn.option1 + ";";
       }

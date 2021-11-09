@@ -50,7 +50,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[2] != ''">
+              <div class="option" v-if="question.option[2]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -63,7 +63,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[3] != ''">
+              <div class="option" v-if="question.option[3]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -109,7 +109,7 @@
               </h4>
               <router-link
                 :to="{
-                  path: '/LearnerTakeFinalQuiz',
+                  path: '/LearnerTakeFinalQuiz/',
                   query: {
                     sectionId: 'Final Quiz',
                     classId: classId,
@@ -130,7 +130,7 @@
             <router-link
               class="btn btn-secondary"
               :to="{
-                path: '/LearnerViewSections',
+                path: '/LearnerViewSections/',
                 query: {
                   courseName: this.courseName,
                   sectionName: this.sectionId,
@@ -150,7 +150,7 @@
         <router-link
           class="btn btn-secondary"
           :to="{
-            path: '/LearnerViewSections',
+            path: '/LearnerViewSections/',
             query: {
               courseName: this.courseName,
               sectionName: 'Section 1',

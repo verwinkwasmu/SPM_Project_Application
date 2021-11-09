@@ -41,7 +41,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[2] != ''">
+              <div class="option" v-if="question.option[2]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -53,7 +53,7 @@
                 >
               </div>
 
-              <div class="option" v-if="question.option[3] != ''">
+              <div class="option" v-if="question.option[3]">
                 <label id="quizrbtn"
                   ><input
                     type="radio"
@@ -141,7 +141,7 @@ export default {
         let response = await axios.post(apiUrl, post_data)
         console.log(response)
         if (response.status == 201){
-          this.$router.push( {path: '/LearnerViewQuizExplanation', query: {courseName : this.courseName, sectionId: this.sectionId, classId: this.classId}})
+          this.$router.push( {path: '/LearnerViewQuizExplanation/', query: {courseName : this.courseName, sectionId: this.sectionId, classId: this.classId}})
         }
       }catch(err){
         console.log(err)
@@ -169,6 +169,7 @@ export default {
       let response = await axios.get(apiUrl);
       this.time = response.data.time * 60;
       this.questions = response.data.questions;
+      console.log(this.questions)
     } catch (err) {
       console.log(err);
     }

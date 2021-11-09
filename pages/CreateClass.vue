@@ -176,12 +176,12 @@ export default {
     async createClass(event) {
       event.preventDefault();
       
-      if (!this.courseName || !this.courseDescription || !this.courseId) {
-        this.error = true;
-        this.message =
-          "Please make sure Course Name, Course Description and Course ID are not empty!";
-        return;
-      }
+      // if (!this.courseName || !this.courseDescription || !this.courseId) {
+      //   this.error = true;
+      //   this.message =
+      //     "Please make sure Course Name, Course Description and Course ID are not empty!";
+      //   return;
+      // }
       const apiUrl = "https://spm-flask.herokuapp.com/createClass";
 
       const class_details = {

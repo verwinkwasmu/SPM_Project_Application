@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-# from allClasses import *
+
 from datetime import date
 from sqlalchemy.sql import select
 from werkzeug.utils import secure_filename
@@ -14,9 +14,9 @@ import mimetypes
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database-new.clbmqgt8dbzr.us-east-1.rds.amazonaws.com:3306/spm_db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database-new.clbmqgt8dbzr.us-east-1.rds.amazonaws.com:3306/spm_db'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:admin@123@34.133.220.175:3306/spm_google_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
@@ -362,7 +362,34 @@ class UserQuiz(db.Model):
                 result["option"] = list(option_str.split(";"))
                 
         return result
+class File(db.Model):
+    __tablename__ = 'file'
 
+    learnerId = db.Column(db.Integer, db.ForeignKey('learner.userId'), primary_key=True)
+    fileId = db.Column(db.String(100), primary_key=True)
+    completed = db.Column(db.Boolean)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'file'
+    }
+    
+    def __init__(self, learnerId, fileId, completed):
+        self.learnerId = learnerId
+        self.fileId = fileId
+        self.completed = completed
+
+
+    def to_dict(self):
+        """
+        'to_dict' converts the object into a dictionary,
+        in which the keys correspond to database columns
+        """
+        columns = self.__mapper__.column_attrs.keys()
+        result = {}
+        for column in columns:
+            result[column] = getattr(self, column)
+        return result
+        
 db.create_all()
 
 # create Course
@@ -374,7 +401,7 @@ def createCourse():
 
     # check if proper data is sent
     if not all(key in data.keys() for
-               key in ('courseName', 'courseDescription', 'prerequisites')):
+               key in ('courseId', 'courseName', 'courseDescription', 'prerequisites')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
@@ -475,7 +502,7 @@ def getClass(classId):
     if not _class:
         return jsonify({
             "message": "No class found."
-        }), 404
+        }), 200
     
     return jsonify(_class.to_dict()), 200
 
@@ -1721,7 +1748,6 @@ def createQuestion():
         answer=data['answer'],
         explanation=data['explanation']
     )
-    print(question.to_dict())
 
     # (4): Commit to DB
     try:
@@ -2077,4 +2103,4 @@ def getCompletedFiles():
         ), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=True)

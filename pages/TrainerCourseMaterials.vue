@@ -8,7 +8,7 @@
           <div class="viewClass">
             <router-link
               :to="{
-                path: '/TrainerViewSection',
+                path: '/TrainerViewSection/',
                 query: { classId: this.$route.query.classId },
               }"
               class="btn btn-primary"
@@ -106,8 +106,8 @@ export default {
       this.file_list = response.data;
     } catch (err) {
       console.log(err);
-      this.error = true;
-      this.message = err;
+      // this.error = true;
+      // this.message = err;
     }
   },
   methods: {

@@ -8,7 +8,7 @@
         
         <div class="row pb-5 mb-2 ml-0">
             <div class="viewSection">
-              <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="btn btn-primary">Back to see all Sections</router-link>
+              <router-link :to="{path: '/TrainerViewSection/', query: {classId: classObj.classId}}" class="btn btn-primary">Back to see all Sections</router-link>
             </div>
           </div>
 
@@ -111,9 +111,6 @@ export default {
 
       this.classObj = await response.data;
   
-      console.log(this.classObj);
-
-      this.error = false;
     } catch (err) {
       console.log(err);
       this.error = true;
@@ -124,6 +121,7 @@ export default {
   methods: {
     async createSection(event) {
       event.preventDefault();
+      this.error = null;
 	  if (!this.sectionId){
 		  this.error = true;
 		  this.message = "Please make sure Section ID is not empty!"

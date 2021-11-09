@@ -64,11 +64,12 @@ export default {
     courseName: '',
   }),
   async created() {
-    const apiUrl = `https://spm-flask.herokuapp.com/enrolment/${this.classId}`;
     this.classId = this.$route.query.classId;
     this.className = this.$route.query.classId.split(" ")[1] + ' ' + this.$route.query.classId.split(" ")[2];
     this.courseName = this.$route.query.courseName;
 
+    const apiUrl = `https://spm-flask.herokuapp.com/enrolment/${this.classId}`;
+    
     try {
       let response = await axios.get(apiUrl);
       this.learners = response.data.data;
