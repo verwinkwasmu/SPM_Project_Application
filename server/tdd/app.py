@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+
 from datetime import date
 from sqlalchemy.sql import select
 from werkzeug.utils import secure_filename
@@ -538,7 +539,7 @@ def getClasses(courseId):
 def assignTrainerClass():
     # retrieved data
     data = request.get_json()
-    
+
     classObj = Class.query.filter_by(classId=data['classId']).first()
     # (1): Validate class
     if not classObj:
@@ -1154,7 +1155,7 @@ def withdrawLearner():
             "data": str(request.get_data())
         }), 504
 
-# VIEW ALL ENROLMENT BASED ON STATUS
+# VIEW Pending Enrolments
 @app.route('/viewPendingEnrolments')
 def getPendingEnrolments():
     classId = request.args.get('classId')        
@@ -1332,7 +1333,7 @@ def getCompletedEnrolments():
 
     return jsonify(
         {
-            "message": "Pending enrolments found",
+            "message": "Completed enrolments found",
             "data": result
         }
     ), 200

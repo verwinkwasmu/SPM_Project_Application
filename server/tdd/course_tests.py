@@ -14,7 +14,10 @@ class TestApp(flask_testing.TestCase):
         return app
 
     def setUp(self):
+        self.course1 = Course(courseId='SPM', courseName='Software Project Management', courseDescription='This is SPM', prerequisites='IS110')
+
         db.create_all()
+        db.session.add(self.course1)
 
     def tearDown(self):
         db.session.remove()
@@ -23,13 +26,6 @@ class TestApp(flask_testing.TestCase):
 
 class TestCreateCourse(TestApp):
     def testCreateCourse(self):
-        # c1 = Course(courseId="IS213", 
-        #             courseName="Software Project Management",
-        #             courseDescription="Fun Course",
-        #             prerequisites="IS113")
-        # db.session.add(c1)
-        # db.session.commit()
-
         request_body ={
             'courseId': 'IS213',
             'courseName': 'Software Project Management',
@@ -40,12 +36,42 @@ class TestCreateCourse(TestApp):
                                     data=json.dumps(request_body),
                                     content_type='application/json')
 
+        self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json, {
             'courseId': 'IS213',
             'courseName': 'Software Project Management',
             'courseDescription': 'Fun Course',
             'prerequisites': 'IS113'
         })
+
+class TestGetCourses(TestApp):
+    def testGetCourses(self):
+        response = self.client.get("/getCourses",
+                                    content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {
+            "data": [{
+                'courseId': 'SPM',
+                'courseName': 'Software Project Management',
+                'courseDescription': 'This is SPM',
+                'prerequisites': 'IS110'
+            }]
+        })
+
+class TestGetCourse(TestApp):
+    def testGetCourse(self):
+        response = self.client.get("/getCourse/SPM",
+                                    content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {
+            'courseId': 'SPM',
+            'courseName': 'Software Project Management',
+            'courseDescription': 'This is SPM',
+            'prerequisites': 'IS110'
+        })
+    
 
 
 if __name__ == '__main__':
