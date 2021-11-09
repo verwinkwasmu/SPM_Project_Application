@@ -92,9 +92,9 @@ export default {
     courseId: localStorage.getItem('courseId')
   }),
   async mounted() {
-    const apiUrl1 = `http://localhost:5000/getCourse/${this.courseId}`;
-    const apiUrl2 = `http://localhost:5000/getClass/${this.$route.query.classId}`;
-    const apiUrl3 = `http://localhost:5000/quiz/${this.$route.query.classId}/${this.$route.query.sectionId}`;
+    const apiUrl1 = `https://spm-flask.herokuapp.com/getCourse/${this.courseId}`;
+    const apiUrl2 = `https://spm-flask.herokuapp.com/getClass/${this.$route.query.classId}`;
+    const apiUrl3 = `https://spm-flask.herokuapp.com/quiz/${this.$route.query.classId}/${this.$route.query.sectionId}`;
     
     let response1 = await axios.get(apiUrl1);
     let response2 = await axios.get(apiUrl2);
@@ -122,7 +122,7 @@ export default {
   },
   methods:{
     async removeQn(questionId){
-      const apiUrl = `http://localhost:5000/removeQuestion`;
+      const apiUrl = `https://spm-flask.herokuapp.com/removeQuestion`;
       const data = {
         sectionId: this.sectionId,
         classId: this.classObj.classId,

@@ -85,7 +85,7 @@ export default {
     message: "",
   }),
   async mounted() {
-    const apiUrl = `http://localhost:5000/enrolment/qualifiedlearners/${this.$route.query.classId}`;
+    const apiUrl = `https://spm-flask.herokuapp.com/enrolment/qualifiedlearners/${this.$route.query.classId}`;
     try {
       let response = await axios.get(apiUrl);
       this.learners = response.data.data;
@@ -100,7 +100,7 @@ export default {
       event.preventDefault();
       this.error = null;
 
-      const apiUrl = `http://localhost:5000/enrolment/enrolLearners`;
+      const apiUrl = `https://spm-flask.herokuapp.com/enrolment/enrolLearners`;
 
       const learners_data = {
         classId: this.$route.query.classId,
