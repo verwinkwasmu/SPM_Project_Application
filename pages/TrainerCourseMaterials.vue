@@ -17,11 +17,12 @@
           </div>
         </div>
         <div class="section-title">
-          <h2>Fundamentals of Xerox WorkCentre 7845</h2>
+          <h2>{{courseId}} {{className}}</h2>
+          
 
           <div>
             <div class="mb-3">
-              <label for="file" class="form-label">Upload File</label>
+              <label for="file" class="form-label">Upload File (Only PDF and MP4 Videos)</label>
               <input
                 class="form-control"
                 type="file"
@@ -31,7 +32,7 @@
               />
             </div>
             <button class="btn btn-primary" @click="uploadFile()">
-              Upload File
+              Upload File 
             </button>
           </div>
           <br />
