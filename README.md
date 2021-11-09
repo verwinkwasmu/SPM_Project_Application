@@ -5,7 +5,6 @@
 ## How to run
 ``
 1) Locally
-- 
 - Backend (navigate to server/services/app.py and run the app.py file -> localhost:5000)
 - Frontend (navigate to root folder and type in the command npm install -> npm run dev -> localhost:3000)
 
