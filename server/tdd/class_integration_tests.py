@@ -1,10 +1,8 @@
 import unittest
-
 from sqlalchemy.orm.session import sessionmaker
 import flask_testing
 import json
-# from allClasses import *
-from app import app, db, Course, User, Learner, Trainer, Hr, Class, Enrolment, Section, Quiz, Question, UserQuiz
+from app import app, db, Course, Learner, Trainer, Class, Section
 
 
 class TestApp(flask_testing.TestCase):
@@ -17,34 +15,39 @@ class TestApp(flask_testing.TestCase):
 
     def setUp(self):
 
-        self.course1 = Course(courseId='SPM', courseName='Software Project Management', courseDescription='This is SPM', prerequisites='IS110')
-        self.course2 = Course(courseId='SPM3', courseName='Software Project Management', courseDescription='This is SPM', prerequisites='IS110')
+        self.course1 = Course(courseId='SPM', courseName='Software Project Management',
+                              courseDescription='This is SPM', prerequisites='IS110')
+        self.course2 = Course(courseId='SPM3', courseName='Software Project Management',
+                              courseDescription='This is SPM', prerequisites='IS110')
 
-        self.class1 = Class(classId='SPM G1', courseId="B-101", classSize=10, classTitle='SPM G1', startTime='01:00', endTime='10:00', 
-        startDate='2021-10-11', endDate='2021-10-12', enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-10-09', trainerAssigned=13, trainerName='Chris')
+        self.class1 = Class(classId='SPM G1', courseId="B-101", classSize=10, classTitle='SPM G1', startTime='01:00', endTime='10:00',
+                            startDate='2021-10-11', endDate='2021-10-12', enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-10-09', trainerAssigned=13, trainerName='Chris')
 
-        self.class2 = Class(classId='SPM', courseId="SPM", classSize=10, classTitle='SPM', startTime='01:00', endTime='10:00', 
-        startDate='2021-10-11', endDate='2021-10-12', enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-10-09', trainerAssigned=1, trainerName='Chris')
+        self.class2 = Class(classId='SPM', courseId="SPM", classSize=10, classTitle='SPM', startTime='01:00', endTime='10:00',
+                            startDate='2021-10-11', endDate='2021-10-12', enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-10-09', trainerAssigned=1, trainerName='Chris')
 
-        self.trainer1 = Trainer(userId=1, employeeName='Chris', userName='trainer1', email='trainer1@hotmail.com', userType='Trainer', designation='Manager', department='Fixing')
-        self.section1 = Section(sectionId=2,classId='SPM2', fileName=None)
+        self.trainer1 = Trainer(userId=1, employeeName='Chris', userName='trainer1',
+                                email='trainer1@hotmail.com', userType='Trainer', designation='Manager', department='Fixing')
+        self.section1 = Section(sectionId=2, classId='SPM2', fileName=None)
 
-        self.course5 = Course(courseId='SPM5', courseName='Software Project Management', courseDescription='This is SPM', prerequisites='IS110')
-        self.class5 = Class(classId='SPM G5', courseId=self.course5.courseId, classSize=10, classTitle='SPM G5', startTime='01:00', endTime='10:00', startDate='2021-10-11', endDate='2021-10-12', 
-        enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-10-09', trainerAssigned=13, trainerName='Chris')
-        
-        self.learner5 = Learner(userId=5, employeeName='Wayne', userName='Learner1', email='wayne@hotmail.com', userType='Learner', designation='Manager', department='Fixing')
+        self.course5 = Course(courseId='SPM5', courseName='Software Project Management',
+                              courseDescription='This is SPM', prerequisites='IS110')
+        self.class5 = Class(classId='SPM G5', courseId=self.course5.courseId, classSize=10, classTitle='SPM G5', startTime='01:00', endTime='10:00', startDate='2021-10-11', endDate='2021-10-12',
+                            enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-10-09', trainerAssigned=13, trainerName='Chris')
 
-        self.course6 = Course(courseId='SPM6', courseName='Software Project Management', courseDescription='This is SPM', prerequisites='')
-        self.class6 = Class(classId='SPM G6', courseId=self.course6.courseId, classSize=10, classTitle='SPM G6', startTime='01:00', endTime='10:00', startDate='2021-10-11', endDate='2021-10-12', 
-        enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-12-09', trainerAssigned=13, trainerName='Chris')
+        self.learner5 = Learner(userId=5, employeeName='Wayne', userName='Learner1',
+                                email='wayne@hotmail.com', userType='Learner', designation='Manager', department='Fixing')
+
+        self.course6 = Course(courseId='SPM6', courseName='Software Project Management',
+                              courseDescription='This is SPM', prerequisites='')
+        self.class6 = Class(classId='SPM G6', courseId=self.course6.courseId, classSize=10, classTitle='SPM G6', startTime='01:00', endTime='10:00', startDate='2021-10-11', endDate='2021-10-12',
+                            enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-12-09', trainerAssigned=13, trainerName='Chris')
 
         # self.course0 = Course(courseId='SPMG0', courseName='Software Project Management', courseDescription='This is SPM', prerequisites='')
-        self.class0 = Class(classId='SPM G0', courseId="POP", classSize=10, classTitle='SPM G0', startTime='01:00', endTime='10:00', startDate='2021-10-11', endDate='2021-10-12', 
-        enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-12-09', trainerAssigned=None, trainerName=None)
-        self.trainer2 = Trainer(userId=6, employeeName='Puis', userName='trainer6', email='trainer6@hotmail.com', userType='Trainer', designation='Manager', department='Fixing')
-
-        
+        self.class0 = Class(classId='SPM G0', courseId="POP", classSize=10, classTitle='SPM G0', startTime='01:00', endTime='10:00', startDate='2021-10-11', endDate='2021-10-12',
+                            enrolmentStartDate='2021-10-01', enrolmentEndDate='2021-12-09', trainerAssigned=None, trainerName=None)
+        self.trainer2 = Trainer(userId=6, employeeName='Puis', userName='trainer6',
+                                email='trainer6@hotmail.com', userType='Trainer', designation='Manager', department='Fixing')
 
         db.session.add(self.course1)
         db.session.add(self.class1)
@@ -52,11 +55,11 @@ class TestApp(flask_testing.TestCase):
         db.session.add(self.trainer1)
 
         db.session.add(self.course5)
-        db.session.add(self.class5)   
+        db.session.add(self.class5)
         db.session.add(self.course6)
-        db.session.add(self.class6)   
+        db.session.add(self.class6)
         db.session.add(self.learner5)
-          
+
         db.session.add(self.class0)
         db.session.add(self.trainer2)
 
@@ -67,10 +70,11 @@ class TestApp(flask_testing.TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-    
+
+
 class TestCreateClass(TestApp):
     def testCreateClass(self):
-        request_body ={ 
+        request_body = {
             'classId': 'B-102 Class 1',
             'courseId': 'B-101',
             'classSize': 49,
@@ -103,14 +107,16 @@ class TestCreateClass(TestApp):
             'trainerAssigned': None,
             'trainerName': None,
         })
+
+
 class TestGetClass(TestApp):
     def testGetClass(self):
         response = self.client.get("/getClass/SPM G1",
-                                    content_type='application/json')
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
-           "classId": "SPM G1",
+            "classId": "SPM G1",
             "classSize": 10,
             "classTitle": "SPM G1",
             "courseId": "B-101",
@@ -123,10 +129,12 @@ class TestGetClass(TestApp):
             "trainerAssigned": 13,
             "trainerName": "Chris"
         })
+
+
 class TestGetClasses(TestApp):
     def testGetClasses(self):
         response = self.client.get("/getClasses/B-101",
-                                    content_type='application/json')
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
@@ -148,10 +156,11 @@ class TestGetClasses(TestApp):
             "message": "Classes found"
         })
 
+
 class TestGetTrainerCourses(TestApp):
     def testGeGetTrainerCourses(self):
         response = self.client.get("/getTrainerCourses/1",
-                                    content_type='application/json')
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
@@ -163,16 +172,17 @@ class TestGetTrainerCourses(TestApp):
             ]
         })
 
+
 class TestGetTrainerClasses(TestApp):
     def testGeGetTrainerClasses(self):
         response = self.client.get("/getTrainerClasses/1/SPM",
-                                    content_type='application/json')
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
             "classList": [
-                    "SPM"
-                ],
+                "SPM"
+            ],
             "data": [
                 {
                     "classId": "SPM",
@@ -191,9 +201,10 @@ class TestGetTrainerClasses(TestApp):
             ]
         })
 
+
 class TestCreateSection(TestApp):
     def testCreateSection(self):
-        request_body ={ 
+        request_body = {
             "sectionId": "1",
             "classId": "SPM",
             "fileName": None
@@ -208,10 +219,11 @@ class TestCreateSection(TestApp):
             "sectionId": "1",
             "fileName": None
         })
+
 
 class TestViewSection(TestApp):
     def testViewSection(self):
-        request_body ={ 
+        request_body = {
             "sectionId": "2",
             "classId": "SPM2",
             "fileName": None
@@ -227,18 +239,19 @@ class TestViewSection(TestApp):
             "fileName": None
         })
 
+
 class TestGetLearnerCourses(TestApp):
     def testgetLearnerCourses(self):
-        request_body ={ 
+        request_body = {
             "learnerId": 5
         }
         response = self.client.get("/viewLearnerCourses",
-                                    data=json.dumps(request_body),
-                                    content_type='application/json')
+                                   data=json.dumps(request_body),
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
-           "data": [
+            "data": [
                 {
                     "courseDescription": "This is SPM",
                     "courseId": "SPM6",
@@ -246,17 +259,18 @@ class TestGetLearnerCourses(TestApp):
                     "prerequisites": ""
                 },
             ]
-        
+
         })
+
 
 class TestGetLearnerClasses(TestApp):
     def testgetLearnerClasses(self):
         response = self.client.get("/viewLearnerClasses?courseId=SPM6",
-                                    content_type='application/json')
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
-           "data": [
+            "data": [
                 {
                     "classId": "SPM G6",
                     "classSize": 10,
@@ -274,36 +288,39 @@ class TestGetLearnerClasses(TestApp):
             ]
         })
 
+
 class TestAssignTrainerClass(TestApp):
     def testAssignTrainerClass(self):
-        request_body ={ 
+        request_body = {
             "classId": "SPM G0",
             "trainerAssigned": 6,
             "trainerName": "Puis"
         }
-        
+
         response = self.client.put("/assignTrainerClass",
-                                    data=json.dumps(request_body),
-                                    content_type='application/json')
+                                   data=json.dumps(request_body),
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
-           "data": 
-                {
-                    "classId": "SPM G0",
-                    "classSize": 10,
-                    "classTitle": "SPM G0",
-                    "courseId": "POP",
-                    "endDate": "2021-10-12",
-                    "endTime": "10:00",
-                    "enrolmentEndDate": "2021-12-09",
-                    "enrolmentStartDate": "2021-10-01",
-                    "startDate": "2021-10-11",
-                    "startTime": "01:00",
-                    "trainerAssigned": 6,
-                    "trainerName": "Puis"
-                },
+            "data":
+            {
+                "classId": "SPM G0",
+                "classSize": 10,
+                "classTitle": "SPM G0",
+                "courseId": "POP",
+                "endDate": "2021-10-12",
+                "endTime": "10:00",
+                "enrolmentEndDate": "2021-12-09",
+                "enrolmentStartDate": "2021-10-01",
+                "startDate": "2021-10-11",
+                "startTime": "01:00",
+                "trainerAssigned": 6,
+                "trainerName": "Puis"
+            },
             "message": "Trainer added"
         })
+
+
 if __name__ == '__main__':
     unittest.main()

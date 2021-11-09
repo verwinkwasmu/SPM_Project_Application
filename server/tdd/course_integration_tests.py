@@ -1,8 +1,7 @@
 import unittest
 import flask_testing
 import json
-# from allClasses import *
-from app import app, db, Course, User, Learner, Trainer, Hr, Class, Enrolment, Section, Quiz, Question, UserQuiz
+from app import app, db, Course
 
 
 class TestApp(flask_testing.TestCase):
@@ -14,7 +13,8 @@ class TestApp(flask_testing.TestCase):
         return app
 
     def setUp(self):
-        self.course1 = Course(courseId='SPM', courseName='Software Project Management', courseDescription='This is SPM', prerequisites='IS110')
+        self.course1 = Course(courseId='SPM', courseName='Software Project Management',
+                              courseDescription='This is SPM', prerequisites='IS110')
 
         db.create_all()
         db.session.add(self.course1)
@@ -26,7 +26,7 @@ class TestApp(flask_testing.TestCase):
 
 class TestCreateCourse(TestApp):
     def testCreateCourse(self):
-        request_body ={
+        request_body = {
             'courseId': 'IS213',
             'courseName': 'Software Project Management',
             'courseDescription': 'Fun Course',
@@ -44,10 +44,11 @@ class TestCreateCourse(TestApp):
             'prerequisites': 'IS113'
         })
 
+
 class TestGetCourses(TestApp):
     def testGetCourses(self):
         response = self.client.get("/getCourses",
-                                    content_type='application/json')
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
@@ -59,10 +60,11 @@ class TestGetCourses(TestApp):
             }]
         })
 
+
 class TestGetCourse(TestApp):
     def testGetCourse(self):
         response = self.client.get("/getCourse/SPM",
-                                    content_type='application/json')
+                                   content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {
@@ -71,7 +73,6 @@ class TestGetCourse(TestApp):
             'courseDescription': 'This is SPM',
             'prerequisites': 'IS110'
         })
-    
 
 
 if __name__ == '__main__':

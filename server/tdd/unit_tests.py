@@ -1,5 +1,5 @@
 import unittest
-from allClasses import *
+from app import *
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class TestUser(unittest.TestCase):

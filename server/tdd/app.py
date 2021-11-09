@@ -1,26 +1,21 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-
 from datetime import date
 from sqlalchemy.sql import select
 from werkzeug.utils import secure_filename
 import boto3
 from botocore.exceptions import ClientError
 import logging
-import os
 from werkzeug.security import generate_password_hash, check_password_hash
 import mimetypes
 
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database-new.clbmqgt8dbzr.us-east-1.rds.amazonaws.com:3306/spm_db'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:admin123@spm-database.cjmo3wwh5ar9.ap-southeast-1.rds.amazonaws.com:3306/spm_db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:admin@123@34.133.220.175:3306/spm_google_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-#                                            'pool_recycle': 280}
+
 db = SQLAlchemy(app)
 
 CORS(app)

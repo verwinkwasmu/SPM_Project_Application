@@ -9,6 +9,7 @@ stages {
             pip install -r requirements.txt
             pwd
             python server/services/unit_tests.py
+            python server/tdd/quiz_integration_tests.py
             '''
         }
     }
