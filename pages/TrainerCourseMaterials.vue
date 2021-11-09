@@ -8,7 +8,7 @@
           <div class="viewClass">
             <router-link
               :to="{
-                path: '/TrainerViewSection',
+                path: '/TrainerViewSection/',
                 query: { classId: this.$route.query.classId },
               }"
               class="btn btn-primary"

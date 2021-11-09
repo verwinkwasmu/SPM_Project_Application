@@ -6,7 +6,7 @@
 
            <div class="row pb-5 mb-2 ml-0">
             <div class="viewClass">
-              <router-link :to="{path: '/TrainerViewClasses'}" class="btn btn-primary" >Back to see all Classes</router-link>
+              <router-link :to="{path: '/TrainerViewClasses/'}" class="btn btn-primary" >Back to see all Classes</router-link>
             </div>
           </div>
 
@@ -16,10 +16,10 @@
             <h3>{{course.courseName}}</h3>
 
             <div class="TrainerCreateSection">
-              <router-link :to="{path: '/TrainerCreateSection', query: {classId: classObj.classId}}" class="btn btn-success">Create Section</router-link>
+              <router-link :to="{path: '/TrainerCreateSection/', query: {classId: classObj.classId}}" class="btn btn-success">Create Section</router-link>
             </div>
             <div v-if="finalQuizExist==false" class="TrainerCreateFinalQuiz">
-              <router-link :to="{path: '/TrainerCreateFinalQuiz', query: {classId: classObj.classId, classTitle : classObj.classTitle}}" class="btn btn-success">Create Final Quiz</router-link>
+              <router-link :to="{path: '/TrainerCreateFinalQuiz/', query: {classId: classObj.classId, classTitle : classObj.classTitle}}" class="btn btn-success">Create Final Quiz</router-link>
             </div>
             
           </div>
@@ -41,12 +41,12 @@
                   
                 </div>
                 <div class="editSection">  
-                    <router-link :to="{path: '/TrainerCourseMaterials', query: {classTitle : classObj.classTitle, sectionId: section.sectionId, classId: classObj.classId}}" class="btn btn-outline-dark">Course Materials</router-link>
+                    <router-link :to="{path: '/TrainerCourseMaterials/', query: {classTitle : classObj.classTitle, sectionId: section.sectionId, classId: classObj.classId}}" class="btn btn-outline-dark">Course Materials</router-link>
                 </div>
                 
 
                 <div class="quizList">  
-                    <router-link :to="{path: '/TrainerQuizList', query: {classTitle : classObj.classTitle, sectionId: section.sectionId, classId: classObj.classId}}" class="btn btn-outline-dark">Quiz List</router-link>
+                    <router-link :to="{path: '/TrainerQuizList/', query: {classTitle : classObj.classTitle, sectionId: section.sectionId, classId: classObj.classId}}" class="btn btn-outline-dark">Quiz List</router-link>
                 </div>
 
               </div>

@@ -16,7 +16,7 @@
             </div>
 
             <div v-if="sectionsCompleted == totalNumSections - 1">
-              <router-link :to="{path: '/LearnerTakeFinalQuiz', query: {sectionId: 'Final Quiz', classId: classId, courseName: courseName}}"><b> Final Quiz </b> </router-link>
+              <router-link :to="{path: '/LearnerTakeFinalQuiz/', query: {sectionId: 'Final Quiz', classId: classId, courseName: courseName}}"><b> Final Quiz </b> </router-link>
             </div>
             <div v-else-if="sectionsCompleted == totalNumSections">
               <a>Final Quiz <b>(COMPLETED!)</b></a>
@@ -84,7 +84,7 @@
             <div class="form-group" id="takequiz" v-if="showQuiz & sectionsCompleted < sectionNum">
               <router-link
                 :to="{
-                  path: '/LearnerTakeQuiz',
+                  path: '/LearnerTakeQuiz/',
                   query: {
                     classId: classId,
                     sectionId: sectionTitle,
@@ -103,7 +103,7 @@
             >
               <router-link
                 :to="{
-                  path: '/LearnerViewQuizExplanation',
+                  path: '/LearnerViewQuizExplanation/',
                   query: {
                     classId: classId,
                     sectionId: sectionTitle,

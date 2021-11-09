@@ -157,7 +157,7 @@ export default {
         console.log(response);
         if (response.status == 201) {
           this.$router.push({
-            path: "/LearnerViewQuizExplanation",
+            path: "/LearnerViewQuizExplanation/",
             query: {
               courseName: this.courseName,
               sectionId: this.sectionId,

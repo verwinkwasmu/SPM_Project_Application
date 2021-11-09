@@ -12,7 +12,7 @@
 
           <h2>{{ course.courseName }}</h2>
           <div class="createClass">
-            <router-link  :to="{path: '/CreateClass', query: {courseName: course.courseName}}" class="btn btn-success">Create Class</router-link>
+            <router-link  :to="{path: '/CreateClass/', query: {courseName: course.courseName}}" class="btn btn-success">Create Class</router-link>
           </div>
         </div>
         
@@ -76,7 +76,7 @@
                 <router-link :to="{path: '/EditClass/', query: {classId: _class.classId}}" class="btn btn-outline-dark" style="width:100px; margin-right: -300px;">Edit Class</router-link>
               </div>
               <div class="approvereject">
-                <router-link :to="{path: '/ApproveRejectLearners', query: {classId: _class.classId}}" class="btn btn-outline-dark">Approve/Reject Learners</router-link>
+                <router-link :to="{path: '/ApproveRejectLearners/', query: {classId: _class.classId}}" class="btn btn-outline-dark">Approve/Reject Learners</router-link>
                 <!-- routes to ApproveRejectLearners.vue -->
             </div>
           </div>

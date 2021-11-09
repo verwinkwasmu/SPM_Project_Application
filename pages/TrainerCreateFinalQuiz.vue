@@ -88,7 +88,7 @@
                       </div>
 
                       <div class="cancel">
-                         <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="btn btn-danger">Cancel</router-link>
+                         <router-link :to="{path: '/TrainerViewSection/', query: {classId: classObj.classId}}" class="btn btn-danger">Cancel</router-link>
                       </div>
 
              
@@ -232,7 +232,7 @@ export default {
 
       if (!this.error){
         setTimeout(function(){ 
-          this.$router.push({path: '/TrainerViewSection', query: {classId: this.classObj.classId}});
+          this.$router.push({path: '/TrainerViewSection/', query: {classId: this.classObj.classId}});
         }.bind(this), 1000);
       }
      

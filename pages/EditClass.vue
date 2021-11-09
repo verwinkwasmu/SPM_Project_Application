@@ -139,7 +139,7 @@
                 <router-link
                 class="btn btn-success"
                   :to="{
-                    path: '/AddEngineer',
+                    path: '/AddEngineer/',
                     query: {
                       classId: this.$route.query.classId,
                     },

@@ -141,7 +141,7 @@ export default {
         let response = await axios.post(apiUrl, post_data)
         console.log(response)
         if (response.status == 201){
-          this.$router.push( {path: '/LearnerViewQuizExplanation', query: {courseName : this.courseName, sectionId: this.sectionId, classId: this.classId}})
+          this.$router.push( {path: '/LearnerViewQuizExplanation/', query: {courseName : this.courseName, sectionId: this.sectionId, classId: this.classId}})
         }
       }catch(err){
         console.log(err)

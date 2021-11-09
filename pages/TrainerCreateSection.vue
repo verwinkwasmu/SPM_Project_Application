@@ -8,7 +8,7 @@
         
         <div class="row pb-5 mb-2 ml-0">
             <div class="viewSection">
-              <router-link :to="{path: '/TrainerViewSection', query: {classId: classObj.classId}}" class="btn btn-primary">Back to see all Sections</router-link>
+              <router-link :to="{path: '/TrainerViewSection/', query: {classId: classObj.classId}}" class="btn btn-primary">Back to see all Sections</router-link>
             </div>
           </div>
 

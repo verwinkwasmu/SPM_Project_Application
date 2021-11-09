@@ -69,7 +69,7 @@
               <div class="course" v-else>
                 <router-link
                   :to="{
-                    path: '/LearnerViewSections',
+                    path: '/LearnerViewSections/',
                     query: {
                       classId: course.classId,
                       courseName: course.courseName,
