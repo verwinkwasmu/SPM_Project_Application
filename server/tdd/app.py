@@ -1747,7 +1747,6 @@ def createQuestion():
         answer=data['answer'],
         explanation=data['explanation']
     )
-    print(question.to_dict())
 
     # (4): Commit to DB
     try:
@@ -1768,7 +1767,7 @@ def updateQuestion():
     data = request.get_json()
 
     if not all(key in data.keys() for
-               key in ('sectionId', 'classId', 'quizId', 'questionId')):
+               key in ('sectionId', 'classId', 'quizId', 'questionId', 'question', 'option', 'answer', 'explanation')):
         return jsonify({
             "message": "Incorrect JSON object provided."
         }), 500
