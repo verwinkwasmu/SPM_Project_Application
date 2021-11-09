@@ -4,7 +4,7 @@ import flask_testing
 import json
 from app import app, db, Course, Learner, Trainer, Class, Section
 
-
+## Wayne ## 
 class TestApp(flask_testing.TestCase):
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
@@ -63,8 +63,6 @@ class TestApp(flask_testing.TestCase):
         db.session.add(self.class0)
         db.session.add(self.trainer2)
 
-        # db.session.add(self.course0)
-
         db.create_all()
 
     def tearDown(self):
@@ -108,6 +106,53 @@ class TestCreateClass(TestApp):
             'trainerName': None,
         })
 
+    def testCreateClassIncorrectJSON(self):
+        request_body = {
+            'classIds': 'B-102 Class 1',
+            'courseId': 'B-101',
+            'classSize': 49,
+            'classTitle': 'Class 1',
+            'startTime': '12:00',
+            'endTime': '17:30',
+            'startDate': '2021-10-10',
+            'endDate': '2021-11-10',
+            'enrolmentStartDate': '2021-10-01',
+            'enrolmentEndDate': '2021-10-08',
+            'trainerAssigned': None,
+            'trainerName': None,
+        }
+        response = self.client.post("/createClass",
+                            data=json.dumps(request_body),
+                            content_type='application/json')
+
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.json, {
+            "message": "Incorrect JSON object provided."
+            })
+
+    def testCreateClassExist(self):
+        request_body = {
+            'classId': 'SPM G6',
+            'courseId': 'B-101',
+            'classSize': 49,
+            'classTitle': 'Class 1',
+            'startTime': '12:00',
+            'endTime': '17:30',
+            'startDate': '2021-10-10',
+            'endDate': '2021-11-10',
+            'enrolmentStartDate': '2021-10-01',
+            'enrolmentEndDate': '2021-10-08',
+            'trainerAssigned': None,
+            'trainerName': None,
+        }
+
+        response = self.client.post("/createClass",
+                            data=json.dumps(request_body),
+                            content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {
+            "message": "Class exists."
+            })
 
 class TestGetClass(TestApp):
     def testGetClass(self):
@@ -130,6 +175,12 @@ class TestGetClass(TestApp):
             "trainerName": "Chris"
         })
 
+    def testGetClassesNotFound(self):
+        response = self.client.get("/getClass/SPM-05")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, { 
+            "message": "No class found."
+        })
 
 class TestGetClasses(TestApp):
     def testGetClasses(self):
@@ -156,9 +207,17 @@ class TestGetClasses(TestApp):
             "message": "Classes found"
         })
 
+    def testGetClassesNotFound(self):
+        response = self.client.get("/getClasses/B-1012",
+                            content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json, { 
+            "message": "No classes found."
+        })
+        
 
 class TestGetTrainerCourses(TestApp):
-    def testGeGetTrainerCourses(self):
+    def testGetTrainerCourses(self):
         response = self.client.get("/getTrainerCourses/1",
                                    content_type='application/json')
 
@@ -172,9 +231,24 @@ class TestGetTrainerCourses(TestApp):
             ]
         })
 
+    def testGetTrainerCoursesNone(self):
+        response = self.client.get("/getTrainerCourses/6",
+                                content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {
+            "message": "No course found.",
+            "data" : []
+        })
+    def testGetTrainerCoursesNoTrainerFound(self):
+        response = self.client.get("/getTrainerCourses/15",
+                        content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json, {
+            "message": "Trainer not found."    
+        })
 
 class TestGetTrainerClasses(TestApp):
-    def testGeGetTrainerClasses(self):
+    def testGetTrainerClasses(self):
         response = self.client.get("/getTrainerClasses/1/SPM",
                                    content_type='application/json')
 
@@ -201,6 +275,23 @@ class TestGetTrainerClasses(TestApp):
             ]
         })
 
+    def testGetTrainerClassesNone(self):
+        response = self.client.get("/getTrainerClasses/6/SPM",
+                            content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json, {
+            "message": "No class found.",
+            "data" : []
+        })
+
+    def testGetTrainerClassesNoCourse(self):
+        response = self.client.get("/getTrainerClasses/6/SPM-101",
+                            content_type='application/json')
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json, {
+            "message": "Course not found."
+        })
 
 class TestCreateSection(TestApp):
     def testCreateSection(self):
@@ -219,7 +310,6 @@ class TestCreateSection(TestApp):
             "sectionId": "1",
             "fileName": None
         })
-
 
 class TestViewSection(TestApp):
     def testViewSection(self):

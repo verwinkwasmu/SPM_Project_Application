@@ -3,7 +3,7 @@ import flask_testing
 import json
 from app import app, db, Course, Learner, Class, Enrolment, Section, Quiz, Question, UserQuiz
 
-
+## Fiona ##
 class TestApp(flask_testing.TestCase):
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
@@ -89,6 +89,16 @@ class TestGetAllQuestions(TestApp):
         })
         self.assertEqual(response.status_code, 200)
 
+    def test_get_all_questionsNoQuiz(self):
+        response = self.client.get("/quiz/XRX-101 Class 1/Final Quizz",
+                            content_type='application/json')
+
+        self.assertEqual(response.status_code, 203)
+        self.assertEqual(response.json, {
+            "message": "No quiz found."
+        })
+
+        
 
 class TestLearnerSubmitQuiz(TestApp):
     def test_learner_submit_quiz(self):
@@ -154,9 +164,26 @@ class TestRetrieveLearnerQuizAnswer(TestApp):
                                     data=json.dumps(request_body),
                                     content_type='application/json')
 
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.json, {'data': 'Cheap;Fast;Sustainable;ILK', 'grade': '0.85'})
 
+    def test_retrieveLearnerQuizAnswerNotAttempted(self):
+        request_body = {
+            'sectionId': 'Final Quizz',
+            'classId': 'XRX-101 Class 11',
+            # 'quizId':'Final Quiz',
+            'learnerId': '1',
+            'option': "True,True,Sustainable,Not wise as its hard to maintain",
+            'grade': 'Pass'
+        }
+        response = self.client.post("/retrieveLearnerQuizAnswers",
+                                    data=json.dumps(request_body),
+                                    content_type='application/json')
+
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(
+        response.json, {"message": "Learner has not attempted Quiz."})
 
 if __name__ == '__main__':
     unittest.main()

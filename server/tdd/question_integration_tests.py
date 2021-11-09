@@ -1,9 +1,10 @@
 import unittest
+from flask.globals import request
 import flask_testing
 import json
 from app import app, db, Course, Learner, Class, Enrolment, Section, Quiz, Question, UserQuiz
 
-
+## Verwin ##
 class TestApp(flask_testing.TestCase):
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
@@ -75,20 +76,26 @@ class TestCreateQuiz(TestApp):
                           'time': 20
                           }
                          )
-
-
-class TestGetSpecificQuestionInQuiz(TestApp):
-    def test_getSpecificQuestionInQuiz(self):
+    def test_createQuizExist(self):
         request_body = {
             'sectionId': 'Final Quiz',
             'classId': 'XRX-101 Class 1',
             'quizId': 'Final Quiz',
-            'questionId': 'Question 3'
+            'time': 30
         }
 
-        response = self.client.get("/question/XRX-101%20Class%201/Final%20Quiz/Final%20Quiz/Question%203",
-                                   data=json.dumps(request_body),
-                                   content_type='application/json')
+        response = self.client.post("/createQuiz",
+                                    data=json.dumps(request_body),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 501)
+        self.assertEqual(response.json, {
+            "message": "Quiz already exists."
+        })
+
+class TestGetSpecificQuestionInQuiz(TestApp):
+    def test_getSpecificQuestionInQuiz(self):
+
+        response = self.client.get("/question/XRX-101%20Class%201/Final%20Quiz/Final%20Quiz/Question%203")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json,
@@ -102,6 +109,12 @@ class TestGetSpecificQuestionInQuiz(TestApp):
                           'sectionId': 'Final Quiz'}
                          )
 
+    def test_getSpecificQuestionInQuizNone(self):
+        response = self.client.get("/question/XRX-101%20Class%201/Final%20Quiz/Final%20Quiz/Question%2032")
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json, {
+            "message": "No question found."
+        })
 
 class TestCreateQuestion(TestApp):
     def test_createQuestion(self):
@@ -138,6 +151,26 @@ class TestCreateQuestion(TestApp):
                           }
                          )
 
+    def test_createQuestionExist(self):
+        request_body = {
+            'sectionId': 'Final Quiz',
+            'classId': 'XRX-101 Class 1',
+            'quizId': 'Final Quiz',
+            'questionId': 'Question 3',
+            'question': 'Is it warm or cold?',
+            'option': 'True;False;;',
+            'answer': 'True',
+            'explanation': 'Becus its very expensive!'
+        }
+
+        response = self.client.post("/createQuestion",
+                                    data=json.dumps(request_body),
+                                    content_type='application/json')
+
+        self.assertEqual(response.status_code, 501)
+        self.assertEqual(response.json,{
+            "message": "Question already exists"
+        })
 
 class TestUpdateQuestion(TestApp):
     def test_updateQuestion(self):
@@ -172,6 +205,26 @@ class TestUpdateQuestion(TestApp):
                                    'sectionId': 'Final Quiz'},
                           'message': 'Question updated'})
 
+    def test_updateQuestionNotValid(self):
+        request_body = {
+            'sectionId': 'Final Quiz',
+            'classId': 'XRX-101 Class 11',
+            'quizId': 'Final Quiz',
+            'questionId': 'Question 3',
+            'question': 'Is it warm or cold?',
+            'option': 'True;False;;',
+            'answer': 'True',
+            'explanation': 'Becus its very expensive!'
+        }
+
+        response = self.client.put("/updateQuestion",
+                                   data=json.dumps(request_body),
+                                   content_type='application/json')
+
+        self.assertEqual(response.status_code, 501)
+        self.assertEqual(response.json,{
+            "message": "Question is not valid"
+        })
 
 class TestRemoveQuestion(TestApp):
     def test_removeQuestion(self):

@@ -3,7 +3,7 @@ import flask_testing
 import json
 from app import app, db, Course, Learner, Trainer, Class, Enrolment, Section
 
-
+## Ezra ##
 class TestApp(flask_testing.TestCase):
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {}
