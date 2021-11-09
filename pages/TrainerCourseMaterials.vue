@@ -17,7 +17,8 @@
           </div>
         </div>
         <div class="section-title">
-          <h2>Fundamentals of Xerox WorkCentre 7845</h2>
+          <h2>{{courseId}} {{className}}</h2>
+          
 
           <div>
             <div class="mb-3">
