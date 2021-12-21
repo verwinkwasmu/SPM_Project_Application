@@ -12,23 +12,13 @@ import mimetypes
 from allClasses import *
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:admin@123@34.133.220.175:3306/spm_google_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = ''
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 CORS(app)
-
-BUCKET = "spm-grp2-storage"
-S3_DOMAIN = "http://spm-grp2-storage.s3.amazonaws.com/"
-
-s3 = boto3.client(
-    "s3",
-    aws_access_key_id="AKIARI6FEUPE7XJKMOLA",
-    aws_secret_access_key="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"
-)
-
 
 # create Course
 @app.route("/createCourse", methods=['POST'])
